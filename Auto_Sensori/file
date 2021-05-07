@@ -1,0 +1,16 @@
+=> macchina_B
+=> sensore_basso_true
+d0: macchina_B,sensore_basso_true => macchina_B_rilevata
+=> DiFretta_
+d1: macchina_B_rilevata,DiFretta => InoltraSegnaleUrgenza_B
+=> macchina_A
+=> sensore_sinistra_true
+d2: macchina_A,sensore_sinistra_true => macchina_A_rilevata
+d3: macchina_A_rilevata,DiFretta => InoltraSegnaleUrgenza_A
+d4: macchina_A_rilevata,macchina_B_rilevata => !NonSiOstacolano
+d5: !NonSiOstacolano => ApparenteIncidente
+=>PiùDi15secDiDifferenza
+d6: macchina_A_rilevata,macchina_B_rilevata,PiùDi15secDiDifferenza => NonSiOstacolano
+d7: NonSiOstacolano => !ApparenteIncidente
+
+d4<d6
