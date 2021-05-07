@@ -19,21 +19,21 @@ public class main {
 		// TODO Auto-generated method stub
 		Codice C=new Codice();
 		ArrayList<Auto>Incrocio=new ArrayList<Auto>();
-		//Incrocio=C.creAuto();
-		Auto A=new Auto("A","sinistra","80","diritto",70,false);
+		Incrocio=C.creAuto();
+/*		Auto A=new Auto("A","sinistra","80","diritto",70,false);
 		Auto B=new Auto("B","basso","10","diritto",770,false);
 		Incrocio.add(B);
-		Incrocio.add(A);
+		Incrocio.add(A);*/
 		ArrayList<Sensore>Sens=new ArrayList<Sensore>();
-		//Sens=C.creaSensori();
-		Sensore S1=new Sensore("destra",true);
+		Sens=C.creaSensori();
+/*		Sensore S1=new Sensore("destra",true);
 		Sensore S2=new Sensore("sinistra",true);
 		Sensore S3=new Sensore("alto",true);
 		Sensore S4=new Sensore("basso",true);
 		Sens.add(S4);
 		Sens.add(S3);
 		Sens.add(S2);
-		Sens.add(S1);
+		Sens.add(S1);*/
 		
 		System.out.println(Incrocio);
 		System.out.println(Sens);
@@ -43,7 +43,7 @@ public class main {
 		AspicParser<PlFormula> parser = new AspicParser<>(plparser, new PlFormulaGenerator());
 		AspicArgumentationTheory<PlFormula> at = parser.parseBeliefBaseFromFile("file");		
 		SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<PlFormula>(AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-		PlFormula pf = (PlFormula)plparser.parseFormula("NonSiOstacolano");		
+		PlFormula pf = (PlFormula)plparser.parseFormula("!ApparenteIncidente");		
 		System.out.println(at);
 		System.out.println(pf + "\t" + ar.query(at,pf,InferenceMode.CREDULOUS));		
 	
