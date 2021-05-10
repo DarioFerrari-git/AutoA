@@ -3,8 +3,8 @@
 
 # Ignore Gradle build output directory
 build
-.metadata/
-ferrari-arg-auto/.settings/
-ferrari-arg-auto/gradle/
-ferrari-arg-auto/lib/.settings/
-ferrari-arg-auto/lib/bin/
+../.metadata/
+.settings/
+gradle/
+lib/.settings/
+lib/bin/
