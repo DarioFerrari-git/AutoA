@@ -11,6 +11,12 @@ plugins {
     id 'java-library'
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(12)
+    }
+}
+
 repositories {
     // Use JCenter for resolving dependencies.
     jcenter()

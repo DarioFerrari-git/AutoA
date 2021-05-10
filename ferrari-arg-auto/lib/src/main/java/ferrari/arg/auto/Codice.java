@@ -22,79 +22,69 @@ public class Codice {
 			final boolean strada_alternativa = Math.random() < 0.5;
 
 			int f = 0;
-			{
-				while (f < 1) {
-					final String valore = "" + (int) Math.floor(Math.random() * 100);
-					if (!valOccupato.contains(valore)) {
-						priorità = valore;
-						f++;
-					}
+			while (f < 1) {
+				final String valore = "" + (int) Math.floor(Math.random() * 100);
+				if (!valOccupato.contains(valore)) {
+					priorità = valore;
+					f++;
 				}
 			}
 
 			int g = 0;
-			{
-				while (g < 1) {
-					final String tempo = "" + (int) Math.floor(Math.random() * 100);
-					if (!tempOccupato.contains(tempo) && Integer.parseInt(tempo) < 30) {
-						tempo_arrivo = tempo;
-						g++;
-					}
+			while (g < 1) {
+				final String tempo = "" + (int) Math.floor(Math.random() * 100);
+				if (!tempOccupato.contains(tempo) && Integer.parseInt(tempo) < 30) {
+					tempo_arrivo = tempo;
+					g++;
 				}
 			}
 
 			int i = 0;
-			{
 
-				while (i < 1) {
-					final int valore = (int) Math.floor(Math.random() * 100);
-					if (valore < 25 && !nomOccupato.contains(valore + "")) {
-						i++;
-						final String[] s = lettere.split(",");
-						nome = s[valore];
-						nomOccupato += valore + " ";
-					}
+			while (i < 1) {
+				final int valore = (int) Math.floor(Math.random() * 100);
+				if (valore < 25 && !nomOccupato.contains(valore + "")) {
+					i++;
+					final String[] s = lettere.split(",");
+					nome = s[valore];
+					nomOccupato += valore + " ";
 				}
 			}
 			int j = 0;
-			{
 
-				while (j < 1) {
-					final int valore = (int) Math.floor(Math.random() * 10);
-					if (valore == 0 && !posOccupata.contains("sini")) {
-						posizione = "sinistra";
-						j++;
-					}
-					if (valore == 1 && !posOccupata.contains("bass")) {
-						posizione = "basso";
-						j++;
-					}
-					if (valore == 2 && !posOccupata.contains("dest")) {
-						posizione = "destra";
-						j++;
-					}
-					if (valore == 3 && !posOccupata.contains("alto")) {
-						posizione = "alto";
-						j++;
-					}
+			while (j < 1) {
+				final int valore = (int) Math.floor(Math.random() * 10);
+				if (valore == 0 && !posOccupata.contains("sini")) {
+					posizione = "sinistra";
+					j++;
+				}
+				if (valore == 1 && !posOccupata.contains("bass")) {
+					posizione = "basso";
+					j++;
+				}
+				if (valore == 2 && !posOccupata.contains("dest")) {
+					posizione = "destra";
+					j++;
+				}
+				if (valore == 3 && !posOccupata.contains("alto")) {
+					posizione = "alto";
+					j++;
 				}
 			}
 			int k = 0;
-			{
-				while (k < 1) {
-					final int valore = (int) Math.floor(Math.random() * 10);
-					if (valore == 0) {
-						direzione = "sinistra";
-						k++;
-					}
-					if (valore == 1) {
-						direzione = "diritto";
-						k++;
-					}
-					if (valore == 2) {
-						direzione = "destra";
-						k++;
-					}
+			while (k < 1) {
+				final int valore = (int) Math.floor(Math.random() * 10);
+				if (valore == 0) {
+					direzione = "sinistra";
+					k++;
+				}
+				if (valore == 1) {
+					direzione = "diritto";
+					k++;
+				}
+				if (valore == 2) {
+					direzione = "destra";
+					k++;
 				}
 			}
 			final int int_priorità = Integer.parseInt(priorità);
