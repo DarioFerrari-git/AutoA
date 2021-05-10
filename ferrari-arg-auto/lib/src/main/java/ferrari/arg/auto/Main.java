@@ -17,16 +17,16 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 public class Main {
 
-	public static void main(String[] args) throws FileNotFoundException, ParserException, IOException {
+	public static void main(final String[] args) throws FileNotFoundException, ParserException, IOException {
 		// TODO Auto-generated method stub
-		Codice C = new Codice();
-		ArrayList<Auto> Incrocio = new ArrayList<Auto>();
+		final Codice C = new Codice();
+		ArrayList<Auto> Incrocio = new ArrayList<>();
 		Incrocio = Codice.creAuto();
 		/*
 		 * Auto A=new Auto("A","sinistra","80","diritto",70,false); Auto B=new
 		 * Auto("B","basso","10","diritto",770,false); Incrocio.add(B); Incrocio.add(A);
 		 */
-		ArrayList<Sensore> Sens = new ArrayList<Sensore>();
+		ArrayList<Sensore> Sens = new ArrayList<>();
 		Sens = Codice.creaSensori();
 		/*
 		 * Sensore S1=new Sensore("destra",true); Sensore S2=new
@@ -39,12 +39,12 @@ public class Main {
 		System.out.println(Sens);
 		C.Caricadati("file", Incrocio, Sens);
 
-		PlParser plparser = new PlParser();
-		AspicParser<PlFormula> parser = new AspicParser<>(plparser, new PlFormulaGenerator());
-		AspicArgumentationTheory<PlFormula> at = parser.parseBeliefBaseFromFile("file");
-		SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<PlFormula>(
+		final PlParser plparser = new PlParser();
+		final AspicParser<PlFormula> parser = new AspicParser<>(plparser, new PlFormulaGenerator());
+		final AspicArgumentationTheory<PlFormula> at = parser.parseBeliefBaseFromFile("file");
+		final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-		PlFormula pf = (PlFormula) plparser.parseFormula("!ApparenteIncidente");
+		final PlFormula pf = plparser.parseFormula("!ApparenteIncidente");
 		System.out.println(at);
 		System.out.println(pf + "\t" + ar.query(at, pf, InferenceMode.CREDULOUS));
 
