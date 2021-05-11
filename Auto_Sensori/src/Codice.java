@@ -26,12 +26,6 @@ for(int x=0; x<2;x++) {
  }
  }
  
- int g=0;{
-	 while(g<1) {
- String tempo=""+(int)Math.floor(Math.random()*100);
- if(!tempOccupato.contains(tempo)&&Integer.parseInt(tempo)<30) {tempo_arrivo=tempo;g++;}
- }
- }
  
 
  int i=0;{ 
