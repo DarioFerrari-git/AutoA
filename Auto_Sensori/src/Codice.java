@@ -24,9 +24,14 @@ for(int x=0; x<2;x++) {
  String valore=""+(int)Math.floor(Math.random()*100);
  if(!valOccupato.contains(valore)) {priorità=valore;f++;}
  }
+ } 
+ 
+ int g=0;{
+	 while(g<1) {
+ int valore=(int)Math.floor(Math.random()*100);
+ if(valore<31) {tempo_arrivo=""+valore;g++;}
  }
- 
- 
+ }
 
  int i=0;{ 
  

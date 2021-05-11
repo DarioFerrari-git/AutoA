@@ -1,16 +1,11 @@
-=> macchina_P
+=> macchina_K
 => sensore_destra_true
-d0: macchina_P,sensore_destra_true => macchina_P_rilevata
+d0: macchina_K,sensore_destra_true => macchina_K_rilevata
 => Tranquilla
-d1: macchina_P_rilevata,Tranquilla => !InoltraSegnaleUrgenza_P
+d1: macchina_K_rilevata,Tranquilla => !InoltraSegnaleUrgenza_K
+d2: macchina_K,macchina_Q => NonSiOstacolano
+d3: NonSiOstacolano => !Incidente
 => macchina_Q
 => sensore_alto_true
-d2: macchina_Q,sensore_alto_true => macchina_Q_rilevata
-d3: macchina_Q_rilevata,Tranquilla => !InoltraSegnaleUrgenza_Q
-d4: macchina_Q_rilevata,macchina_P_rilevata => !NonSiOstacolano
-d5: !NonSiOstacolano => ApparenteIncidente
-=>PiùDi15secDiDifferenza
-d6: macchina_Q_rilevata,macchina_P_rilevata,PiùDi15secDiDifferenza => NonSiOstacolano
-d7: NonSiOstacolano => !ApparenteIncidente
-
-d4<d6
+d4: macchina_Q,sensore_alto_true => macchina_Q_rilevata
+d5: macchina_Q_rilevata,Tranquilla => !InoltraSegnaleUrgenza_Q
