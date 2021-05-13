@@ -36,6 +36,9 @@ public class CarTest {
 		car = null;
 	}
 
+	/**
+	 * Test method for {@link sm.arg.intersection.Car#addRoute()}.
+	 */
 	@Test
 	public void testAddRoute() {
 		assertEquals(car.getRoutes().size(), 0);

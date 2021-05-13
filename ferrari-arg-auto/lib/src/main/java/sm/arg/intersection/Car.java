@@ -20,7 +20,7 @@ public final class Car {
 
 	/**
 	 * @param name
-	 * @param speed
+	 * @param speed in km/h
 	 */
 	public Car(final String name, final double speed) {
 		this.name = name;

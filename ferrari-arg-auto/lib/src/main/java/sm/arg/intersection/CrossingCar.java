@@ -10,35 +10,35 @@ package sm.arg.intersection;
 public class CrossingCar {
 
 	private final ArguingCar car;
-	private WAY position;
+	private WAY way;
 	private STATE state;
 	private double distance;
 
 	/**
 	 * @param car
-	 * @param position
+	 * @param way
 	 * @param state
-	 * @param distance
+	 * @param distance in m
 	 */
-	public CrossingCar(final ArguingCar car, final WAY position, final STATE state, final double distance) {
+	public CrossingCar(final ArguingCar car, final WAY way, final STATE state, final double distance) {
 		this.car = car;
-		this.position = position;
+		this.way = way;
 		this.state = state;
 		this.distance = distance;
 	}
 
 	/**
-	 * @return the position
+	 * @return the way
 	 */
-	public WAY getPosition() {
-		return this.position;
+	public WAY getWay() {
+		return this.way;
 	}
 
 	/**
-	 * @param position the position to set
+	 * @param way the way to set
 	 */
-	public CrossingCar setPosition(final WAY position) {
-		this.position = position;
+	public CrossingCar setWay(final WAY way) {
+		this.way = way;
 		return this;
 	}
 
@@ -73,13 +73,17 @@ public class CrossingCar {
 		return this.car;
 	}
 	
+	/**
+	 * 
+	 * @return time to cross in seconds
+	 */
 	public double getTimeToCross() {
-		
+		return (this.distance / (this.car.getCar().getSpeed() / 3.6)); // distance in m, speed in km/h => / 3.6 in m/s
 	}
 
 	@Override
 	public String toString() {
-		return String.format("CrossingCar [car=%s, position=%s, state=%s, distance=%s]", this.car, this.position,
+		return String.format("CrossingCar [car=%s, way=%s, state=%s, distance=%s]", this.car, this.way,
 				this.state, this.distance);
 	}
 
