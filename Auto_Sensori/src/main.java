@@ -19,11 +19,11 @@ public class main {
 		// TODO Auto-generated method stub
 		Codice C=new Codice();
 		ArrayList<Auto>Incrocio=new ArrayList<Auto>();
-		Incrocio=C.creAuto();
-/*		Auto A=new Auto("A","sinistra","80","diritto",70,false);
-		Auto B=new Auto("B","basso","10","diritto",770,false);
+	//	Incrocio=C.creAuto();
+		Auto A=new Auto("A","destra","0","diritto",70,false);
+		Auto B=new Auto("R","sinistra","10","sinistra",10,false);
 		Incrocio.add(B);
-		Incrocio.add(A);*/
+		Incrocio.add(A);
 		ArrayList<Sensore>Sens=new ArrayList<Sensore>();
 		Sens=C.creaSensori();
 /*		Sensore S1=new Sensore("destra",true);

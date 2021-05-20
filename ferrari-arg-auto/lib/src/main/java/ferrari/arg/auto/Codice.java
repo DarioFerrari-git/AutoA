@@ -6,21 +6,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Codice {
-	public static ArrayList<Auto> creAuto() {
+	public static String creaParametri() {
 		final ArrayList<Auto> Incrocio = new ArrayList<>();
 		String posOccupata = "";
 		String nomOccupato = "";
 		final String valOccupato = "";
 		final String tempOccupato = "";
+		String parametri="";
+		String separatore="%";
 		for (int x = 0; x < 2; x++) {
 			final String lettere = "A,B,C,D,E,F,G,H,I,L,M,N,O,P,Q,R,S,T,U,V,Z,X,Y,K,J";
 			String nome = "";
 			String posizione = "";
-			String direzione = "";
 			String priorità = "";
 			String tempo_arrivo = "";
-			final boolean strada_alternativa = Math.random() < 0.5;
-
+			
 			int f = 0;
 			while (f < 1) {
 				final String valore = "" + (int) Math.floor(Math.random() * 100);
@@ -71,31 +71,289 @@ public class Codice {
 					j++;
 				}
 			}
-			int k = 0;
-			while (k < 1) {
-				final int valore = (int) Math.floor(Math.random() * 10);
-				if (valore == 0) {
-					direzione = "sinistra";
-					k++;
-				}
-				if (valore == 1) {
-					direzione = "diritto";
-					k++;
-				}
-				if (valore == 2) {
-					direzione = "destra";
-					k++;
-				}
-			}
-			final int int_priorità = Integer.parseInt(priorità);
-			final Auto A = new Auto(nome, posizione, tempo_arrivo, direzione, int_priorità, strada_alternativa);
-			Incrocio.add(A);
-			posOccupata += posizione + " ";
+		
+		if(x==1)separatore="";
+			parametri += nome+"/"+posizione+"/"+tempo_arrivo+"/"+priorità+separatore;
+			posOccupata+=posizione+" ";
 		}
 
-		return Incrocio;
+		return parametri;
 	}
 
+public static ArrayList<Auto> creaConflittoNoSA(){
+	final ArrayList<Auto> Inc=new ArrayList<Auto>();
+	String parametri=creaParametri();
+	String[]entità=parametri.split("%");
+
+	String[]valori=entità[0].split("/");
+    String nome1=valori[0];
+    String posizione1=valori[1];
+    String tempo_arrivo1=valori[2];
+    int priorità1=Integer.parseInt(valori[3]);
+    String direzione1="";
+    String[]valori2=entità[1].split("/");
+    String nome2=valori2[0];
+    String posizione2=valori2[1];
+    String tempo_arrivo2=valori2[2];
+    int priorità2=Integer.parseInt(valori2[3]);
+    String direzione2="";
+    if(posizione1.equals("alto")&&posizione2.equals("basso")||posizione2.equals("alto")&&posizione1.equals("basso")) {
+    	if(Math.random()<0.5) {direzione1="destra";direzione2="sinistra";}
+    	else {direzione2="destra";direzione1="sinistra";}
+    }
+    if(posizione1.equals("destra")&&posizione2.equals("sinistra")||posizione2.equals("destra")&&posizione1.equals("sinistra")) {
+    	if(Math.random()<0.5) {direzione1="destra";direzione2="sinistra";}
+    	else {direzione2="destra";direzione1="sinistra";}
+    }
+    if(posizione1.equals("alto")&&posizione2.equals("sinistra")) {
+    	if(Math.random()<0.5) {direzione1="diritto";
+    	   double a=Math.random();
+    	   if(a<=0.33) {direzione2="diritto";}
+    	   if(a>=0.66) {direzione2="sinistra";}
+    	   if(a<0.66&&a>0.33) {direzione2="destra";}
+    	}
+    	else {direzione1="sinsitra";
+    	   double a=Math.random();
+    	   if(a<0.5) {direzione2="diritto";}	
+    	   else direzione2="sinistra";
+    	}
+    }
+    if(posizione1.equals("sinistra")&&posizione2.equals("basso")) {
+    	if(Math.random()<0.5) {direzione1="diritto";
+    	   double a=Math.random();
+    	   if(a<=0.33) {direzione2="diritto";}
+    	   if(a>=0.66) {direzione2="sinistra";}
+    	   if(a<0.66&&a>0.33) {direzione2="destra";}
+    	}
+    	else {direzione1="sinsitra";
+    	   double a=Math.random();
+    	   if(a<0.5) {direzione2="diritto";}	
+    	   else direzione2="sinistra";
+    	}
+    }
+    if(posizione1.equals("basso")&&posizione2.equals("destra")) {
+    	if(Math.random()<0.5) {direzione1="diritto";
+    	   double a=Math.random();
+    	   if(a<=0.33) {direzione2="diritto";}
+    	   if(a>=0.66) {direzione2="sinistra";}
+    	   if(a<0.66&&a>0.33) {direzione2="destra";}
+    	}
+    	else {direzione1="sinsitra";
+    	   double a=Math.random();
+    	   if(a<0.5) {direzione2="diritto";}	
+    	   else direzione2="sinistra";
+    	}
+    }
+    if(posizione1.equals("destra")&&posizione2.equals("alto")) {
+    	if(Math.random()<0.5) {direzione1="diritto";
+    	   double a=Math.random();
+    	   if(a<=0.33) {direzione2="diritto";}
+    	   if(a>=0.66) {direzione2="sinistra";}
+    	   if(a<0.66&&a>0.33) {direzione2="destra";}
+    	}
+    	else {direzione1="sinsitra";
+    	   double a=Math.random();
+    	   if(a<0.5) {direzione2="diritto";}	
+    	   else direzione2="sinistra";
+    	}
+    }
+    if(posizione1.equals("alto")&&posizione2.equals("destra")) {
+    	double a=Math.random();
+       if(a<=0.33) {direzione1="diritto";
+          if(Math.random()<0.5) direzione2="diritto";
+          else direzione2="sinistra";
+       }
+  	   if(a>=0.66) {direzione1="sinistra";
+  	      if(Math.random()<0.5) direzione2="diritto";
+          else direzione2="sinistra";
+  	   }
+  	   if(a<0.66&&a>0.33) {direzione1="destra"; direzione2="diritto";} 
+    }
+    if(posizione1.equals("destra")&&posizione2.equals("basso")) {
+    	double a=Math.random();
+        if(a<=0.33) {direzione1="diritto";
+           if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+        }
+   	   if(a>=0.66) {direzione1="sinistra";
+   	      if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+   	   }
+   	   if(a<0.66&&a>0.33) {direzione1="destra"; direzione2="diritto";}
+     }
+    if(posizione1.equals("basso")&&posizione2.equals("sinistra")) {
+    	double a=Math.random();
+        if(a<=0.33) {direzione1="diritto";
+           if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+        }
+   	   if(a>=0.66) {direzione1="sinistra";
+   	      if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+   	   }
+   	   if(a<0.66&&a>0.33) {direzione1="destra"; direzione2="diritto";}
+     }
+    if(posizione1.equals("sinistra")&&posizione2.equals("alto")) {
+    	double a=Math.random();
+        if(a<=0.33) {direzione1="diritto";
+           if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+        }
+   	   if(a>=0.66) {direzione1="sinistra";
+   	      if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+   	   }
+   	   if(a<0.66&&a>0.33) {direzione1="destra"; direzione2="diritto";}
+     }
+    
+    
+    Auto A=new Auto(nome1,posizione1,tempo_arrivo1,direzione1,priorità1,false);
+    Auto B=new Auto(nome2,posizione2,tempo_arrivo2,direzione2,priorità2,false);
+	Inc.add(A);
+	Inc.add(B);
+    return Inc;
+}	
+public static ArrayList<Auto> creaConflittoSA(){
+	final ArrayList<Auto> Inc=new ArrayList<Auto>();
+	String parametri=creaParametri();
+	String[]entità=parametri.split("%");
+
+	String[]valori=entità[0].split("/");
+    String nome1=valori[0];
+    String posizione1=valori[1];
+    String tempo_arrivo1=valori[2];
+    int priorità1=Integer.parseInt(valori[3]);
+    String direzione1="";
+    String[]valori2=entità[1].split("/");
+    String nome2=valori2[0];
+    String posizione2=valori2[1];
+    String tempo_arrivo2=valori2[2];
+    int priorità2=Integer.parseInt(valori2[3]);
+    String direzione2="";
+    if(posizione1.equals("alto")&&posizione2.equals("basso")||posizione2.equals("alto")&&posizione1.equals("basso")) {
+    	if(Math.random()<0.5) {direzione1="destra";direzione2="sinistra";}
+    	else {direzione2="destra";direzione1="sinistra";}
+    }
+    if(posizione1.equals("destra")&&posizione2.equals("sinistra")||posizione2.equals("destra")&&posizione1.equals("sinistra")) {
+    	if(Math.random()<0.5) {direzione1="destra";direzione2="sinistra";}
+    	else {direzione2="destra";direzione1="sinistra";}
+    }
+    if(posizione1.equals("alto")&&posizione2.equals("sinistra")) {
+    	if(Math.random()<0.5) {direzione1="diritto";
+    	   double a=Math.random();
+    	   if(a<=0.33) {direzione2="diritto";}
+    	   if(a>=0.66) {direzione2="sinistra";}
+    	   if(a<0.66&&a>0.33) {direzione2="destra";}
+    	}
+    	else {direzione1="sinsitra";
+    	   double a=Math.random();
+    	   if(a<0.5) {direzione2="diritto";}	
+    	   else direzione2="sinistra";
+    	}
+    }
+    if(posizione1.equals("sinistra")&&posizione2.equals("basso")) {
+    	if(Math.random()<0.5) {direzione1="diritto";
+    	   double a=Math.random();
+    	   if(a<=0.33) {direzione2="diritto";}
+    	   if(a>=0.66) {direzione2="sinistra";}
+    	   if(a<0.66&&a>0.33) {direzione2="destra";}
+    	}
+    	else {direzione1="sinsitra";
+    	   double a=Math.random();
+    	   if(a<0.5) {direzione2="diritto";}	
+    	   else direzione2="sinistra";
+    	}
+    }
+    if(posizione1.equals("basso")&&posizione2.equals("destra")) {
+    	if(Math.random()<0.5) {direzione1="diritto";
+    	   double a=Math.random();
+    	   if(a<=0.33) {direzione2="diritto";}
+    	   if(a>=0.66) {direzione2="sinistra";}
+    	   if(a<0.66&&a>0.33) {direzione2="destra";}
+    	}
+    	else {direzione1="sinsitra";
+    	   double a=Math.random();
+    	   if(a<0.5) {direzione2="diritto";}	
+    	   else direzione2="sinistra";
+    	}
+    }
+    if(posizione1.equals("destra")&&posizione2.equals("alto")) {
+    	if(Math.random()<0.5) {direzione1="diritto";
+    	   double a=Math.random();
+    	   if(a<=0.33) {direzione2="diritto";}
+    	   if(a>=0.66) {direzione2="sinistra";}
+    	   if(a<0.66&&a>0.33) {direzione2="destra";}
+    	}
+    	else {direzione1="sinsitra";
+    	   double a=Math.random();
+    	   if(a<0.5) {direzione2="diritto";}	
+    	   else direzione2="sinistra";
+    	}
+    }
+    if(posizione1.equals("alto")&&posizione2.equals("destra")) {
+    	double a=Math.random();
+       if(a<=0.33) {direzione1="diritto";
+          if(Math.random()<0.5) direzione2="diritto";
+          else direzione2="sinistra";
+       }
+  	   if(a>=0.66) {direzione1="sinistra";
+  	      if(Math.random()<0.5) direzione2="diritto";
+          else direzione2="sinistra";
+  	   }
+  	   if(a<0.66&&a>0.33) {direzione1="destra"; direzione2="diritto";} 
+    }
+    if(posizione1.equals("destra")&&posizione2.equals("basso")) {
+    	double a=Math.random();
+        if(a<=0.33) {direzione1="diritto";
+           if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+        }
+   	   if(a>=0.66) {direzione1="sinistra";
+   	      if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+   	   }
+   	   if(a<0.66&&a>0.33) {direzione1="destra"; direzione2="diritto";}
+     }
+    if(posizione1.equals("basso")&&posizione2.equals("sinistra")) {
+    	double a=Math.random();
+        if(a<=0.33) {direzione1="diritto";
+           if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+        }
+   	   if(a>=0.66) {direzione1="sinistra";
+   	      if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+   	   }
+   	   if(a<0.66&&a>0.33) {direzione1="destra"; direzione2="diritto";}
+     }
+    if(posizione1.equals("sinistra")&&posizione2.equals("alto")) {
+    	double a=Math.random();
+        if(a<=0.33) {direzione1="diritto";
+           if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+        }
+   	   if(a>=0.66) {direzione1="sinistra";
+   	      if(Math.random()<0.5) direzione2="diritto";
+           else direzione2="sinistra";
+   	   }
+   	   if(a<0.66&&a>0.33) {direzione1="destra"; direzione2="diritto";}
+     }
+    boolean strada1=false;
+    boolean strada2=false;
+    double b=Math.random();
+    if(b<0.33)strada1=true;
+    if(b>0.66)strada2=true;
+    if(b<0.66&&b>0.33) {strada1=true;strada2=true;}
+    
+    
+    Auto A=new Auto(nome1,posizione1,tempo_arrivo1,direzione1,priorità1,strada1);
+    Auto B=new Auto(nome2,posizione2,tempo_arrivo2,direzione2,priorità2,strada2);
+	Inc.add(A);
+	Inc.add(B);
+    return Inc;
+}		
+
+	
 	public static ArrayList<Sensore> creaSensori() {
 		final ArrayList<Sensore> Sens = new ArrayList<>();
 		String posOccupata = "";

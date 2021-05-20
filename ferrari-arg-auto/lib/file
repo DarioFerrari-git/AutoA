@@ -1,0 +1,10 @@
+=> macchina_F
+=> macchina_Z
+d0: macchina_Z_rilevata,macchina_F_rilevata => !NonSiOstacolano
+d1: !NonSiOstacolano => ApparenteIncidente
+=> MoltoPropensoAspettare_F
+d2: !InoltraSegnaleUrgenza_Z,!InoltraSegnaleUrgenza_F,MoltoPropensoAspettare_F => PassaPerPrima_Z
+d3: PassaPerPrima_Z,!InoltraSegnaleUrgenza_F => PassaPerSeconda_F
+d4: PassaPerSeconda_F,PassaPerPrima_Z => !ApparenteIncidente
+
+d1<d4
