@@ -20,8 +20,8 @@ public class main {
 		Codice C=new Codice();
 		ArrayList<Auto>Incrocio=new ArrayList<Auto>();
 	//	Incrocio=C.creAuto();
-		Auto A=new Auto("A","destra","0","diritto",70,false);
-		Auto B=new Auto("R","sinistra","10","sinistra",10,false);
+		Auto A=new Auto("A","sinistra","0","destra",70,false);
+		Auto B=new Auto("R","basso","10","sinistra",10,false);
 		Incrocio.add(B);
 		Incrocio.add(A);
 		ArrayList<Sensore>Sens=new ArrayList<Sensore>();
