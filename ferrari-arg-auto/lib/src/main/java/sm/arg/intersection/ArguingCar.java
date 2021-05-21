@@ -9,14 +9,14 @@ package sm.arg.intersection;
  */
 public final class ArguingCar {
 
-	private final Car car;
+	private final CrossingCar car;
 	private double urgency;
 
 	/**
 	 * @param car
 	 * @param urgency
 	 */
-	public ArguingCar(final Car car, final double urgency) {
+	public ArguingCar(final CrossingCar car, final double urgency) {
 		this.car = car;
 		this.urgency = urgency;
 	}
@@ -36,12 +36,12 @@ public final class ArguingCar {
 	/**
 	 * @return the car
 	 */
-	public Car getCar() {
+	public CrossingCar getCar() {
 		return this.car;
 	}
 
 	public boolean hasOtherRoutes() {
-		return this.car.getRoutes().size() > 1;
+		return this.car.getCar().getRoutes().size() > 1;
 	}
 
 	@Override

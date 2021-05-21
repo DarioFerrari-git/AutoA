@@ -7,7 +7,7 @@ package sm.arg.intersection;
  * @author sm
  *
  */
-public enum STATE {
+public enum STATUS {
 
 	APPROACHING, WAITING, ARGUING, CROSSING, SERVED
 

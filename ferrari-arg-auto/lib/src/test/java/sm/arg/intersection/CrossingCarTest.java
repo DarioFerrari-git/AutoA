@@ -14,7 +14,7 @@ import org.junit.Test;
  *
  */
 public class CrossingCarTest {
-	
+
 	private CrossingCar car;
 
 	/**
@@ -23,11 +23,9 @@ public class CrossingCarTest {
 	@Before
 	public void setUp() throws Exception {
 		this.car = new CrossingCar(
-				new ArguingCar(
-						new Car("car", 50), 
-						1), 
+				new Car("car", 50), 
 				WAY.WEST, 
-				STATE.APPROACHING, 
+				STATUS.APPROACHING, 
 				50);
 	}
 
