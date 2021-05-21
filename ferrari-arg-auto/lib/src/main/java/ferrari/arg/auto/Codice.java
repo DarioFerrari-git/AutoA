@@ -437,75 +437,7 @@ public static ArrayList<Auto> creaNoConflittoSA(){
 	Inc.add(B);
     return (Inc);
 }	
-	/*
-	public static ArrayList<Auto> creAuto(){
-		ArrayList<Auto>Incrocio=new ArrayList<Auto>();
-		String posOccupata="";
-		String nomOccupato="";
-		String valOccupato="";
-		String tempOccupato="";
-for(int x=0; x<2;x++) {	
- String lettere="A,B,C,D,E,F,G,H,I,L,M,N,O,P,Q,R,S,T,U,V,Z,X,Y,K,J";
- String nome="";
- String posizione="";
- String direzione="";
- String priorità="";
- String tempo_arrivo="";
- boolean strada_alternativa=(Math.random()<0.5);
- 
- int f=0;{
-	 while(f<1) {
- String valore=""+(int)Math.floor(Math.random()*100);
- if(!valOccupato.contains(valore)) {priorità=valore;f++;}
- }
- } 
- 
- int g=0;{
-	 while(g<1) {
- int valore=(int)Math.floor(Math.random()*100);
- if(valore<31) {tempo_arrivo=""+valore;g++;}
- }
- }
-
- int i=0;{ 
- 
-     while(i<1){
-	 int valore=(int)Math.floor(Math.random()*100);
-	 if(valore<25&&!nomOccupato.contains(valore+"")) {
-		 i++;
-	 String[]s=lettere.split(",");
-	 nome=s[valore];
-	 nomOccupato+= valore+" ";
-	 }	
-}
-}
- int j=0;{
- 
-     while(j<1) {
-	 int valore=(int)Math.floor(Math.random()*10);
-	 if(valore==0&&!posOccupata.contains("sini")) {posizione="sinistra";j++;}
-	 if(valore==1&&!posOccupata.contains("bass")) {posizione="basso";j++;}
-	 if(valore==2&&!posOccupata.contains("dest")) {posizione="destra";j++;}
-	 if(valore==3&&!posOccupata.contains("alto")) {posizione="alto";j++;}
- }
- }
- int k=0;{
-	 while(k<1) {
-	 int valore=(int)Math.floor(Math.random()*10);
-	 if(valore==0) {direzione="sinistra";k++;}
-	 if(valore==1) {direzione="diritto";k++;}
-	 if(valore==2) {direzione="destra";k++;}
- }
- }
-    int int_priorità=Integer.parseInt(priorità);
-    Auto A=new Auto(nome,posizione,tempo_arrivo,direzione,int_priorità,strada_alternativa);
-    Incrocio.add(A);
-    posOccupata+=posizione+" ";
-}
-
-    return(Incrocio);
-    }
-*/	
+	
 	public static ArrayList<Sensore> creaSensori() {
 		final ArrayList<Sensore> Sens = new ArrayList<>();
 		String posOccupata = "";
