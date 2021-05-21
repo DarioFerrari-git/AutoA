@@ -11,7 +11,7 @@ public class CrossingCar {
 
 	private final Car car;
 	private WAY way;
-	private STATE state;
+	private STATUS state;
 	private double distance;
 
 	/**
@@ -20,7 +20,7 @@ public class CrossingCar {
 	 * @param state
 	 * @param distance in m
 	 */
-	public CrossingCar(final Car car, final WAY way, final STATE state, final double distance) {
+	public CrossingCar(final Car car, final WAY way, final STATUS state, final double distance) {
 		this.car = car;
 		this.way = way;
 		this.state = state;
@@ -45,14 +45,14 @@ public class CrossingCar {
 	/**
 	 * @return the state
 	 */
-	public STATE getState() {
+	public STATUS getState() {
 		return this.state;
 	}
 
 	/**
 	 * @param state the state to set
 	 */
-	public CrossingCar setState(final STATE state) {
+	public CrossingCar setState(final STATUS state) {
 		this.state = state;
 		return this;
 	}
