@@ -36,6 +36,10 @@ public final class Road {
 	public List<DIRECTION> getLanes() {
 		return lanes;
 	}
+	
+	public int nLanes() {
+		return lanes.size();
+	}
 
 	@Override
 	public String toString() {

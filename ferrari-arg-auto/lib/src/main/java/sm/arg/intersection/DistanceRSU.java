@@ -28,6 +28,7 @@ public final class DistanceRSU implements RSU<Double> {
 		return rsu;
 	}
 
+	@SuppressWarnings("unchecked") // there will be nothing but Double here
 	@Override
 	public Double getMeasurement() {
 		return distance;
@@ -36,6 +37,11 @@ public final class DistanceRSU implements RSU<Double> {
 	@Override
 	public String toString() {
 		return String.format("PositionRSU [rsu=%s, distance=%s]", rsu, distance);
+	}
+
+	@Override
+	public Class<Double> getType() {
+		return Double.class;
 	}
 
 }

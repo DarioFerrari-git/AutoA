@@ -4,21 +4,23 @@
 package sm.arg.intersection;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author sm
  *
  */
-public final class Junction {
+public final class SmartJunction {
 
 	private final String name;
-	private final Map<WAY, Road> roads;
+	private final Map<WAY, SmartRoad> roads;
+	private CrossingPolicy policy;
 
 	/**
 	 * @param name
 	 * @param roads
 	 */
-	public Junction(String name, Map<WAY, Road> roads) {
+	public SmartJunction(String name, Map<WAY, SmartRoad> roads) {
 		this.name = name;
 		this.roads = roads;
 	}
@@ -33,8 +35,16 @@ public final class Junction {
 	/**
 	 * @return the roads
 	 */
-	public Map<WAY, Road> getRoads() {
+	public Map<WAY, SmartRoad> getRoads() {
 		return roads;
+	}
+
+	public int nRoads() {
+		return this.roads.size();
+	}
+
+	public Set<WAY> ways() {
+		return this.roads.keySet();
 	}
 
 	@Override

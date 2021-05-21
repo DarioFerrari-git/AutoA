@@ -4,7 +4,6 @@
 package sm.arg.intersection;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +19,7 @@ import org.junit.Test;
  */
 public class SmartRoadTest {
 
-	private SmartRoad<RSU<?>> road;
+	private SmartRoad road;
 
 	/**
 	 * @throws java.lang.Exception
@@ -33,11 +32,7 @@ public class SmartRoadTest {
 		List<RSU<?>> rsus = new ArrayList<>();
 		rsus.add(dRsu);
 		rsus.add(bRSU);
-		SmartRoad<RSU<?>> sroad = new SmartRoad<>(
-				new Road(
-						"b", 
-						Collections.emptyList()), 
-				rsus);
+		road = new SmartRoad(new Road("b", Collections.emptyList()), rsus);
 	}
 
 	/**
@@ -53,7 +48,15 @@ public class SmartRoadTest {
 	 */
 	@Test
 	public final void testGetRsus() {
-		assertEquals(50.0, road.getRsus().get(0).getMeasurement(), 0.1);
+		for (RSU<?> rsu : road.getRsus()) {
+			if (rsu.getType().isAssignableFrom(Double.class)) {
+				Double d = rsu.getMeasurement();
+				assertEquals(50.0, d, 0.1);
+			} else if (rsu.getType().isAssignableFrom(Boolean.class)) {
+				Boolean b = rsu.getMeasurement();
+				assertEquals(false, b);
+			}
+		}
 	}
 
 }

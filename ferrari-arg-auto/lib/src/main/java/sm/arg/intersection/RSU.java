@@ -5,7 +5,11 @@ public interface RSU<T> {
 	/**
 	 * 
 	 * @return the measurement
+	 * 
+	 * worst case: X is everything subclassing Object
 	 */
-	T getMeasurement();
+	<X extends T> X getMeasurement();
+	
+	Class<T> getType();
 
 }

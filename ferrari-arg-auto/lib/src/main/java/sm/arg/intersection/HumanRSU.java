@@ -28,6 +28,7 @@ public final class HumanRSU implements RSU<Boolean> {
 		return rsu;
 	}
 
+	@SuppressWarnings("unchecked") // there will be nothing but Boolean here
 	@Override
 	public Boolean getMeasurement() {
 		return human;
@@ -36,6 +37,11 @@ public final class HumanRSU implements RSU<Boolean> {
 	@Override
 	public String toString() {
 		return String.format("HumanRSU [rsu=%s, human=%s]", rsu, human);
+	}
+
+	@Override
+	public Class<Boolean> getType() {
+		return Boolean.class;
 	}
 
 }

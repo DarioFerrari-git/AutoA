@@ -4,21 +4,26 @@
 package sm.arg.intersection;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author sm
  *
  */
-public final class SmartRoad<T extends RSU<?>> {
+public final class SmartRoad {
 
 	private final Road road;
-	private List<T> rsus;
+	/**
+	 * given {@link sm.arg.intersection.RSU#getMeasurement()} implementation, this
+	 * can be anything extending Object
+	 */
+	private final List<RSU<?>> rsus;
 
 	/**
 	 * @param road
 	 * @param rsus
 	 */
-	public SmartRoad(Road road, List<T> rsus) {
+	public SmartRoad(Road road, List<RSU<?>> rsus) {
 		this.road = road;
 		this.rsus = rsus;
 	}
@@ -26,15 +31,20 @@ public final class SmartRoad<T extends RSU<?>> {
 	/**
 	 * @return the rsus
 	 */
-	public List<T> getRsus() {
+	public List<RSU<?>> getRsus() {
 		return rsus;
 	}
 
-	/**
-	 * @param rsus the rsus to set
-	 */
-	public void setRsus(List<T> rsus) {
-		this.rsus = rsus;
+	public void addRsu(RSU<?> rsu) {
+		this.rsus.add(rsu);
+	}
+
+	public int nRsus() {
+		return this.rsus.size();
+	}
+
+	public List<Class<?>> rsusTypes() {
+		return this.rsus.stream().map(rsu -> rsu.getType()).collect(Collectors.toList());
 	}
 
 	/**
