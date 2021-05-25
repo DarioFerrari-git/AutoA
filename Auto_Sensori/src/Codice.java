@@ -120,7 +120,7 @@ public void Caricadati(String file,ArrayList<Auto>Incrocio,ArrayList<Sensore>Sen
 					      if(Sens.get(w).funzionante) {out.println("d"+k+": macchina_"+Incrocio.get(i).nome+",sensore_"+Sens.get(w).posizione+"_"+Sens.get(w).funzionante+" => macchina_"+Incrocio.get(i).nome+"_rilevata");k++;  
 					    	  Rilevazione.put(Incrocio.get(i).nome, true);
 					      if(Incrocio.get(i).priorità>60) {
-									if(!giàScrittoF)out.println("=> DiFretta_");
+									if(!giàScrittoF)out.println("=> DiFretta");
 									out.println("d"+k+": macchina_"+Incrocio.get(i).nome+"_rilevata,DiFretta => InoltraSegnaleUrgenza_"+Incrocio.get(i).nome);
 									chiedeOnoParz.add("d"+k+" "+Incrocio.get(i).nome);k++;
 									giàScrittoF=true;}

@@ -1,16 +1,16 @@
-=> macchina_P
-=> sensore_destra_true
-d0: macchina_P,sensore_destra_true => macchina_P_rilevata
-=> Tranquilla
-d1: macchina_P_rilevata,Tranquilla => !InoltraSegnaleUrgenza_P
-=> macchina_Q
-=> sensore_alto_true
-d2: macchina_Q,sensore_alto_true => macchina_Q_rilevata
-d3: macchina_Q_rilevata,Tranquilla => !InoltraSegnaleUrgenza_Q
-d4: macchina_Q_rilevata,macchina_P_rilevata => !NonSiOstacolano
+=> macchina_J
+=> sensore_sinistra_true
+d0: macchina_J,sensore_sinistra_true => macchina_J_rilevata
+=> DiFretta_J
+d1: macchina_J_rilevata,DiFretta_J => InoltraSegnaleUrgenza_J
+=> macchina_S
+=> sensore_basso_true
+d2: macchina_S,sensore_basso_true => macchina_S_rilevata
+d3: macchina_S_rilevata,DiFretta_S => InoltraSegnaleUrgenza_S
+d4: macchina_S_rilevata,macchina_J_rilevata => !NonSiOstacolano
 d5: !NonSiOstacolano => ApparenteIncidente
 =>PiùDi15secDiDifferenza
-d6: macchina_Q_rilevata,macchina_P_rilevata,PiùDi15secDiDifferenza => NonSiOstacolano
+d6: macchina_S_rilevata,macchina_J_rilevata,PiùDi15secDiDifferenza => NonSiOstacolano
 d7: NonSiOstacolano => !ApparenteIncidente
 
 d4<d6

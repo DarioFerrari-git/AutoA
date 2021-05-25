@@ -21,30 +21,29 @@ public class Main {
 		// TODO Auto-generated method stub
 		final Codice C = new Codice();
 		ArrayList<Auto> Incrocio = new ArrayList<>();
-		Incrocio = Codice.creAuto();
 		/*
 		 * Auto A=new Auto("A","sinistra","80","diritto",70,false); Auto B=new
 		 * Auto("B","basso","10","diritto",770,false); Incrocio.add(B); Incrocio.add(A);
 		 */
+		Incrocio=Codice.creaConflittoNoSA();
 		ArrayList<Sensore> Sens = new ArrayList<>();
 		Sens = Codice.creaSensori();
-		/*
-		 * Sensore S1=new Sensore("destra",true); Sensore S2=new
-		 * Sensore("sinistra",true); Sensore S3=new Sensore("alto",true); Sensore S4=new
-		 * Sensore("basso",true); Sens.add(S4); Sens.add(S3); Sens.add(S2);
-		 * Sens.add(S1);
-		 */
-
+/*	
+		Auto A=new Auto("A","alto","0","sinistra",94,true);
+		Auto B=new Auto("R","basso","3","sinistra",75,false);
+		Incrocio.add(B);
+		Incrocio.add(A);
+	*/
 		System.out.println(Incrocio);
 		System.out.println(Sens);
-		C.Caricadati("file", Incrocio, Sens);
+		C.Caricadati("/Users/darioferrari/git/AutoA/ferrari-arg-auto/lib/src/main/resources/file", Incrocio, Sens);
 
 		final PlParser plparser = new PlParser();
 		final AspicParser<PlFormula> parser = new AspicParser<>(plparser, new PlFormulaGenerator());
-		final AspicArgumentationTheory<PlFormula> at = parser.parseBeliefBaseFromFile("file");
+		final AspicArgumentationTheory<PlFormula> at = parser.parseBeliefBaseFromFile("/Users/darioferrari/git/AutoA/ferrari-arg-auto/lib/src/main/resources/file");
 		final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-		final PlFormula pf = plparser.parseFormula("!ApparenteIncidente");
+		final PlFormula pf = plparser.parseFormula("NonSiOstacolano");
 		System.out.println(at);
 		System.out.println(pf + "\t" + ar.query(at, pf, InferenceMode.CREDULOUS));
 
