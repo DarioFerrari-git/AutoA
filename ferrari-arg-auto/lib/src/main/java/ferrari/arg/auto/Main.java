@@ -25,7 +25,7 @@ public class Main {
 		 * Auto A=new Auto("A","sinistra","80","diritto",70,false); Auto B=new
 		 * Auto("B","basso","10","diritto",770,false); Incrocio.add(B); Incrocio.add(A);
 		 */
-		Incrocio=Codice.creaConflittoNoSA();
+		Incrocio=Codice.creaConflittoSA();
 		ArrayList<Sensore> Sens = new ArrayList<>();
 		Sens = Codice.creaSensori();
 /*	
