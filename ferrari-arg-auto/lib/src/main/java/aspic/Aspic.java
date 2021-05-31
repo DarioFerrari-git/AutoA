@@ -27,6 +27,7 @@ import org.tweetyproject.logics.pl.syntax.Proposition;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 
+
 public class Aspic {
 	public static void main(String[] args) throws ParserException, IOException{
 		Proposition a = new Proposition("a");

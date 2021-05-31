@@ -879,7 +879,7 @@ public static ArrayList<Auto> creaNoConflittoSA(){
 									if (Incrocio.get(j).strada_alternativa == true
 											&& Incrocio.get(i).strada_alternativa == true && !regole.contains(
 													Incrocio.get(i).nome + "," + Incrocio.get(j).nome + "X")) {
-										if (Math.random() < 0.5) {
+										if (Integer.parseInt(Incrocio.get(i).tempo_arrivo)<Integer.parseInt(Incrocio.get(j).tempo_arrivo)) {
 											out.println("d" + k + ": macchina_" + Incrocio.get(i).nome
 													+ "_rilevata,macchina_" + Incrocio.get(j).nome
 													+ "_rilevata => !NonSiOstacolano");
