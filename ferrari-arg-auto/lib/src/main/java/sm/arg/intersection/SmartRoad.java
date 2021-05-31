@@ -35,8 +35,9 @@ public final class SmartRoad {
 		return rsus;
 	}
 
-	public void addRsu(RSU<?> rsu) {
+	public SmartRoad addRsu(RSU<?> rsu) {
 		this.rsus.add(rsu);
+		return this;
 	}
 
 	public int nRsus() {

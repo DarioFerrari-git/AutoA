@@ -20,9 +20,10 @@ public final class SmartJunction {
 	 * @param name
 	 * @param roads
 	 */
-	public SmartJunction(String name, Map<WAY, SmartRoad> roads) {
+	public SmartJunction(String name, Map<WAY, SmartRoad> roads, CrossingPolicy policy) {
 		this.name = name;
 		this.roads = roads;
+		this.policy = policy;
 	}
 
 	/**
@@ -46,10 +47,14 @@ public final class SmartJunction {
 	public Set<WAY> ways() {
 		return this.roads.keySet();
 	}
+	
+	public CrossingPolicy getPolicy() {
+		return this.policy;
+	}
 
 	@Override
 	public String toString() {
-		return String.format("Junction [name=%s, roads=%s]", name, roads);
+		return String.format("Junction [name=%s, roads=%s, policy=%s]", name, roads, policy);
 	}
 
 }

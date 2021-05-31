@@ -7,16 +7,16 @@ package sm.arg.intersection;
  * @author sm
  *
  */
-public final class ArguingCar {
+public final class UrgentCar {
 
-	private final CrossingCar car;
+	private final Car car;
 	private double urgency;
 
 	/**
 	 * @param car
 	 * @param urgency
 	 */
-	public ArguingCar(final CrossingCar car, final double urgency) {
+	public UrgentCar(final Car car, final double urgency) {
 		this.car = car;
 		this.urgency = urgency;
 	}
@@ -28,7 +28,7 @@ public final class ArguingCar {
 		return this.urgency;
 	}
 
-	public ArguingCar setUrgency(final double urgency) {
+	public UrgentCar setUrgency(final double urgency) {
 		this.urgency = urgency;
 		return this;
 	}
@@ -36,17 +36,17 @@ public final class ArguingCar {
 	/**
 	 * @return the car
 	 */
-	public CrossingCar getCar() {
+	public Car getCar() {
 		return this.car;
 	}
 
 	public boolean hasOtherRoutes() {
-		return this.car.getCar().getRoutes().size() > 1;
+		return this.car.getRoutes().size() > 1;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("ArguingCar [car=%s, urgency=%s]", this.car, this.urgency);
+		return String.format("UrgentCar [car=%s, urgency=%s]", this.car, this.urgency);
 	}
 
 }
