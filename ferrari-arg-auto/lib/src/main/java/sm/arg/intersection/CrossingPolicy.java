@@ -9,4 +9,6 @@ package sm.arg.intersection;
  */
 public interface CrossingPolicy {
 
+	CrossingCar rightOfWay(CrossingCar car1, CrossingCar car2);
+	
 }

@@ -23,7 +23,9 @@ public class CrossingCarTest {
 	@Before
 	public void setUp() throws Exception {
 		this.car = new CrossingCar(
-				new Car("car", 50), 
+				new UrgentCar(
+						new Car("car", 50), 
+						1), 
 				WAY.WEST, 
 				STATUS.APPROACHING, 
 				50);

@@ -9,7 +9,7 @@ package sm.arg.intersection;
  */
 public class CrossingCar {
 
-	private final Car car;
+	private final UrgentCar car;
 	private WAY way;
 	private STATUS state;
 	private double distance;
@@ -20,7 +20,7 @@ public class CrossingCar {
 	 * @param state
 	 * @param distance in m
 	 */
-	public CrossingCar(final Car car, final WAY way, final STATUS state, final double distance) {
+	public CrossingCar(final UrgentCar car, final WAY way, final STATUS state, final double distance) {
 		this.car = car;
 		this.way = way;
 		this.state = state;
@@ -69,7 +69,7 @@ public class CrossingCar {
 	/**
 	 * @return the car
 	 */
-	public Car getCar() {
+	public UrgentCar getCar() {
 		return this.car;
 	}
 	
@@ -78,7 +78,7 @@ public class CrossingCar {
 	 * @return time to cross in seconds
 	 */
 	public double getTimeToCross() {
-		return (this.distance / (this.car.getSpeed() / 3.6)); // distance in m, speed in km/h => / 3.6 in m/s
+		return (this.distance / (this.car.getCar().getSpeed() / 3.6)); // distance in m, speed in km/h => / 3.6 in m/s
 	}
 
 	@Override
