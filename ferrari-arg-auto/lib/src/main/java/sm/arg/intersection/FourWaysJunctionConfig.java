@@ -29,7 +29,7 @@ public final class FourWaysJunctionConfig {
 	public FourWaysJunctionConfig(String junctionName, CrossingPolicy policy, RSU<?>... rsu) {
 		Map<WAY, SmartRoad> roads = new HashMap<>();
 		List<DIRECTION> lanes = Arrays.asList(DIRECTION.values()); // each road has all 3 lanes
-		List<RSU<?>> rsus = Arrays.asList(rsu); // each road has all given RSUs
+		List<RSU<?>> rsus = Arrays.asList(rsu); // each road has all given RSUs TODO RSU name no longer unique!
 		for (WAY way : WAY.values()) {
 			roads.put(way, new SmartRoad(new Road(way.name(), lanes), rsus));
 		}
@@ -51,10 +51,10 @@ public final class FourWaysJunctionConfig {
 			if (this.junction.getRoads().get(way) != null
 					&& this.junction.getRoads().get(way).getRoad().getName().equals(roadName)) {
 				for (RSU<?> rsu : this.junction.getRoads().get(way).getRsus()) {
-					if (rsu.getType().isAssignableFrom(DistanceRSU.class)) {
+					if (rsu instanceof DistanceRSU && rsu.getType().isAssignableFrom(Double.class)) {
 						d = rsu.getMeasurement();
 					} else {
-						throw new NoSuitableRSUException("No RSU assignable from DistanceRSU found", this.junction.getRoads().get(way).getRsus());
+						throw new NoSuitableRSUException("No RSU instanceof DistanceRSU and assignable from Double found", this.junction.getRoads().get(way).getRsus());
 					}
 				}
 				this.cars.add(new CrossingCar(
@@ -65,6 +65,25 @@ public final class FourWaysJunctionConfig {
 			}
 		}
 		return this;
+	}
+
+	/**
+	 * @return the junction
+	 */
+	public SmartJunction getJunction() {
+		return junction;
+	}
+
+	/**
+	 * @return the cars
+	 */
+	public List<CrossingCar> getCars() {
+		return cars;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("FourWaysJunctionConfig [junction=%s, cars=%s]", junction, cars);
 	}
 	
 }

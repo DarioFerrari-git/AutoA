@@ -26,7 +26,7 @@ public class SmartRoadTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		BaseRSU rsu = new BaseRSU("a", WAY.EAST, 1);
+		BaseRSU rsu = new BaseRSU("a", 1);
 		RSU<Double> dRsu = new DistanceRSU(rsu, 50);
 		RSU<Boolean> bRSU = new HumanRSU(rsu, false);
 		List<RSU<?>> rsus = new ArrayList<>();
