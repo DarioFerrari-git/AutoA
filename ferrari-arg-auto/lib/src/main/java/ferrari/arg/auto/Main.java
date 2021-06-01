@@ -18,7 +18,6 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 public class Main {
 
 	public static void main(final String[] args) throws FileNotFoundException, ParserException, IOException {
-		// TODO Auto-generated method stub
 		final Codice C = new Codice();
 		ArrayList<Auto> Incrocio = new ArrayList<>();
 		/*

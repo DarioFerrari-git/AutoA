@@ -22,9 +22,9 @@ public final class NumArgsPolicy implements CrossingPolicy {
 			args2++;
 		}
 		if (car1.getCar().getCar().getRoutes().size() > car2.getCar().getCar().getRoutes().size()) {
-			args1++;
-		} else {
 			args2++;
+		} else {
+			args1++;
 		}
 		if (car1.getCar().getCar().getSpeed() > car2.getCar().getCar().getSpeed()) {
 			args1++;

@@ -10,7 +10,7 @@ package sm.arg.intersection;
 public final class BaseRSU {
 
 	private final String name;
-	private final WAY position;
+//	private final WAY position;
 	private final double confidence;
 
 	/**
@@ -18,9 +18,9 @@ public final class BaseRSU {
 	 * @param position
 	 * @param confidence
 	 */
-	public BaseRSU(String name, WAY position, double confidence) {
+	public BaseRSU(String name, double confidence) {
 		this.name = name;
-		this.position = position;
+//		this.position = position;
 		this.confidence = confidence;
 	}
 
@@ -34,9 +34,9 @@ public final class BaseRSU {
 	/**
 	 * @return the position
 	 */
-	public WAY getPosition() {
-		return position;
-	}
+//	public WAY getPosition() {
+//		return position;
+//	}
 
 	/**
 	 * @return the confidence
@@ -47,7 +47,7 @@ public final class BaseRSU {
 
 	@Override
 	public String toString() {
-		return String.format("RSU [name=%s, position=%s, confidence=%s]", name, position, confidence);
+		return String.format("RSU [name=%s, confidence=%s]", name, confidence);
 	}
 
 }
