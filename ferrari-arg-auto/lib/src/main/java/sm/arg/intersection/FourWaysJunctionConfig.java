@@ -13,13 +13,12 @@ import java.util.Map;
  * @author sm
  *
  */
-public final class OneJunctionSimulation {
+public final class FourWaysJunctionConfig {
 
 	private final SmartJunction junction;
 	private final List<CrossingCar> cars;
 
 	/**
-	 * To be used before {@link sm.arg.intersection.OneJunctionSimulation#addCar()}
 	 * Given RSUs are replicated on each road
 	 * 
 	 * @param junctionName
@@ -27,7 +26,7 @@ public final class OneJunctionSimulation {
 	 * @param rsus
 	 * @return
 	 */
-	public OneJunctionSimulation(String junctionName, CrossingPolicy policy, RSU<?>... rsu) {
+	public FourWaysJunctionConfig(String junctionName, CrossingPolicy policy, RSU<?>... rsu) {
 		Map<WAY, SmartRoad> roads = new HashMap<>();
 		List<DIRECTION> lanes = Arrays.asList(DIRECTION.values()); // each road has all 3 lanes
 		List<RSU<?>> rsus = Arrays.asList(rsu); // each road has all given RSUs
@@ -39,16 +38,14 @@ public final class OneJunctionSimulation {
 	}
 
 	/**
-	 * To be used after
-	 * {@link sm.arg.intersection.OneJunctionSimulation#setup4ways()} roadname must
-	 * exist in junction
+	 * roadname must exist in junction
 	 * 
 	 * @param car
 	 * @param roadName
 	 * @return
 	 * @throws NoSuitableRSUException 
 	 */
-	public OneJunctionSimulation addCar(UrgentCar car, String roadName) throws NoSuitableRSUException {
+	public FourWaysJunctionConfig addCar(UrgentCar car, String roadName) throws NoSuitableRSUException {
 		Double d = null;
 		for (WAY way : this.junction.getRoads().keySet()) {
 			if (this.junction.getRoads().get(way) != null
@@ -69,5 +66,5 @@ public final class OneJunctionSimulation {
 		}
 		return this;
 	}
-
+	
 }
