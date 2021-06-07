@@ -1,17 +1,8 @@
-=> macchina_I
-=> sensore_basso_true
-d0: macchina_I,sensore_basso_true => macchina_I_rilevata
-=> DiFretta_I
-d1: macchina_I_rilevata,DiFretta_I => InoltraSegnaleUrgenza_I
-=> macchina_Y
-=> sensore_destra_true
-d2: macchina_Y,sensore_destra_true => macchina_Y_rilevata
-=> Tranquilla_Y
-d3: macchina_Y_rilevata,Tranquilla_Y => !InoltraSegnaleUrgenza_Y
-d4: macchina_I_rilevata,macchina_Y_rilevata => !NonSiOstacolano
-d5: !NonSiOstacolano => ApparenteIncidente
-d6: macchina_I_rilevata,InoltraSegnaleUrgenza_I => PassaPerPrima_I
-d7: macchina_Y_rilevata,!InoltraSegnaleUrgenza_Y => PassaPerSeconda_Y
-d8: PassaPerSeconda_Y,PassaPerPrima_I => !ApparenteIncidente
-
-d5<d8
+=> macchina_R
+=> sensore_sinistra_true
+d0: macchina_R,sensore_sinistra_true => macchina_R_rilevata
+=> macchina_P
+=> sensore_alto_true
+d1: macchina_P,sensore_alto_true => macchina_P_rilevata
+=> Tranquilla_P
+d2: macchina_P_rilevata,Tranquilla_P => !InoltraSegnaleUrgenza_P

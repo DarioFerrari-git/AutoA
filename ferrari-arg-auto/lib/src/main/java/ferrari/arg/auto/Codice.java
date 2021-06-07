@@ -310,6 +310,8 @@ public static String creadirezioniNoConflitto(String posizioni){
     	if(a<0.66&&a>0.33) {direzione1="sinistra";direzione2="sinistra";}
     }
     
+    
+    
     if(posizione1.equals("alto")&&posizione2.equals("destra")) {
     	double a=Math.random();
     	if(a<=0.33) {direzione1="sinistra";direzione2="destra";}

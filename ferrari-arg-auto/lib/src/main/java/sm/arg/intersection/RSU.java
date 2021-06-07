@@ -9,7 +9,9 @@ public interface RSU<T> {
 	 * worst case: X is everything subclassing Object
 	 */
 	<X extends T> X getMeasurement();
-	
+	<X extends T> BaseRSU getRsu();
 	Class<T> getType();
+
+	
 
 }

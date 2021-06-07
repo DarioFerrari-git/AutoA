@@ -3,6 +3,10 @@
  */
 package sm.arg.intersection;
 
+import org.tweetyproject.arg.aspic.syntax.AspicArgumentationTheory;
+import org.tweetyproject.logics.pl.syntax.PlFormula;
+import org.tweetyproject.logics.pl.syntax.Proposition;
+
 /**
  * @author sm
  *
@@ -33,5 +37,12 @@ public final class NumArgsPolicy implements CrossingPolicy {
 		}
 		return args1 > args2 ? car1 : car2;
 	}
-
+	public String Policyname(){
+		return "NumArgsPolicy";
+	}
+	public Proposition ArgumentPolicy(final AspicArgumentationTheory<PlFormula> t ) {
+		Proposition a = new Proposition(Policyname());
+		t.addAxiom(a);
+		return a;
+	}
 }

@@ -67,13 +67,12 @@ public class Aspic {
 
 		t.addOrdinaryPremise(d);
 
-		StrictInferenceRule<PlFormula> r3 = new StrictInferenceRule<>();
-		r3 = new StrictInferenceRule<>();
+		StrictInferenceRule<PlFormula> r3 = new StrictInferenceRule<>();	
 		r3.setConclusion(new Negation(g));
 		r3.addPremise(f);
 		t.addRule(r3);
 
-		StrictInferenceRule<PlFormula> r4 = new StrictInferenceRule<>();
+		DefeasibleInferenceRule<PlFormula> r4 = new DefeasibleInferenceRule<>();
 		r4.setConclusion(new Negation(f));
 		r4.addPremise(g);
 		t.addRule(r4);
@@ -82,7 +81,7 @@ public class Aspic {
 		t.addOrdinaryPremise(f);
 
 		// System.out.println(t);
-		System.out.println(t.getOrder());
+		System.out.println(t);
 		System.out.println(pf + "\t" + ar.query(t, pf, InferenceMode.CREDULOUS));
 
 		System.out.println();

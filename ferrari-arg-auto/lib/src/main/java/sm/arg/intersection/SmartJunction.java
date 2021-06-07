@@ -3,8 +3,14 @@
  */
 package sm.arg.intersection;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.tweetyproject.arg.aspic.syntax.AspicArgumentationTheory;
+import org.tweetyproject.logics.pl.syntax.PlFormula;
+import org.tweetyproject.logics.pl.syntax.Proposition;
 
 /**
  * @author sm
@@ -51,7 +57,7 @@ public final class SmartJunction {
 	public CrossingPolicy getPolicy() {
 		return this.policy;
 	}
-
+   
 	@Override
 	public String toString() {
 		return String.format("Junction [name=%s, roads=%s, policy=%s]", name, roads, policy);
