@@ -133,28 +133,30 @@ public final class FourWaysJunctionConfig {
 		for(int j=0;j<cars.size();j++) {
 		f=new Proposition(cars.get(j).getCar().getCar().getName());
 			
-			if(!cars.get(i).equals(cars.get(j))&&!alreadyConsidered.contains(cars.get(i).getCar().getCar().getName()+"0"+cars.get(j).getCar().getCar().getName())) {
-				if((cars.get(i).getWay().equals(WAY.SOUTH)&&cars.get(j).getWay().equals(WAY.NORTH)&&!cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT")&&!cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
-				   (cars.get(i).getWay().equals(WAY.EAST)&&cars.get(j).getWay().equals(WAY.WEST)&&!cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT")&&!cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
-				   (cars.get(i).getWay().equals(WAY.NORTH)&&cars.get(j).getWay().equals(WAY.SOUTH)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT")&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
-				   (cars.get(i).getWay().equals(WAY.EAST)&&cars.get(j).getWay().equals(WAY.WEST)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT")&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
-				   (cars.get(i).getWay().equals(WAY.NORTH)&&cars.get(j).getWay().equals(WAY.EAST)&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT"))||
-				   (cars.get(i).getWay().equals(WAY.NORTH)&&cars.get(j).getWay().equals(WAY.EAST)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT")&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
-				   (cars.get(i).getWay().equals(WAY.WEST)&&cars.get(j).getWay().equals(WAY.NORTH)&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT"))||
-				   (cars.get(i).getWay().equals(WAY.WEST)&&cars.get(j).getWay().equals(WAY.NORTH)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT")&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
-				   (cars.get(i).getWay().equals(WAY.SOUTH)&&cars.get(j).getWay().equals(WAY.WEST)&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT"))||
-				   (cars.get(i).getWay().equals(WAY.SOUTH)&&cars.get(j).getWay().equals(WAY.WEST)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT")&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
-				   (cars.get(i).getWay().equals(WAY.EAST)&&cars.get(j).getWay().equals(WAY.SOUTH)&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT"))||
-				   (cars.get(i).getWay().equals(WAY.EAST)&&cars.get(j).getWay().equals(WAY.SOUTH)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT")&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))){
-					System.out.println(cars.get(i).getWay()+"->"+cars.get(i).getCar().getCar().getRoutes().get(0));
-					System.out.println(cars.get(j).getWay()+"->"+cars.get(j).getCar().getCar().getRoutes().get(0));
-					r2.setConclusion(new Negation(e));
-					r2.addPremise(a);
-					r2.addPremise(f);
-					t.addRule(r2);
-					alreadyConsidered.add(cars.get(j).getCar().getCar().getName()+"0"+cars.get(i).getCar().getCar().getName());
-	                Incident=false;
-				}}}}
+		if(!cars.get(i).equals(cars.get(j))&&!alreadyConsidered.contains(cars.get(i).getCar().getCar().getName()+"0"+cars.get(j).getCar().getCar().getName())) {
+	        if((cars.get(i).getWay().equals(WAY.SOUTH)&&cars.get(j).getWay().equals(WAY.NORTH)&&!cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT")&&!cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
+	           (cars.get(i).getWay().equals(WAY.EAST)&&cars.get(j).getWay().equals(WAY.WEST)&&!cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT")&&!cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
+	           (cars.get(i).getWay().equals(WAY.NORTH)&&cars.get(j).getWay().equals(WAY.SOUTH)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT")&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
+	           (cars.get(i).getWay().equals(WAY.EAST)&&cars.get(j).getWay().equals(WAY.WEST)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT")&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
+	           (cars.get(i).getWay().equals(WAY.NORTH)&&cars.get(j).getWay().equals(WAY.EAST)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT"))||
+			   (cars.get(i).getWay().equals(WAY.NORTH)&&cars.get(j).getWay().equals(WAY.EAST)&&cars.get(j).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT")&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
+	           (cars.get(i).getWay().equals(WAY.WEST)&&cars.get(j).getWay().equals(WAY.NORTH)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT"))||
+			   (cars.get(i).getWay().equals(WAY.WEST)&&cars.get(j).getWay().equals(WAY.NORTH)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT")&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
+	           (cars.get(i).getWay().equals(WAY.SOUTH)&&cars.get(j).getWay().equals(WAY.WEST)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT"))||
+			   (cars.get(i).getWay().equals(WAY.SOUTH)&&cars.get(j).getWay().equals(WAY.WEST)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT")&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))||
+	           (cars.get(i).getWay().equals(WAY.EAST)&&cars.get(j).getWay().equals(WAY.SOUTH)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT"))||
+			   (cars.get(i).getWay().equals(WAY.EAST)&&cars.get(j).getWay().equals(WAY.SOUTH)&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("RIGHT")&&cars.get(i).getCar().getCar().getRoutes().get(0).toString().contains("LEFT"))){
+				System.out.println(cars.get(i).getWay()+"->"+cars.get(i).getCar().getCar().getRoutes().get(0));
+				System.out.println(cars.get(j).getWay()+"->"+cars.get(j).getCar().getCar().getRoutes().get(0));
+				r2.setConclusion(new Negation(e));
+				r2.addPremise(a);
+				r2.addPremise(f);
+				t.addRule(r2);
+				alreadyConsidered.add(cars.get(j).getCar().getCar().getName()+"0"+cars.get(i).getCar().getCar().getName());
+                Incident=false;
+			}}}}
+
+
 		
 		
 		
