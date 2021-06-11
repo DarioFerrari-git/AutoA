@@ -37,11 +37,13 @@ public final class NumArgsPolicy implements CrossingPolicy {
 		}
 		return args1 > args2 ? car1 : car2;
 	}
-	public String Policyname(){
+
+	public String getName() {
 		return "NumArgsPolicy";
 	}
-	public Proposition ArgumentPolicy(final AspicArgumentationTheory<PlFormula> t ) {
-		Proposition a = new Proposition(Policyname());
+
+	public Proposition addAsPropAxiom(final AspicArgumentationTheory<PlFormula> t) {
+		Proposition a = new Proposition(getName());
 		t.addAxiom(a);
 		return a;
 	}

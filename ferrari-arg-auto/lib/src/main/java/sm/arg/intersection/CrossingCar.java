@@ -76,7 +76,7 @@ public class CrossingCar {
 	public UrgentCar getCar() {
 		return this.car;
 	}
-	
+
 	/**
 	 * 
 	 * @return time to cross in seconds
@@ -84,8 +84,8 @@ public class CrossingCar {
 	public double getTimeToCross() {
 		return (this.distance / (this.car.getCar().getSpeed() / 3.6)); // distance in m, speed in km/h => / 3.6 in m/s
 	}
-	
-	public Proposition ArgumentCar(final AspicArgumentationTheory<PlFormula> t ) {
+
+	public Proposition addAsPropAxiom(final AspicArgumentationTheory<PlFormula> t) {
 		Proposition a = new Proposition(car.getCar().getName());
 		t.addAxiom(a);
 		return a;
@@ -93,8 +93,8 @@ public class CrossingCar {
 
 	@Override
 	public String toString() {
-		return String.format("CrossingCar [car=%s, way=%s, state=%s, distance=%s]", this.car, this.way,
-				this.state, this.distance);
+		return String.format("CrossingCar [car=%s, way=%s, state=%s, distance=%s]", this.car, this.way, this.state,
+				this.distance);
 	}
 
 }

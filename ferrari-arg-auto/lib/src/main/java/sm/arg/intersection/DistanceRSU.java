@@ -37,17 +37,24 @@ public final class DistanceRSU implements RSU<Double> {
 	public Double getMeasurement() {
 		return distance;
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format("PositionRSU [rsu=%s, distance=%s]", rsu, distance);
 	}
-    public Proposition ArgumentRSU(final AspicArgumentationTheory<PlFormula> t) {
-    	Proposition a=null;
-    	if(rsu.getConfidence()>0.5) { a = new Proposition("RSU_trustworthy");t.addAxiom(a);}
-    	else { a = new Proposition("RSU_untrustworthy");t.addAxiom(a);}
-        return a;
-    }
+
+	public Proposition addAsPropAxiom(final AspicArgumentationTheory<PlFormula> t) { // TODO threshold as param
+		Proposition a = null;
+		if (rsu.getConfidence() > 0.5) {
+			a = new Proposition("RSU_trustworthy");
+			t.addAxiom(a);
+		} else {
+			a = new Proposition("RSU_untrustworthy");
+			t.addAxiom(a);
+		}
+		return a;
+	}
+
 	@Override
 	public Class<Double> getType() {
 		return Double.class;
