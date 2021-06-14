@@ -40,9 +40,6 @@ public class ex {
 		A.addRoute(dir);
 		UrgentCar U_A = new UrgentCar(A, 0.5);
 
-		
-		
-		
 		NumArgsPolicy nap = new NumArgsPolicy();
 
 		BaseRSU rsu = new BaseRSU("RSU", 0.7);
@@ -67,7 +64,7 @@ public class ex {
 		fourWC.Rules(t);
 
 		System.out.println(t);
-		
+
 		PlParser plparser = new PlParser();
 		SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<PlFormula>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
