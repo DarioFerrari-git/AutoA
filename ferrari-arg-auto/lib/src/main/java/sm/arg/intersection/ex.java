@@ -20,28 +20,38 @@ public class ex {
 	public static void main(String[] args) throws ParserException, IOException {
 		List<Proposition> p = new ArrayList<Proposition>();
 		List<DIRECTION> dir = new ArrayList<DIRECTION>();
-		dir.add(DIRECTION.RIGHT);
-		Car R = new Car("R", 55);
-		R.addRoute(dir);
-		UrgentCar U_R = new UrgentCar(R, 0.7);
+		dir.add(DIRECTION.LEFT);
+		Car N = new Car("N", 50);
+		N.addRoute(dir);
+		UrgentCar U_N = new UrgentCar(N, 0.7);
 
 		dir = new ArrayList<DIRECTION>();
 		dir.add(DIRECTION.STRAIGHT);
-		Car A = new Car("A", 50);
-		A.addRoute(dir);
+		Car R = new Car("R", 52);
+		R.addRoute(dir);
 		dir = new ArrayList<DIRECTION>();
 		dir.add(DIRECTION.RIGHT);
+		R.addRoute(dir);
+		UrgentCar U_R = new UrgentCar(R, 0.6);
+
+		dir = new ArrayList<DIRECTION>();
+		dir.add(DIRECTION.STRAIGHT);
+		Car A = new Car("A", 55);
 		A.addRoute(dir);
 		UrgentCar U_A = new UrgentCar(A, 0.5);
 
+		
+		
+		
 		NumArgsPolicy nap = new NumArgsPolicy();
 
-		BaseRSU rsu = new BaseRSU("RSU", 0.3);
+		BaseRSU rsu = new BaseRSU("RSU", 0.7);
 		DistanceRSU drsu = new DistanceRSU(rsu, 20);
 		FourWaysJunctionConfig fourWC = new FourWaysJunctionConfig("1", nap, drsu);
 		System.out.println(fourWC);
-		fourWC.addCar(U_R, "WEST");
-		fourWC.addCar(U_A, "EAST");
+		fourWC.addCar(U_N, "NORTH");
+		fourWC.addCar(U_R, "EAST");
+		fourWC.addCar(U_A, "SOUTH");
 		System.out.println(fourWC);
 
 		AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
@@ -56,9 +66,8 @@ public class ex {
 		}
 		fourWC.Rules(t);
 
-		System.out.println(t.getConclusions());
-		System.out.println(fourWC.getJunction().getPolicy().getName());
-
+		System.out.println(t);
+		
 		PlParser plparser = new PlParser();
 		SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<PlFormula>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
