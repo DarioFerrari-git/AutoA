@@ -60,4 +60,9 @@ public final class DistanceRSU implements RSU<Double> {
 		return Double.class;
 	}
 
+	@Override
+	public double getConfidence() {
+		return this.rsu.getConfidence();
+	}
+
 }

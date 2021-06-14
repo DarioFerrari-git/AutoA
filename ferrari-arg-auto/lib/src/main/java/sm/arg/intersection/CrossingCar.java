@@ -3,6 +3,9 @@
  */
 package sm.arg.intersection;
 
+import java.util.List;
+import java.util.Map;
+
 import org.tweetyproject.arg.aspic.syntax.AspicArgumentationTheory;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
@@ -83,6 +86,14 @@ public class CrossingCar {
 	 */
 	public double getTimeToCross() {
 		return (this.distance / (this.car.getCar().getSpeed() / 3.6)); // distance in m, speed in km/h => / 3.6 in m/s
+	}
+	
+	public String getName() {
+		return this.car.getCar().getName();
+	}
+	
+	public Map<Integer, List<DIRECTION>> getRoutes() {
+		return this.car.getCar().getRoutes();
 	}
 
 	public Proposition addAsPropAxiom(final AspicArgumentationTheory<PlFormula> t) {

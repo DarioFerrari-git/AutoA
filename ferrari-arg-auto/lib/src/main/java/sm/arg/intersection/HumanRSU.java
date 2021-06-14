@@ -44,4 +44,9 @@ public final class HumanRSU implements RSU<Boolean> {
 		return Boolean.class;
 	}
 
+	@Override
+	public double getConfidence() {
+		return this.rsu.getConfidence();
+	}
+
 }
