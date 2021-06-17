@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tweetyproject.arg.aspic.reasoner.SimpleAspicReasoner;
 import org.tweetyproject.arg.aspic.ruleformulagenerator.PlFormulaGenerator;
 import org.tweetyproject.arg.aspic.syntax.AspicArgumentationTheory;
@@ -24,6 +26,8 @@ import sm.intersection.DIRECTION;
 import sm.intersection.UrgentCar;
 
 public class Example1 {
+	
+	private final static Logger log = LoggerFactory.getLogger(Example1.class);
 
 	public static void main(String[] args) throws ParserException, IOException {
 		List<Proposition> p = new ArrayList<Proposition>();
@@ -49,17 +53,17 @@ public class Example1 {
 		A.addRoute(dir);
 		UrgentCar U_A = new UrgentCar(A, 0.5);
 
-		NumArgsPolicy nap = new NumArgsPolicy();
+		NumArgsPolicy nap = new NumArgsPolicy("numArgs");
 
 		BaseRSU rsu = new BaseRSU("RSU", 0.7);
 		DistanceRSU drsu = new DistanceRSU(rsu, 20);
 
 		FourWaysJunctionConfig fourWC = new FourWaysJunctionConfig("1", nap, drsu);
-		System.out.println(fourWC);
+		log.info(fourWC.toString());
 		fourWC.addCar(U_N, "NORTH");
 		fourWC.addCar(U_R, "EAST");
 		fourWC.addCar(U_A, "SOUTH");
-		System.out.println(fourWC);
+		log.info(fourWC.toString());
 
 		AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
 		t.setRuleFormulaGenerator(new PlFormulaGenerator());
@@ -72,13 +76,13 @@ public class Example1 {
 			p.add(a);
 		}
 		fourWC.addAsArgTheory(t);
-		System.out.println(t);
+		log.info(t.toString());
 
 		PlParser plparser = new PlParser();
 		SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<PlFormula>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
 		PlFormula pf = (PlFormula) plparser.parseFormula("!PossibleIncident");
-		System.out.println(pf + "\t" + ar.query(t, pf, InferenceMode.CREDULOUS));
+		log.info("{} --> {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
 
 	}
 }

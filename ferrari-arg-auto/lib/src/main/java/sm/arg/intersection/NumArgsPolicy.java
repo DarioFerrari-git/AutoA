@@ -11,6 +11,7 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
 
 import sm.arg.general.Debatable;
+import sm.intersection.BasePolicy;
 import sm.intersection.CrossingPolicy;
 
 /**
@@ -18,6 +19,12 @@ import sm.intersection.CrossingPolicy;
  *
  */
 public final class NumArgsPolicy implements CrossingPolicy, Debatable {
+
+	private final BasePolicy policy;
+
+	public NumArgsPolicy(final String name) {
+		this.policy = new BasePolicy(name);
+	}
 
 	/**
 	 * In case of a tie car2 wins
@@ -44,8 +51,9 @@ public final class NumArgsPolicy implements CrossingPolicy, Debatable {
 		return args1 > args2 ? car1 : car2;
 	}
 
+	@Override
 	public String getName() {
-		return "NumArgsPolicy";
+		return this.policy.getName();
 	}
 
 	@Override
@@ -54,4 +62,10 @@ public final class NumArgsPolicy implements CrossingPolicy, Debatable {
 		t.addAxiom(a);
 		return Collections.singletonList(a);
 	}
+
+	@Override
+	public String toString() {
+		return String.format("NumArgsPolicy [policy=%s]", policy);
+	}
+
 }

@@ -76,7 +76,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 					if (rsu instanceof DistanceRSU && rsu.getType().isAssignableFrom(Double.class)) {
 						d = rsu.getMeasurement();
 					} else {
-						log.warn("No RSU instanceof DistanceRSU and assignable from Double found: %s",
+						log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
 								this.junction.getRoads().get(way).getRsus());
 						d = Double.NaN;
 //						throw new NoSuitableRSUException("No RSU instanceof DistanceRSU and assignable from Double found", this.junction.getRoads().get(way).getRsus());
