@@ -151,6 +151,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 				}
 			}
 		}
+		// TODO perchè un'altra coppia di iterazioni? non potevamo fare tutto in una?
 		for (final CrossingCar element : this.cars) {
 			a = new Proposition(element.getName());
 			b = new Proposition(this.junction.getPolicy().getName());
@@ -188,7 +189,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 		return Arrays.asList(a, b, c, d, f);
 	}
 
-	private boolean noConflicts(final int i, final int j) {
+	private boolean noConflicts(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima DIRECTION e poi WAY?
 		return this.cars.get(i).getWay().equals(WAY.SOUTH) && this.cars.get(j).getWay().equals(WAY.NORTH)
 				&& !this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
 				&& !this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
