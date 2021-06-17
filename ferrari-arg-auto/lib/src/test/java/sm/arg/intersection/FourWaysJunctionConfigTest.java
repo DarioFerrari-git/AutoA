@@ -12,6 +12,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sm.intersection.BaseRSU;
+import sm.intersection.Car;
+import sm.intersection.DIRECTION;
+import sm.intersection.RSU;
+import sm.intersection.UrgentCar;
+import sm.intersection.WAY;
+
 /**
  * @author sm
  *
@@ -66,7 +73,7 @@ public class FourWaysJunctionConfigTest {
 	}
 
 	/**
-	 * Test method for {@link sm.arg.intersection.FourWaysJunctionConfig#addCar(sm.arg.intersection.UrgentCar, java.lang.String)}.
+	 * Test method for {@link sm.arg.intersection.FourWaysJunctionConfig#addCar(sm.intersection.UrgentCar, java.lang.String)}.
 	 */
 	@Test
 	public final void testAddCar() {

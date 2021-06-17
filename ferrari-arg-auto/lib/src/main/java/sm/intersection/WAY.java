@@ -1,4 +1,4 @@
-package sm.arg.intersection;
+package sm.intersection;
 
 public enum WAY {
 

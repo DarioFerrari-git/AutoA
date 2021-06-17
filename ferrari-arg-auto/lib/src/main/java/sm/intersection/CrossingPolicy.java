@@ -1,7 +1,9 @@
 /**
  * 
  */
-package sm.arg.intersection;
+package sm.intersection;
+
+import sm.arg.intersection.CrossingCar;
 
 /**
  * @author sm

@@ -3,15 +3,22 @@
  */
 package sm.arg.intersection;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.tweetyproject.arg.aspic.syntax.AspicArgumentationTheory;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
+
+import sm.arg.general.Debatable;
+import sm.intersection.BaseRSU;
+import sm.intersection.RSU;
 
 /**
  * @author sm
  *
  */
-public final class DistanceRSU implements RSU<Double> {
+public final class DistanceRSU implements RSU<Double>, Debatable {
 
 	private final BaseRSU rsu;
 	private final double distance;
@@ -43,7 +50,8 @@ public final class DistanceRSU implements RSU<Double> {
 		return String.format("PositionRSU [rsu=%s, distance=%s]", rsu, distance);
 	}
 
-	public Proposition addAsPropAxiom(final AspicArgumentationTheory<PlFormula> t) { // TODO threshold as param
+	@Override
+	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) { // TODO threshold as param
 		Proposition a = null;
 		if (rsu.getConfidence() > 0.5) {
 			a = new Proposition("RSU_trustworthy");
@@ -52,7 +60,7 @@ public final class DistanceRSU implements RSU<Double> {
 			a = new Proposition("RSU_untrustworthy");
 			t.addAxiom(a);
 		}
-		return a;
+		return Collections.singletonList(a);
 	}
 
 	@Override

@@ -18,11 +18,23 @@ import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
 
+import sm.arg.general.Debatable;
+import sm.intersection.CrossingPolicy;
+import sm.intersection.DIRECTION;
+import sm.intersection.NoSuitableRSUException;
+import sm.intersection.RSU;
+import sm.intersection.Road;
+import sm.intersection.STATUS;
+import sm.intersection.SmartJunction;
+import sm.intersection.SmartRoad;
+import sm.intersection.UrgentCar;
+import sm.intersection.WAY;
+
 /**
  * @author sm
  *
  */
-public final class FourWaysJunctionConfig {
+public final class FourWaysJunctionConfig implements Debatable {
 
 	private final Logger log = LoggerFactory.getLogger(FourWaysJunctionConfig.class);
 	private final SmartJunction junction;
@@ -90,7 +102,8 @@ public final class FourWaysJunctionConfig {
 		return cars;
 	}
 
-	public void addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
+	@Override
+	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
 		Proposition a = null;
 		Proposition b = null;
 		Proposition c = null;
@@ -171,6 +184,7 @@ public final class FourWaysJunctionConfig {
 				}
 			}
 		}
+		return Arrays.asList(new Proposition[] { a, b, c, d, f });
 	}
 
 	private boolean noConflicts(int i, int j) {

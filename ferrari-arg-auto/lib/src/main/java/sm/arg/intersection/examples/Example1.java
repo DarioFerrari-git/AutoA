@@ -15,13 +15,13 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
 
-import sm.arg.intersection.BaseRSU;
-import sm.arg.intersection.Car;
-import sm.arg.intersection.DIRECTION;
 import sm.arg.intersection.DistanceRSU;
 import sm.arg.intersection.FourWaysJunctionConfig;
 import sm.arg.intersection.NumArgsPolicy;
-import sm.arg.intersection.UrgentCar;
+import sm.intersection.BaseRSU;
+import sm.intersection.Car;
+import sm.intersection.DIRECTION;
+import sm.intersection.UrgentCar;
 
 public class Example1 {
 
@@ -63,12 +63,12 @@ public class Example1 {
 
 		AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
 		t.setRuleFormulaGenerator(new PlFormulaGenerator());
-		nap.addAsPropAxiom(t);
-		Proposition b = drsu.addAsPropAxiom(t);
+		nap.addAsArgTheory(t);
+		Proposition b = drsu.addAsArgTheory(t).get(0);
 		p.add(b);
 		Proposition a = null;
 		for (int i = 0; i < fourWC.getCars().size(); i++) {
-			a = fourWC.getCars().get(i).addAsPropAxiom(t);
+			a = fourWC.getCars().get(i).addAsArgTheory(t).get(0);
 			p.add(a);
 		}
 		fourWC.addAsArgTheory(t);

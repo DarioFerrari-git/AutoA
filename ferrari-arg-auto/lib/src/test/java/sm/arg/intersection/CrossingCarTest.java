@@ -9,6 +9,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sm.intersection.Car;
+import sm.intersection.STATUS;
+import sm.intersection.UrgentCar;
+import sm.intersection.WAY;
+
 /**
  * @author sm
  *

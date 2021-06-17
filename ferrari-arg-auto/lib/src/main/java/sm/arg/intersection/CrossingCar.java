@@ -3,6 +3,7 @@
  */
 package sm.arg.intersection;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -10,11 +11,17 @@ import org.tweetyproject.arg.aspic.syntax.AspicArgumentationTheory;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
 
+import sm.arg.general.Debatable;
+import sm.intersection.DIRECTION;
+import sm.intersection.STATUS;
+import sm.intersection.UrgentCar;
+import sm.intersection.WAY;
+
 /**
  * @author sm
  *
  */
-public class CrossingCar {
+public class CrossingCar implements Debatable {
 
 	private final UrgentCar car;
 	private WAY way;
@@ -87,19 +94,20 @@ public class CrossingCar {
 	public double getTimeToCross() {
 		return (this.distance / (this.car.getCar().getSpeed() / 3.6)); // distance in m, speed in km/h => / 3.6 in m/s
 	}
-	
+
 	public String getName() {
 		return this.car.getCar().getName();
 	}
-	
+
 	public Map<Integer, List<DIRECTION>> getRoutes() {
 		return this.car.getCar().getRoutes();
 	}
 
-	public Proposition addAsPropAxiom(final AspicArgumentationTheory<PlFormula> t) {
+	@Override
+	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
 		Proposition a = new Proposition(car.getCar().getName());
 		t.addAxiom(a);
-		return a;
+		return Collections.singletonList(a);
 	}
 
 	@Override

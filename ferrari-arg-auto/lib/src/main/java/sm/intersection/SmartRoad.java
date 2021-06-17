@@ -1,7 +1,7 @@
 /**
  * 
  */
-package sm.arg.intersection;
+package sm.intersection;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ public final class SmartRoad {
 
 	private final Road road;
 	/**
-	 * given {@link sm.arg.intersection.RSU#getMeasurement()} implementation, this
+	 * given {@link sm.intersection.RSU#getMeasurement()} implementation, this
 	 * can be anything extending Object
 	 */
 	private final List<RSU<?>> rsus;

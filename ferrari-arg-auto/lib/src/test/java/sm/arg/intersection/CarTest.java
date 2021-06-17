@@ -12,6 +12,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sm.intersection.Car;
+import sm.intersection.DIRECTION;
+
 /**
  * @author sm
  *
@@ -37,7 +40,7 @@ public class CarTest {
 	}
 
 	/**
-	 * Test method for {@link sm.arg.intersection.Car#addRoute()}.
+	 * Test method for {@link sm.intersection.Car#addRoute()}.
 	 */
 	@Test
 	public void testAddRoute() {

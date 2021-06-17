@@ -13,6 +13,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sm.intersection.BaseRSU;
+import sm.intersection.HumanRSU;
+import sm.intersection.RSU;
+import sm.intersection.Road;
+import sm.intersection.SmartRoad;
+
 /**
  * @author sm
  *
@@ -44,7 +50,7 @@ public class SmartRoadTest {
 	}
 
 	/**
-	 * Test method for {@link sm.arg.intersection.SmartRoad#getRsus()}.
+	 * Test method for {@link sm.intersection.SmartRoad#getRsus()}.
 	 */
 	@Test
 	public final void testGetRsus() {
