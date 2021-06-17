@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection;
 
@@ -19,12 +19,12 @@ public final class BasePolicy {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("BasePolicy [name=%s]", name);
+		return String.format("BasePolicy [name=%s]", this.name);
 	}
 
 }

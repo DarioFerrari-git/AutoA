@@ -88,11 +88,11 @@ public class CrossingCar implements Debatable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return time to cross in seconds
 	 */
 	public double getTimeToCross() {
-		return (this.distance / (this.car.getCar().getSpeed() / 3.6)); // distance in m, speed in km/h => / 3.6 in m/s
+		return this.distance / (this.car.getCar().getSpeed() / 3.6); // distance in m, speed in km/h => / 3.6 in m/s
 	}
 
 	public String getName() {
@@ -105,7 +105,7 @@ public class CrossingCar implements Debatable {
 
 	@Override
 	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
-		Proposition a = new Proposition(car.getCar().getName());
+		final Proposition a = new Proposition(this.car.getCar().getName());
 		t.addAxiom(a);
 		return Collections.singletonList(a);
 	}

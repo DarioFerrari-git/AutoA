@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection;
 
@@ -18,7 +18,7 @@ public final class BaseRSU {
 	 * @param position
 	 * @param confidence
 	 */
-	public BaseRSU(String name, double confidence) {
+	public BaseRSU(final String name, final double confidence) {
 		this.name = name;
 //		this.position = position;
 		this.confidence = confidence;
@@ -28,7 +28,7 @@ public final class BaseRSU {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
@@ -42,12 +42,12 @@ public final class BaseRSU {
 	 * @return the confidence
 	 */
 	public double getConfidence() {
-		return confidence;
+		return this.confidence;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("RSU [name=%s, confidence=%s]", name, confidence);
+		return String.format("RSU [name=%s, confidence=%s]", this.name, this.confidence);
 	}
 
 }

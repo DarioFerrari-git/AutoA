@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection;
 
@@ -14,8 +14,8 @@ public final class SmartRoad {
 
 	private final Road road;
 	/**
-	 * given {@link sm.intersection.RSU#getMeasurement()} implementation, this
-	 * can be anything extending Object
+	 * given {@link sm.intersection.RSU#getMeasurement()} implementation, this can
+	 * be anything extending Object
 	 */
 	private final List<RSU<?>> rsus;
 
@@ -23,7 +23,7 @@ public final class SmartRoad {
 	 * @param road
 	 * @param rsus
 	 */
-	public SmartRoad(Road road, List<RSU<?>> rsus) {
+	public SmartRoad(final Road road, final List<RSU<?>> rsus) {
 		this.road = road;
 		this.rsus = rsus;
 	}
@@ -32,10 +32,10 @@ public final class SmartRoad {
 	 * @return the rsus
 	 */
 	public List<RSU<?>> getRsus() {
-		return rsus;
+		return this.rsus;
 	}
 
-	public SmartRoad addRsu(RSU<?> rsu) {
+	public SmartRoad addRsu(final RSU<?> rsu) {
 		this.rsus.add(rsu);
 		return this;
 	}
@@ -45,19 +45,19 @@ public final class SmartRoad {
 	}
 
 	public List<Class<?>> rsusTypes() {
-		return this.rsus.stream().map(rsu -> rsu.getType()).collect(Collectors.toList());
+		return this.rsus.stream().map(RSU::getType).collect(Collectors.toList());
 	}
 
 	/**
 	 * @return the road
 	 */
 	public Road getRoad() {
-		return road;
+		return this.road;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("SmartRoad [road=%s, rsus=%s]", road, rsus);
+		return String.format("SmartRoad [road=%s, rsus=%s]", this.road, this.rsus);
 	}
 
 }

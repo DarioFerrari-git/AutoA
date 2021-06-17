@@ -34,7 +34,7 @@ public class FourWaysJunctionConfigTest {
 	public void setUp() throws Exception {
 		fourWays = new FourWaysJunctionConfig(
 				"4ways", 
-				new NumArgsPolicy(), 
+				new NumArgsPolicy("numArgs"), 
 				new DistanceRSU(
 						new BaseRSU(
 								"rsu", 

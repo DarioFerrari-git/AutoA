@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.arg.intersection;
 
@@ -42,17 +42,17 @@ public final class FourWaysJunctionConfig implements Debatable {
 
 	/**
 	 * Given RSUs are replicated on each road
-	 * 
+	 *
 	 * @param junctionName
 	 * @param policy
 	 * @param rsus
 	 * @return
 	 */
-	public FourWaysJunctionConfig(String junctionName, CrossingPolicy policy, RSU<?>... rsu) {
-		Map<WAY, SmartRoad> roads = new HashMap<>();
-		List<DIRECTION> lanes = Arrays.asList(DIRECTION.values()); // each road has all 3 lanes
-		List<RSU<?>> rsus = Arrays.asList(rsu); // each road has all given RSUs TODO RSU name no longer unique!
-		for (WAY way : WAY.values()) {
+	public FourWaysJunctionConfig(final String junctionName, final CrossingPolicy policy, final RSU<?>... rsu) {
+		final Map<WAY, SmartRoad> roads = new HashMap<>();
+		final List<DIRECTION> lanes = Arrays.asList(DIRECTION.values()); // each road has all 3 lanes
+		final List<RSU<?>> rsus = Arrays.asList(rsu); // each road has all given RSUs TODO RSU name no longer unique!
+		for (final WAY way : WAY.values()) {
 			roads.put(way, new SmartRoad(new Road(way.name(), lanes), rsus));
 		}
 		this.junction = new SmartJunction(junctionName, roads, policy);
@@ -61,22 +61,22 @@ public final class FourWaysJunctionConfig implements Debatable {
 
 	/**
 	 * roadname must exist in junction
-	 * 
+	 *
 	 * @param car
 	 * @param roadName
 	 * @return
 	 * @throws NoSuitableRSUException
 	 */
-	public FourWaysJunctionConfig addCar(UrgentCar car, String roadName) {
+	public FourWaysJunctionConfig addCar(final UrgentCar car, final String roadName) {
 		Double d = null;
-		for (WAY way : this.junction.getRoads().keySet()) {
+		for (final WAY way : this.junction.getRoads().keySet()) {
 			if (this.junction.getRoads().get(way) != null
 					&& this.junction.getRoads().get(way).getRoad().getName().equals(roadName)) {
-				for (RSU<?> rsu : this.junction.getRoads().get(way).getRsus()) {
+				for (final RSU<?> rsu : this.junction.getRoads().get(way).getRsus()) {
 					if (rsu instanceof DistanceRSU && rsu.getType().isAssignableFrom(Double.class)) {
 						d = rsu.getMeasurement();
 					} else {
-						log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
+						this.log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
 								this.junction.getRoads().get(way).getRsus());
 						d = Double.NaN;
 //						throw new NoSuitableRSUException("No RSU instanceof DistanceRSU and assignable from Double found", this.junction.getRoads().get(way).getRsus());
@@ -92,14 +92,14 @@ public final class FourWaysJunctionConfig implements Debatable {
 	 * @return the junction
 	 */
 	public SmartJunction getJunction() {
-		return junction;
+		return this.junction;
 	}
 
 	/**
 	 * @return the cars
 	 */
 	public List<CrossingCar> getCars() {
-		return cars;
+		return this.cars;
 	}
 
 	@Override
@@ -113,12 +113,12 @@ public final class FourWaysJunctionConfig implements Debatable {
 		boolean Problems = false;
 		DefeasibleInferenceRule<PlFormula> r1 = new DefeasibleInferenceRule<>();
 		StrictInferenceRule<PlFormula> r2 = new StrictInferenceRule<>();
-		for (int i = 0; i < cars.size(); i++) {
-			a = new Proposition(cars.get(i).getName());
+		for (int i = 0; i < this.cars.size(); i++) {
+			a = new Proposition(this.cars.get(i).getName());
 			c = new Proposition(a + "_CorrectlyDetected");
 			d = new Proposition(a + "_WronglyDetected");
 			r1 = new DefeasibleInferenceRule<>();
-			if (junction.getRoads().get(cars.get(i).getWay()).getRsus().get(0).getConfidence() < 0.5) {
+			if (this.junction.getRoads().get(this.cars.get(i).getWay()).getRsus().get(0).getConfidence() < 0.5) {
 				b = new Proposition("RSU_untrustworthy");
 				r1.setConclusion(d);
 				r1.addPremise(b);
@@ -132,44 +132,44 @@ public final class FourWaysJunctionConfig implements Debatable {
 				r1.addPremise(a);
 				t.addRule(r1);
 			}
-			for (int j = 0; j < cars.size(); j++) {
-				b = new Proposition("PossibleIncident_" + cars.get(i).getName() + cars.get(j).getName());
-				f = new Proposition(cars.get(j).getName());
+			for (int j = 0; j < this.cars.size(); j++) {
+				b = new Proposition("PossibleIncident_" + this.cars.get(i).getName() + this.cars.get(j).getName());
+				f = new Proposition(this.cars.get(j).getName());
 
-				if (!cars.get(i).equals(cars.get(j))
-						&& !alreadyConsidered.contains(cars.get(i).getName() + "0" + cars.get(j).getName())) {
-					if (noConflicts(i, j)) {
+				if (!this.cars.get(i).equals(this.cars.get(j))
+						&& !alreadyConsidered.contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())) {
+					if (this.noConflicts(i, j)) {
 						r2 = new StrictInferenceRule<>();
 						r2.setConclusion(new Negation(b));
 						r2.addPremise(a);
 						r2.addPremise(f);
 						t.addRule(r2);
-						alreadyConsidered.add(cars.get(j).getName() + "0" + cars.get(i).getName());
+						alreadyConsidered.add(this.cars.get(j).getName() + "0" + this.cars.get(i).getName());
 						System.out.println(alreadyConsidered);
 					}
 				}
 			}
 		}
-		for (int i = 0; i < cars.size(); i++) {
-			a = new Proposition(cars.get(i).getName());
-			b = new Proposition(junction.getPolicy().getName());
-			for (int j = 0; j < cars.size(); j++) {
-				Proposition e = new Proposition("PossibleIncident_" + cars.get(i).getName() + cars.get(j).getName());
+		for (final CrossingCar element : this.cars) {
+			a = new Proposition(element.getName());
+			b = new Proposition(this.junction.getPolicy().getName());
+			for (final CrossingCar element2 : this.cars) {
+				final Proposition e = new Proposition("PossibleIncident_" + element.getName() + element2.getName());
 				r1 = new DefeasibleInferenceRule<>();
 				r2 = new StrictInferenceRule<>();
-				f = new Proposition(cars.get(j).getName());
-				if ((!alreadyConsidered.contains(cars.get(j).getName() + "0" + cars.get(i).getName())
-						&& !alreadyConsidered.contains(cars.get(i).getName() + "0" + cars.get(j).getName()))
-						&& (!cars.get(i).equals(cars.get(j))
-								&& !alreadyConsidered.contains(cars.get(i).getName() + "x" + cars.get(j).getName()))) {
+				f = new Proposition(element2.getName());
+				if (!alreadyConsidered.contains(element2.getName() + "0" + element.getName())
+						&& !alreadyConsidered.contains(element.getName() + "0" + element2.getName())
+						&& !element.equals(element2)
+						&& !alreadyConsidered.contains(element.getName() + "x" + element2.getName())) {
 					if (Problems) {
 						r1.setConclusion(e);
 						r1.addPremise(a);
 						r1.addPremise(f);
 						t.addRule(r1);
-						alreadyConsidered.add(cars.get(j).getName() + "x" + cars.get(i).getName());
+						alreadyConsidered.add(element2.getName() + "x" + element.getName());
 					}
-					if (!Problems && cars.get(j).equals(junction.getPolicy().rightOfWay(cars.get(i), cars.get(j)))) {
+					if (!Problems && element2.equals(this.junction.getPolicy().rightOfWay(element, element2))) {
 						c = new Proposition(f + "_passesFirst");
 						r1.setConclusion(c);
 						r1.addPremise(b);
@@ -179,53 +179,53 @@ public final class FourWaysJunctionConfig implements Debatable {
 						r2.addPremise(c);
 						r2.addPremise(a);
 						t.add(r2);
-						alreadyConsidered.add(cars.get(j).getName() + "x" + cars.get(i).getName());
+						alreadyConsidered.add(element2.getName() + "x" + element.getName());
 					}
 				}
 			}
 		}
-		return Arrays.asList(new Proposition[] { a, b, c, d, f });
+		return Arrays.asList(a, b, c, d, f);
 	}
 
-	private boolean noConflicts(int i, int j) {
-		return (cars.get(i).getWay().equals(WAY.SOUTH) && cars.get(j).getWay().equals(WAY.NORTH)
-				&& !cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-				&& !cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT))
-				|| (cars.get(i).getWay().equals(WAY.EAST) && cars.get(j).getWay().equals(WAY.WEST)
-						&& !cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-						&& !cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT))
-				|| (cars.get(i).getWay().equals(WAY.NORTH) && cars.get(j).getWay().equals(WAY.SOUTH)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-						&& cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT))
-				|| (cars.get(i).getWay().equals(WAY.EAST) && cars.get(j).getWay().equals(WAY.WEST)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-						&& cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT))
-				|| (cars.get(i).getWay().equals(WAY.NORTH) && cars.get(j).getWay().equals(WAY.EAST)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT))
-				|| (cars.get(i).getWay().equals(WAY.NORTH) && cars.get(j).getWay().equals(WAY.EAST)
-						&& cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT))
-				|| (cars.get(i).getWay().equals(WAY.WEST) && cars.get(j).getWay().equals(WAY.NORTH)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT))
-				|| (cars.get(i).getWay().equals(WAY.WEST) && cars.get(j).getWay().equals(WAY.NORTH)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT))
-				|| (cars.get(i).getWay().equals(WAY.SOUTH) && cars.get(j).getWay().equals(WAY.WEST)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT))
-				|| (cars.get(i).getWay().equals(WAY.SOUTH) && cars.get(j).getWay().equals(WAY.WEST)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT))
-				|| (cars.get(i).getWay().equals(WAY.EAST) && cars.get(j).getWay().equals(WAY.SOUTH)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT))
-				|| (cars.get(i).getWay().equals(WAY.EAST) && cars.get(j).getWay().equals(WAY.SOUTH)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-						&& cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT))
-				|| (cars.get(i).getWay().equals(cars.get(j).getWay()));
+	private boolean noConflicts(final int i, final int j) {
+		return this.cars.get(i).getWay().equals(WAY.SOUTH) && this.cars.get(j).getWay().equals(WAY.NORTH)
+				&& !this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+				&& !this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
+				|| this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.WEST)
+						&& !this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+						&& !this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
+				|| this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.SOUTH)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+						&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
+				|| this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.WEST)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+						&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
+				|| this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.EAST)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+				|| this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.EAST)
+						&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+				|| this.cars.get(i).getWay().equals(WAY.WEST) && this.cars.get(j).getWay().equals(WAY.NORTH)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+				|| this.cars.get(i).getWay().equals(WAY.WEST) && this.cars.get(j).getWay().equals(WAY.NORTH)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+				|| this.cars.get(i).getWay().equals(WAY.SOUTH) && this.cars.get(j).getWay().equals(WAY.WEST)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+				|| this.cars.get(i).getWay().equals(WAY.SOUTH) && this.cars.get(j).getWay().equals(WAY.WEST)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+				|| this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.SOUTH)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+				|| this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.SOUTH)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+				|| this.cars.get(i).getWay().equals(this.cars.get(j).getWay());
 	}
 
 	@Override
 	public String toString() {
-		return String.format("FourWaysJunctionConfig [junction=%s, cars=%s]", junction, cars);
+		return String.format("FourWaysJunctionConfig [junction=%s, cars=%s]", this.junction, this.cars);
 	}
 
 }

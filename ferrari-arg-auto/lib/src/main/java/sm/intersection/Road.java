@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection;
 
@@ -18,7 +18,7 @@ public final class Road {
 	 * @param name
 	 * @param lanes
 	 */
-	public Road(String name, List<DIRECTION> lanes) {
+	public Road(final String name, final List<DIRECTION> lanes) {
 		this.name = name;
 		this.lanes = lanes;
 	}
@@ -27,23 +27,23 @@ public final class Road {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
 	 * @return the lanes
 	 */
 	public List<DIRECTION> getLanes() {
-		return lanes;
+		return this.lanes;
 	}
-	
+
 	public int nLanes() {
-		return lanes.size();
+		return this.lanes.size();
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Road [name=%s, lanes=%s]", name, lanes);
+		return String.format("Road [name=%s, lanes=%s]", this.name, this.lanes);
 	}
 
 }

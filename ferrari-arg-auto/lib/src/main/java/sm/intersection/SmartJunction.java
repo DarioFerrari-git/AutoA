@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection;
 
@@ -14,13 +14,13 @@ public final class SmartJunction {
 
 	private final String name;
 	private final Map<WAY, SmartRoad> roads;
-	private CrossingPolicy policy;
+	private final CrossingPolicy policy;
 
 	/**
 	 * @param name
 	 * @param roads
 	 */
-	public SmartJunction(String name, Map<WAY, SmartRoad> roads, CrossingPolicy policy) {
+	public SmartJunction(final String name, final Map<WAY, SmartRoad> roads, final CrossingPolicy policy) {
 		this.name = name;
 		this.roads = roads;
 		this.policy = policy;
@@ -30,14 +30,14 @@ public final class SmartJunction {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
 	 * @return the roads
 	 */
 	public Map<WAY, SmartRoad> getRoads() {
-		return roads;
+		return this.roads;
 	}
 
 	public int nRoads() {
@@ -54,7 +54,7 @@ public final class SmartJunction {
 
 	@Override
 	public String toString() {
-		return String.format("Junction [name=%s, roads=%s, policy=%s]", name, roads, policy);
+		return String.format("Junction [name=%s, roads=%s, policy=%s]", this.name, this.roads, this.policy);
 	}
 
 }

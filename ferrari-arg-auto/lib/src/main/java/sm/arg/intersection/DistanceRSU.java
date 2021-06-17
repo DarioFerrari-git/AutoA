@@ -27,7 +27,7 @@ public final class DistanceRSU implements RSU<Double>, Debatable {
 	 * @param rsu
 	 * @param distance
 	 */
-	public DistanceRSU(BaseRSU rsu, double distance) {
+	public DistanceRSU(final BaseRSU rsu, final double distance) {
 		this.rsu = rsu;
 		this.distance = distance;
 	}
@@ -35,25 +35,26 @@ public final class DistanceRSU implements RSU<Double>, Debatable {
 	/**
 	 * @return the rsu
 	 */
+	@Override
 	public BaseRSU getRsu() {
-		return rsu;
+		return this.rsu;
 	}
 
 	@SuppressWarnings("unchecked") // there will be nothing but Double here
 	@Override
 	public Double getMeasurement() {
-		return distance;
+		return this.distance;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("PositionRSU [rsu=%s, distance=%s]", rsu, distance);
+		return String.format("PositionRSU [rsu=%s, distance=%s]", this.rsu, this.distance);
 	}
 
 	@Override
 	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) { // TODO threshold as param
 		Proposition a = null;
-		if (rsu.getConfidence() > 0.5) {
+		if (this.rsu.getConfidence() > 0.5) {
 			a = new Proposition("RSU_trustworthy");
 			t.addAxiom(a);
 		} else {

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection;
 

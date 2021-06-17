@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.arg.intersection;
 
@@ -27,7 +27,7 @@ public final class UrgencyPolicy implements CrossingPolicy, Debatable {
 	}
 
 	@Override
-	public CrossingCar rightOfWay(CrossingCar car1, CrossingCar car2) {
+	public CrossingCar rightOfWay(final CrossingCar car1, final CrossingCar car2) {
 		return car1.getCar().getUrgency() > car2.getCar().getUrgency() ? car1 : car2;
 	}
 
@@ -38,13 +38,13 @@ public final class UrgencyPolicy implements CrossingPolicy, Debatable {
 
 	@Override
 	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
-		Proposition a = new Proposition(getName());
+		final Proposition a = new Proposition(this.getName());
 		t.addAxiom(a);
 		return Collections.singletonList(a);
 	}
 
 	@Override
 	public String toString() {
-		return String.format("UrgencyPolicy [policy=%s]", policy);
+		return String.format("UrgencyPolicy [policy=%s]", this.policy);
 	}
 }

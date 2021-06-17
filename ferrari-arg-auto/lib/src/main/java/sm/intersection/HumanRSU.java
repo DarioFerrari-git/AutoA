@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection;
 
@@ -16,7 +16,7 @@ public final class HumanRSU implements RSU<Boolean> {
 	 * @param rsu
 	 * @param human
 	 */
-	public HumanRSU(BaseRSU rsu, boolean human) {
+	public HumanRSU(final BaseRSU rsu, final boolean human) {
 		this.rsu = rsu;
 		this.human = human;
 	}
@@ -24,19 +24,20 @@ public final class HumanRSU implements RSU<Boolean> {
 	/**
 	 * @return the rsu
 	 */
+	@Override
 	public BaseRSU getRsu() {
-		return rsu;
+		return this.rsu;
 	}
 
 	@SuppressWarnings("unchecked") // there will be nothing but Boolean here
 	@Override
 	public Boolean getMeasurement() {
-		return human;
+		return this.human;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("HumanRSU [rsu=%s, human=%s]", rsu, human);
+		return String.format("HumanRSU [rsu=%s, human=%s]", this.rsu, this.human);
 	}
 
 	@Override
