@@ -90,7 +90,7 @@ public final class FourWaysJunctionConfig {
 		return cars;
 	}
 
-	public void Rules(final AspicArgumentationTheory<PlFormula> t) {
+	public void addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
 		Proposition a = null;
 		Proposition b = null;
 		Proposition c = null;
