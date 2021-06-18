@@ -56,7 +56,7 @@ public class Example1 {
 
 		final NumArgsPolicy nap = new NumArgsPolicy("numArgs");
 
-		final BaseRSU rsu = new BaseRSU("RSU", 0.7);
+		final BaseRSU rsu = new BaseRSU("RSU", 0.4);
 		final DistanceRSU drsu = new DistanceRSU(rsu, 20);
 
 		final FourWaysJunctionConfig fourWC = new FourWaysJunctionConfig("1", nap, drsu);
@@ -82,7 +82,7 @@ public class Example1 {
 		final PlParser plparser = new PlParser();
 		final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-		final PlFormula pf = plparser.parseFormula("!PossibleIncident");
+		final PlFormula pf = plparser.parseFormula("Incident");
 		Example1.log.info("{} --> {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
 
 	}

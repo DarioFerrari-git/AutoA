@@ -111,6 +111,8 @@ public final class FourWaysJunctionConfig implements Debatable {
 		Proposition f = null;
 		final ArrayList<String> alreadyConsidered = new ArrayList<>();
 		boolean Problems = false;
+		boolean GlobalIncident=false;
+		final ArrayList<String>CarsInvolvedinCrush=new ArrayList<>();
 		DefeasibleInferenceRule<PlFormula> r1 = new DefeasibleInferenceRule<>();
 		StrictInferenceRule<PlFormula> r2 = new StrictInferenceRule<>();
 		for (int i = 0; i < this.cars.size(); i++) {
@@ -118,7 +120,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 			c = new Proposition(a + "_CorrectlyDetected");
 			d = new Proposition(a + "_WronglyDetected");
 			r1 = new DefeasibleInferenceRule<>();
-			// TODO non riusciamo a utilizzare l'auto-traduzione dentro DistanceRSU? lì dentro c'è già il controllo della soglia...
+			// TODO non riusciamo a utilizzare l'auto-traduzione dentro DistanceRSU? lì dentro c'è già il controllo della soglia... ->Non è possibile in quanto è necessaria una dipendenza con le CrossingCars
 			if (this.junction.getRoads().get(this.cars.get(i).getWay()).getRsus().get(0).getConfidence() < 0.5) {
 				b = new Proposition("RSU_untrustworthy");
 				r1.setConclusion(d);
@@ -148,13 +150,56 @@ public final class FourWaysJunctionConfig implements Debatable {
 						alreadyConsidered.add(this.cars.get(j).getName() + "0" + this.cars.get(i).getName());
 						System.out.println(alreadyConsidered);
 					}
+					else {
+						c = new Proposition(this.junction.getPolicy().getName());
+						r1 = new DefeasibleInferenceRule<>();
+						r2 = new StrictInferenceRule<>();
+					
+						if (!alreadyConsidered.contains(this.cars.get(j).getName() + "0" + this.cars.get(i).getName())
+								&& !alreadyConsidered.contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())
+								&& !this.cars.get(i).equals(this.cars.get(j))
+								&& !alreadyConsidered.contains(this.cars.get(i).getName() + "x" + this.cars.get(j).getName())) {
+							if (Problems) {
+								r1.setConclusion(b);
+								r1.addPremise(a);
+								r1.addPremise(f);
+								t.addRule(r1);
+								alreadyConsidered.add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
+								GlobalIncident=true;
+								CarsInvolvedinCrush.add(this.cars.get(i).getName()+this.cars.get(j).getName());
+							}
+							if (!Problems && this.cars.get(j).equals(this.junction.getPolicy().rightOfWay(this.cars.get(i), this.cars.get(j)))) {
+								d = new Proposition(f + "_passesFirst");
+								r1.setConclusion(d);
+								r1.addPremise(c);
+								r1.addPremise(f);
+								t.add(r1);
+								r2.setConclusion(new Negation(b));
+								r2.addPremise(d);
+								r2.addPremise(a);
+								t.add(r2);
+								alreadyConsidered.add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
+							}
+						}
+					}		
 				}
 			}
 		}
-		// TODO perchè un'altra coppia di iterazioni? non potevamo fare tutto in una?
-		for (final CrossingCar element : this.cars) {
+		a=new Proposition("Incident");
+		if(CarsInvolvedinCrush.size()>0) {
+			r2 = new StrictInferenceRule<>();
+			r2.setConclusion(a);
+		for(int i=0; i<CarsInvolvedinCrush.size();i++) {
+			b=new Proposition("PossibleIncident_"+CarsInvolvedinCrush.get(i));
+			r2.addPremise(b);
+		}
+		t.add(r2);
+		}
+		
+		// TODO perchè un'altra coppia di iterazioni? non potevamo fare tutto in una? Commentata la seconda coppia di iterazioni
+/*		for (final CrossingCar element : this.cars) {
 			a = new Proposition(element.getName());
-			b = new Proposition(this.junction.getPolicy().getName());
+		b = new Proposition(this.junction.getPolicy().getName());
 			for (final CrossingCar element2 : this.cars) {
 				final Proposition e = new Proposition("PossibleIncident_" + element.getName() + element2.getName());
 				r1 = new DefeasibleInferenceRule<>();
@@ -185,7 +230,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 					}
 				}
 			}
-		}
+		}*/
 		return Arrays.asList(a, b, c, d, f);
 	}
 
@@ -225,6 +270,46 @@ public final class FourWaysJunctionConfig implements Debatable {
 				|| this.cars.get(i).getWay().equals(this.cars.get(j).getWay());
 	}
 
+	private boolean noConflicts2(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima DIRECTION e poi WAY?
+	return this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)&&this.cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)&&
+			  this.cars.get(i).getWay().equals(WAY.WEST)&&!this.cars.get(j).getWay().equals(WAY.NORTH)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)&&
+			  this.cars.get(i).getWay().equals(WAY.NORTH)&&!this.cars.get(j).getWay().equals(WAY.EAST)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)&&
+			  this.cars.get(i).getWay().equals(WAY.EAST)&&!this.cars.get(j).getWay().equals(WAY.SOUTH)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)&&
+			  this.cars.get(i).getWay().equals(WAY.SOUTH)&&!this.cars.get(j).getWay().equals(WAY.WEST)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)&&
+			  this.cars.get(i).getWay().equals(WAY.SOUTH)&&!this.cars.get(j).getWay().equals(WAY.NORTH)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)&&
+			  this.cars.get(i).getWay().equals(WAY.NORTH)&&!this.cars.get(j).getWay().equals(WAY.SOUTH)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)&&
+			  this.cars.get(i).getWay().equals(WAY.WEST)&&!this.cars.get(j).getWay().equals(WAY.EAST)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)&&
+			  this.cars.get(i).getWay().equals(WAY.EAST)&&!this.cars.get(j).getWay().equals(WAY.WEST)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)&&
+			  this.cars.get(i).getWay().equals(WAY.EAST)&&this.cars.get(j).getWay().equals(WAY.WEST)
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)&&
+			  this.cars.get(i).getWay().equals(WAY.NORTH)&&this.cars.get(j).getWay().equals(WAY.SOUTH)  
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.STRAIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)&&
+			  this.cars.get(i).getWay().equals(WAY.EAST)&&this.cars.get(j).getWay().equals(WAY.WEST)  
+			||this.cars.get(i).getRoutes().get(0).contains(DIRECTION.STRAIGHT)&&
+			  this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)&&
+			  this.cars.get(i).getWay().equals(WAY.NORTH)&&this.cars.get(j).getWay().equals(WAY.SOUTH);
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("FourWaysJunctionConfig [junction=%s, cars=%s]", this.junction, this.cars);
