@@ -3,8 +3,6 @@
  */
 package sm.intersection.sim;
 
-import static org.junit.Assert.fail;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +47,9 @@ public class SimulationTest {
 	 */
 	@Test
 	public final void testStep() {
-		
+		this.simulation.logSituation();
+		this.simulation.step();
+		this.simulation.logSituation();
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class SimulationTest {
 	 */
 	@Test
 	public final void testGo() {
-		
+
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class SimulationTest {
 	 */
 	@Test
 	public final void testPause() {
-		
+
 	}
 
 	/**
