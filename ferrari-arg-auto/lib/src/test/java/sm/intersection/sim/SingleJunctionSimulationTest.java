@@ -3,6 +3,11 @@
  */
 package sm.intersection.sim;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Collections;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +17,7 @@ import sm.arg.intersection.FourWaysJunctionConfig;
 import sm.arg.intersection.NumArgsPolicy;
 import sm.intersection.BaseRSU;
 import sm.intersection.Car;
+import sm.intersection.DIRECTION;
 import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
 
@@ -30,7 +36,9 @@ public class SingleJunctionSimulationTest {
 	public void setUp() throws Exception {
 		FourWaysJunctionConfig config = new FourWaysJunctionConfig("junction1", new NumArgsPolicy("numArgsPolicy1"),
 				new DistanceRSU(new BaseRSU("distance1", 1), 100));
-		config.addCar(new UrgentCar(new Car("car1", 50), 0), WAY.NORTH.toString());
+		UrgentCar car = new UrgentCar(new Car("car1", 50), 0);
+		car.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
+		config.addCar(car, WAY.NORTH.toString());
 		this.simulation = new SingleJunctionSimulation(config.getJunction(), config.getCars());
 	}
 
@@ -47,7 +55,7 @@ public class SingleJunctionSimulationTest {
 	 */
 	@Test
 	public final void testStep() {
-		this.simulation.step(true);
+		this.simulation.step(true, 1);
 	}
 
 	/**
@@ -63,7 +71,28 @@ public class SingleJunctionSimulationTest {
 	 */
 	@Test
 	public final void testPause() {
-
+		assertFalse(this.simulation.isGoing());
+		this.simulation.pause();
+		assertFalse(this.simulation.isGoing());
+		this.simulation.step(true, 1);
+		assertFalse(this.simulation.isGoing());
+		this.simulation.pause();
+		assertFalse(this.simulation.isGoing());
+		this.simulation.step(true, 2);
+		assertFalse(this.simulation.isGoing());
+		this.simulation.pause();
+		assertFalse(this.simulation.isGoing());
+		this.simulation.go(true);
+		assertTrue(this.simulation.isGoing());
+		this.simulation.go(true);
+		assertTrue(this.simulation.isGoing());
+		this.simulation.step(true, 1);
+		assertTrue(this.simulation.isGoing());
+		this.simulation.pause();
+		assertFalse(this.simulation.isGoing());
+		this.simulation.step(true, 1);
+		assertFalse(this.simulation.isGoing());
+		this.simulation.step(true, 0);
 	}
 
 	/**
