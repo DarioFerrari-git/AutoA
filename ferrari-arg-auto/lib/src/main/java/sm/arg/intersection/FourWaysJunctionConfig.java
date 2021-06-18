@@ -148,7 +148,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 						r2.addPremise(f);
 						t.addRule(r2);
 						alreadyConsidered.add(this.cars.get(j).getName() + "0" + this.cars.get(i).getName());
-						System.out.println(alreadyConsidered);
+						log.debug(alreadyConsidered.toString());
 					}
 					else {
 						c = new Proposition(this.junction.getPolicy().getName());

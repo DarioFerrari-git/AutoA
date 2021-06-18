@@ -33,25 +33,25 @@ public class Example1 {
 	public static void main(final String[] args) throws ParserException, IOException {
 		final List<Proposition> p = new ArrayList<>();
 
-		List<DIRECTION> dir = new ArrayList<>();
-		dir.add(DIRECTION.LEFT);
+		List<DIRECTION> route = new ArrayList<>();
+		route.add(DIRECTION.LEFT);
 		final Car N = new Car("N", 50);
-		N.addRoute(dir);
+		N.addRoute(route);
 		final UrgentCar U_N = new UrgentCar(N, 0.7);
 
-		dir = new ArrayList<>();
-		dir.add(DIRECTION.STRAIGHT);
+		route = new ArrayList<>();
+		route.add(DIRECTION.STRAIGHT);
 		final Car R = new Car("R", 52);
-		R.addRoute(dir);
-		dir = new ArrayList<>();
-		dir.add(DIRECTION.RIGHT);
-		R.addRoute(dir);
+		R.addRoute(route);
+		route = new ArrayList<>();
+		route.add(DIRECTION.RIGHT);
+		R.addRoute(route);
 		final UrgentCar U_R = new UrgentCar(R, 0.6);
 
-		dir = new ArrayList<>();
-		dir.add(DIRECTION.STRAIGHT);
+		route = new ArrayList<>();
+		route.add(DIRECTION.STRAIGHT);
 		final Car A = new Car("A", 55);
-		A.addRoute(dir);
+		A.addRoute(route);
 		final UrgentCar U_A = new UrgentCar(A, 0.5);
 
 		final NumArgsPolicy nap = new NumArgsPolicy("numArgs");
