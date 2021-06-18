@@ -21,23 +21,22 @@ import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
 
-
 public class Aspic {
-	public static void main(String[] args) throws ParserException, IOException {
-		Proposition a = new Proposition("a");
-		Proposition b = new Proposition("b");
-		Proposition c = new Proposition("c");
-		Proposition d = new Proposition("d");
-		Proposition e = new Proposition("e");
-		Proposition f = new Proposition("f");
-		Proposition g = new Proposition("g");
+	public static void main(final String[] args) throws ParserException, IOException {
+		final Proposition a = new Proposition("a");
+		final Proposition b = new Proposition("b");
+		final Proposition c = new Proposition("c");
+		final Proposition d = new Proposition("d");
+		final Proposition e = new Proposition("e");
+		final Proposition f = new Proposition("f");
+		final Proposition g = new Proposition("g");
 
-		PlParser plparser = new PlParser();
-		AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
+		final PlParser plparser = new PlParser();
+		final AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
 		t.setRuleFormulaGenerator(new PlFormulaGenerator());
-		SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<PlFormula>(
+		final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-		PlFormula pf = (PlFormula) plparser.parseFormula("f");
+		final PlFormula pf = plparser.parseFormula("f");
 
 		DefeasibleInferenceRule<PlFormula> r1 = new DefeasibleInferenceRule<>();
 		r1.setConclusion(a);
@@ -67,12 +66,12 @@ public class Aspic {
 
 		t.addOrdinaryPremise(d);
 
-		StrictInferenceRule<PlFormula> r3 = new StrictInferenceRule<>();	
+		final StrictInferenceRule<PlFormula> r3 = new StrictInferenceRule<>();
 		r3.setConclusion(new Negation(g));
 		r3.addPremise(f);
 		t.addRule(r3);
 
-		DefeasibleInferenceRule<PlFormula> r4 = new DefeasibleInferenceRule<>();
+		final DefeasibleInferenceRule<PlFormula> r4 = new DefeasibleInferenceRule<>();
 		r4.setConclusion(new Negation(f));
 		r4.addPremise(g);
 		t.addRule(r4);
@@ -86,28 +85,30 @@ public class Aspic {
 
 		System.out.println();
 
-		AbstractExtensionReasoner reasoner = new SimpleGroundedReasoner();
+		final AbstractExtensionReasoner reasoner = new SimpleGroundedReasoner();
 
-		DungTheory aaf = t.asDungTheory();
+		final DungTheory aaf = t.asDungTheory();
 		System.out.println(reasoner.getModel(aaf));
 		System.out.println();
 
-		for (Argument arg : aaf)
+		for (final Argument arg : aaf) {
 			System.out.println(arg);
+		}
 
 		System.out.println();
 
-		for (Attack att : aaf.getAttacks())
+		for (final Attack att : aaf.getAttacks()) {
 			System.out.println(att);
+		}
 
 		System.out.println();
 
-		RandomAspicArgumentationTheoryGenerator gen = new RandomAspicArgumentationTheoryGenerator(10, 30, 2, 0.3);
-		Proposition p = new Proposition("A0");
-		AspicArgumentationTheory<PlFormula> t2 = gen.next();
+		final RandomAspicArgumentationTheoryGenerator gen = new RandomAspicArgumentationTheoryGenerator(10, 30, 2, 0.3);
+		final Proposition p = new Proposition("A0");
+		final AspicArgumentationTheory<PlFormula> t2 = gen.next();
 		System.out.println(t2);
 
-		SimpleAspicReasoner<PlFormula> r9 = new SimpleAspicReasoner<>(new SimpleGroundedReasoner());
+		final SimpleAspicReasoner<PlFormula> r9 = new SimpleAspicReasoner<>(new SimpleGroundedReasoner());
 		System.out.println(p + "\t" + r9.query(t2, p, InferenceMode.CREDULOUS));
 
 	}
