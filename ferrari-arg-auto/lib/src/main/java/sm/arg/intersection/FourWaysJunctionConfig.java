@@ -224,7 +224,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 		return Arrays.asList(a, b, c, d, f);
 	}
 
-	private boolean noConflicts(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima
+	private boolean noConflicts2(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima
 															// DIRECTION e poi WAY?
 		return this.cars.get(i).getWay().equals(WAY.SOUTH) && this.cars.get(j).getWay().equals(WAY.NORTH)
 				&& !this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
@@ -261,7 +261,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 				|| this.cars.get(i).getWay().equals(this.cars.get(j).getWay());
 	}
 
-	private boolean noConflicts2(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima
+	private boolean noConflicts(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima
 																// DIRECTION e poi WAY?
 		return this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
 				&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
