@@ -1,7 +1,7 @@
 /**
  * 
  */
-package sm.arg.intersection;
+package sm.intersection;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sm.arg.intersection.DistanceRSU;
 import sm.intersection.BaseRSU;
 import sm.intersection.HumanRSU;
 import sm.intersection.RSU;

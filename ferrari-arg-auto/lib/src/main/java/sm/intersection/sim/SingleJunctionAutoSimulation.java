@@ -5,6 +5,9 @@ package sm.intersection.sim;
 
 import java.util.Collections;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sm.intersection.SmartJunction;
 
 /**
@@ -12,7 +15,8 @@ import sm.intersection.SmartJunction;
  *
  */
 public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation {
-
+	
+	private final Logger log = LoggerFactory.getLogger(SingleJunctionAutoSimulation.class);
 //	private final SingleJunctionSimulation sim;
 	private final double vXs;
 	private final long maxSteps;
@@ -36,7 +40,12 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 
 	@Override
 	public void go(Boolean log) {
-		super.go(log); // TODO check which go() is called: this, or superclass
+		if (super.getSteps() < this.maxSteps) {
+			super.go(log); // TODO check which go() is called: this, or superclass
+		} else {
+			this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
+			super.pause();
+		}
 	}
 
 }

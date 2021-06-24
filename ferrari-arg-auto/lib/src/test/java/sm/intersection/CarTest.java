@@ -1,7 +1,7 @@
 /**
  * 
  */
-package sm.arg.intersection;
+package sm.intersection;
 
 import static org.junit.Assert.*;
 

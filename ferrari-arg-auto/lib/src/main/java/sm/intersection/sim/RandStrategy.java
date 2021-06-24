@@ -3,6 +3,7 @@
  */
 package sm.intersection.sim;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import sm.arg.intersection.CrossingCar;
 import sm.arg.intersection.DistanceRSU;
 import sm.intersection.Car;
+import sm.intersection.DIRECTION;
 import sm.intersection.RSU;
 import sm.intersection.STATUS;
 import sm.intersection.SmartJunction;
@@ -56,19 +58,39 @@ public final class RandStrategy implements VehiclesGenStrategy {
 					this.log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
 							this.junction.getRoads().get(way).getRsus());
 					d = Double.NaN;
-					// throw new NoSuitableRSUException("No RSU instanceof DistanceRSU and
-					// assignable from Double found", this.junction.getRoads().get(way).getRsus());
 				}
 			}
 			this.nCars++;
-			return new CrossingCar(
-					new UrgentCar(new Car(String.format("%s_%d", way, this.nCars), this.random.nextDouble() * 50), // TODO make speed range configurable
-							this.random.nextDouble()),
-					way, STATUS.APPROACHING, d);
+			UrgentCar car = new UrgentCar(
+					new Car(String.format("%s_%d", way, this.nCars), this.random.nextDouble() * 50),  // TODO make speed range configurable
+					this.random.nextDouble()); // TODO make priority range configurable
+			car.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
+			return new CrossingCar(car, way, STATUS.APPROACHING, d);
 		} else {
 			this.log.warn("REFERENCE JUNCTION NOT YET CONFIGURED");
 			return null;
 		}
+	}
+
+	/**
+	 * @return the junction
+	 */
+	public SmartJunction getJunction() {
+		return junction;
+	}
+
+	/**
+	 * @return the setup
+	 */
+	public boolean isSetup() {
+		return setup;
+	}
+
+	/**
+	 * @return the nCars
+	 */
+	public long getnCars() {
+		return nCars;
 	}
 
 }

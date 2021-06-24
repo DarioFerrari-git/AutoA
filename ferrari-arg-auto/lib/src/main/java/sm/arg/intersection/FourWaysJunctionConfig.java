@@ -227,70 +227,11 @@ public final class FourWaysJunctionConfig implements Debatable {
 			t.add(r2);
 		}
 
-		// TODO perchè un'altra coppia di iterazioni? non potevamo fare tutto in una?
-		// Commentata la seconda coppia di iterazioni
-		/*
-		 * for (final CrossingCar element : this.cars) { a = new
-		 * Proposition(element.getName()); b = new
-		 * Proposition(this.junction.getPolicy().getName()); for (final CrossingCar
-		 * element2 : this.cars) { final Proposition e = new
-		 * Proposition("PossibleIncident_" + element.getName() + element2.getName()); r1
-		 * = new DefeasibleInferenceRule<>(); r2 = new StrictInferenceRule<>(); f = new
-		 * Proposition(element2.getName()); if
-		 * (!alreadyConsidered.contains(element2.getName() + "0" + element.getName()) &&
-		 * !alreadyConsidered.contains(element.getName() + "0" + element2.getName()) &&
-		 * !element.equals(element2) && !alreadyConsidered.contains(element.getName() +
-		 * "x" + element2.getName())) { if (Problems) { r1.setConclusion(e);
-		 * r1.addPremise(a); r1.addPremise(f); t.addRule(r1);
-		 * alreadyConsidered.add(element2.getName() + "x" + element.getName()); } if
-		 * (!Problems && element2.equals(this.junction.getPolicy().rightOfWay(element,
-		 * element2))) { c = new Proposition(f + "_passesFirst"); r1.setConclusion(c);
-		 * r1.addPremise(b); r1.addPremise(f); t.add(r1); r2.setConclusion(new
-		 * Negation(e)); r2.addPremise(c); r2.addPremise(a); t.add(r2);
-		 * alreadyConsidered.add(element2.getName() + "x" + element.getName()); } } } }
-		 */
 		return Arrays.asList(a, b, c, d, f);
 	}
 
-	private boolean noConflicts2(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima
-															// DIRECTION e poi WAY?
-		return this.cars.get(i).getWay().equals(WAY.SOUTH) && this.cars.get(j).getWay().equals(WAY.NORTH)
-				&& !this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-				&& !this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
-				|| this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.WEST)
-						&& !this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-						&& !this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
-				|| this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.SOUTH)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-						&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
-				|| this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.WEST)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-						&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
-				|| this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.EAST)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-				|| this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.EAST)
-						&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-				|| this.cars.get(i).getWay().equals(WAY.WEST) && this.cars.get(j).getWay().equals(WAY.NORTH)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-				|| this.cars.get(i).getWay().equals(WAY.WEST) && this.cars.get(j).getWay().equals(WAY.NORTH)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-				|| this.cars.get(i).getWay().equals(WAY.SOUTH) && this.cars.get(j).getWay().equals(WAY.WEST)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-				|| this.cars.get(i).getWay().equals(WAY.SOUTH) && this.cars.get(j).getWay().equals(WAY.WEST)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-				|| this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.SOUTH)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-				|| this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.SOUTH)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-						&& this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
-				|| this.cars.get(i).getWay().equals(this.cars.get(j).getWay());
-	}
-
 	private boolean noConflicts(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima
-																// DIRECTION e poi WAY?
+																// DIRECTION e poi WAY? così no, in altro modo?
 		return this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
 				&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
 				|| this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
