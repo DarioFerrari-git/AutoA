@@ -14,11 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sm.arg.intersection.DistanceRSU;
-import sm.intersection.BaseRSU;
-import sm.intersection.HumanRSU;
-import sm.intersection.RSU;
-import sm.intersection.Road;
-import sm.intersection.SmartRoad;
 
 /**
  * @author sm

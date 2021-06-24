@@ -37,7 +37,7 @@ public class SingleJunctionSimulation {
 
 	public void step(final Boolean log /*, final long steps*/) {
 		if (!this.going) {
-			for (int s = 0; s < steps; s++) {
+//			for (int s = 0; s < steps; s++) {
 				this.steps++;
 				final List<CrossingCar> toRemove = new ArrayList<>();
 				for (final CrossingCar car : this.cars) {
@@ -61,7 +61,7 @@ public class SingleJunctionSimulation {
 				if (log) {
 					this.logSituation();
 				}
-			}
+//			}
 		} else {
 			this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
 		}

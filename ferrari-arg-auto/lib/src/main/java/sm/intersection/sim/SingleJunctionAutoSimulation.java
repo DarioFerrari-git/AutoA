@@ -3,7 +3,7 @@
  */
 package sm.intersection.sim;
 
-import java.util.Collections;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import sm.intersection.SmartJunction;
  *
  */
 public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation {
-	
+
 	private final Logger log = LoggerFactory.getLogger(SingleJunctionAutoSimulation.class);
 //	private final SingleJunctionSimulation sim;
 	private final double vXs;
@@ -24,7 +24,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 
 	public SingleJunctionAutoSimulation(final SmartJunction junction, double vehiclesPerSecond, long maxSteps,
 			final VehiclesGenStrategy strategy) {
-		super(junction, Collections.emptyList());
+		super(junction, new ArrayList<>());
 		this.vXs = vehiclesPerSecond;
 		this.maxSteps = maxSteps;
 		this.gen = strategy;
@@ -40,11 +40,15 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 
 	@Override
 	public void go(Boolean log) {
-		if (super.getSteps() < this.maxSteps) {
-			super.go(log); // TODO check which go() is called: this, or superclass
-		} else {
+		this.step(log); // to avoid premature termination of super.go() due to cars being empty
+		while (super.getSteps() < this.maxSteps && !super.getCars().isEmpty()) {
+			this.step(log);
+//			super.go(log); // TODO check which step() is called therein: this, or superclass
+		}
+		if (super.getSteps() >= this.maxSteps) {
 			this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
-			super.pause();
+		} else {
+			this.log.warn("ALL CARS SERVED");
 		}
 	}
 
