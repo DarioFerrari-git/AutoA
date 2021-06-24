@@ -18,7 +18,7 @@ import sm.intersection.WAY;
  * @author sm
  *
  */
-public final class SingleJunctionSimulation {
+public class SingleJunctionSimulation {
 
 	private final Logger log = LoggerFactory.getLogger(SingleJunctionSimulation.class);
 	private final SmartJunction junction;
@@ -34,8 +34,8 @@ public final class SingleJunctionSimulation {
 		this.steps = 0;
 		this.going = false;
 	}
-	
-	public void step(final Boolean log, final long steps) {
+
+	public void step(final Boolean log /*, final long steps*/) {
 		if (!this.going) {
 			for (int s = 0; s < steps; s++) {
 				this.steps++;
@@ -70,7 +70,7 @@ public final class SingleJunctionSimulation {
 	public void go(final Boolean log) {
 		if (!going) {
 			while (!this.cars.isEmpty()) {
-				this.step(log, 1, true);
+				this.step(log, /*1,*/ true);
 			}
 		} else {
 			this.log.warn("SIMULATION ALREADY GOING");
@@ -111,15 +111,48 @@ public final class SingleJunctionSimulation {
 		}
 		this.log.info("<-----[step {}] END----- Logging simulation situation", this.steps);
 	}
-	
+
 	public boolean isGoing() {
 		return this.going;
 	}
+
+	/**
+	 * @return the junction
+	 */
+	public SmartJunction getJunction() {
+		return junction;
+	}
+
+	/**
+	 * @return the cars
+	 */
+	public List<CrossingCar> getCars() {
+		return cars;
+	}
 	
-	private void step(final Boolean log, final long steps, final Boolean bypass) {
+	public SingleJunctionSimulation addCar(CrossingCar car) {
+		this.cars.add(car);
+		return this;
+	}
+
+	/**
+	 * @return the step
+	 */
+	public double getStep() {
+		return step;
+	}
+
+	/**
+	 * @return the steps
+	 */
+	public long getSteps() {
+		return steps;
+	}
+
+	private void step(final Boolean log, /*final long steps,*/ final Boolean bypass) {
 		if (bypass) {
 			this.going = false;
-			this.step(log, steps);
+			this.step(log/*, steps*/);
 			this.going = true;
 		}
 	}

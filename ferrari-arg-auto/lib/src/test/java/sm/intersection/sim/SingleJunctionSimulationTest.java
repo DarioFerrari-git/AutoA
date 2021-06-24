@@ -55,7 +55,7 @@ public class SingleJunctionSimulationTest {
 	 */
 	@Test
 	public final void testStep() {
-		this.simulation.step(true, 1);
+		this.simulation.step(true/*, 1*/);
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class SingleJunctionSimulationTest {
 		assertFalse(this.simulation.isGoing());
 		this.simulation.pause();
 		assertFalse(this.simulation.isGoing());
-		this.simulation.step(true, 1);
+		this.simulation.step(true/*, 1*/);
 		assertFalse(this.simulation.isGoing());
 		this.simulation.pause();
 		assertFalse(this.simulation.isGoing());
-		this.simulation.step(true, 2);
+		this.simulation.step(true/*, 2*/);
 		assertFalse(this.simulation.isGoing());
 		this.simulation.pause();
 		assertFalse(this.simulation.isGoing());
@@ -86,13 +86,13 @@ public class SingleJunctionSimulationTest {
 		assertTrue(this.simulation.isGoing());
 		this.simulation.go(true);
 		assertTrue(this.simulation.isGoing());
-		this.simulation.step(true, 1);
+		this.simulation.step(true/*, 1*/);
 		assertTrue(this.simulation.isGoing());
 		this.simulation.pause();
 		assertFalse(this.simulation.isGoing());
-		this.simulation.step(true, 1);
+		this.simulation.step(true/*, 1*/);
 		assertFalse(this.simulation.isGoing());
-		this.simulation.step(true, 0);
+		this.simulation.step(true/*, 0*/);
 	}
 
 	/**
