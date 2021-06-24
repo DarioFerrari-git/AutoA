@@ -87,6 +87,34 @@ public final class FourWaysJunctionConfig implements Debatable {
 		}
 		return this;
 	}
+	
+	/**
+	 * way must exist in junction
+	 *
+	 * @param car
+	 * @param way
+	 * @return
+	 * @throws NoSuitableRSUException
+	 */
+	public FourWaysJunctionConfig addCar(final UrgentCar car, final WAY way) {
+		Double d = null;
+		for (final WAY w : this.junction.getRoads().keySet()) {
+			if (w.equals(way) && this.junction.getRoads().get(w) != null) {
+				for (final RSU<?> rsu : this.junction.getRoads().get(w).getRsus()) {
+					if (rsu instanceof DistanceRSU && rsu.getType().isAssignableFrom(Double.class)) {
+						d = rsu.getMeasurement();
+					} else {
+						this.log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
+								this.junction.getRoads().get(w).getRsus());
+						d = Double.NaN;
+//						throw new NoSuitableRSUException("No RSU instanceof DistanceRSU and assignable from Double found", this.junction.getRoads().get(way).getRsus());
+					}
+				}
+				this.cars.add(new CrossingCar(car, w, STATUS.APPROACHING, d));
+			}
+		}
+		return this;
+	}
 
 	/**
 	 * @return the junction
