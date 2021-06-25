@@ -19,21 +19,25 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 	private final Logger log = LoggerFactory.getLogger(SingleJunctionAutoSimulation.class);
 //	private final SingleJunctionSimulation sim;
 	private final double vXs;
+	private final long genSteps;
 	private final long maxSteps;
 	private final VehiclesGenStrategy gen;
 
-	public SingleJunctionAutoSimulation(final SmartJunction junction, double vehiclesPerSecond, long maxSteps,
-			final VehiclesGenStrategy strategy) {
+	public SingleJunctionAutoSimulation(final SmartJunction junction, int vehiclesPerSecond, long genSteps,
+			long maxSteps, final VehiclesGenStrategy strategy) {
 		super(junction, new ArrayList<>());
 		this.vXs = vehiclesPerSecond;
+		this.genSteps = genSteps;
 		this.maxSteps = maxSteps;
 		this.gen = strategy;
 	}
 
 	@Override
 	public void step(Boolean log) {
-		for (int i = 0; i < this.vXs; i++) {
-			this.addCar(gen.newCar());
+		if (super.getSteps() < this.genSteps) {
+			for (int i = 0; i < this.vXs; i++) {
+				this.addCar(gen.newCar());
+			}
 		}
 		super.step(log);
 	}
@@ -43,7 +47,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 		this.step(log); // to avoid premature termination of super.go() due to cars being empty
 		while (super.getSteps() < this.maxSteps && !super.getCars().isEmpty()) {
 			this.step(log);
-//			super.go(log); // TODO check which step() is called therein: this, or superclass
+//			super.go(log); // check which step() is called therein: this, or superclass
 		}
 		if (super.getSteps() >= this.maxSteps) {
 			this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);

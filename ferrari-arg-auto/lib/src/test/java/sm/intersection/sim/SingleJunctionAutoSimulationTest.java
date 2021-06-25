@@ -18,7 +18,8 @@ import sm.intersection.BaseRSU;
  */
 public class SingleJunctionAutoSimulationTest {
 	
-	private SingleJunctionAutoSimulation sim;
+	private SingleJunctionAutoSimulation sim1;
+	private SingleJunctionAutoSimulation sim2;
 
 	/**
 	 * @throws java.lang.Exception
@@ -29,7 +30,8 @@ public class SingleJunctionAutoSimulationTest {
 				new DistanceRSU(new BaseRSU("distance1", 1), 100));
 		VehiclesGenStrategy strat = new RandStrategy();
 		strat.configJunction(config.getJunction());
-		this.sim = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, strat);
+		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 10, strat);
+		this.sim2 = new SingleJunctionAutoSimulation(config.getJunction(), 3, 3, 10, strat);
 	}
 
 	/**
@@ -37,7 +39,8 @@ public class SingleJunctionAutoSimulationTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		this.sim = null;
+		this.sim1 = null;
+		this.sim2 = null;
 	}
 
 	/**F
@@ -45,7 +48,8 @@ public class SingleJunctionAutoSimulationTest {
 	 */
 	@Test
 	public final void testStep() {
-		this.sim.step(true);
+		this.sim1.step(true);
+		this.sim2.step(true);
 	}
 
 	/**
@@ -53,7 +57,8 @@ public class SingleJunctionAutoSimulationTest {
 	 */
 	@Test
 	public final void testGo() {
-		this.sim.go(true);
+		this.sim1.go(true);
+		this.sim2.go(true);
 	}
 
 }
