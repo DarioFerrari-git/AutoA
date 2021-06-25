@@ -24,6 +24,7 @@ import sm.arg.intersection.NumArgsPolicy;
 import sm.intersection.BaseRSU;
 import sm.intersection.Car;
 import sm.intersection.DIRECTION;
+import sm.intersection.JunctionMap;
 import sm.intersection.UrgentCar;
 
 public class Example1 {
@@ -79,6 +80,19 @@ public class Example1 {
 		fourWC.addAsArgTheory(t);
 		Example1.log.info(t.toString());
 
+		
+
+		FourWaysJunctionConfig[][] mp=new FourWaysJunctionConfig[2][2];
+	
+		JunctionMap m= new JunctionMap(2,2,mp);
+		m.setJunction(0, 0, fourWC);
+		m.setJunction(1, 1, fourWC);
+		System.out.println(m.toString());
+		
+	
+		
+		
+		
 		final PlParser plparser = new PlParser();
 		final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
