@@ -22,7 +22,6 @@ import sm.arg.intersection.CrossingCar;
 import sm.arg.intersection.DistanceRSU;
 import sm.arg.intersection.FourWaysJunctionConfig;
 import sm.arg.intersection.NumArgsPolicy;
-import sm.arg.intersection.UrgencyPolicy;
 import sm.intersection.BaseRSU;
 import sm.intersection.Car;
 import sm.intersection.DIRECTION;
@@ -56,9 +55,8 @@ public class ExampleCorrectlyDetection1 {
 		C.addRoute(route);
 		final UrgentCar U_C = new UrgentCar(C, 0.75);
 
-		
 		final NumArgsPolicy nap = new NumArgsPolicy("numArgs");
-		
+
 		final BaseRSU rsu = new BaseRSU("RSU", 0.7);
 		final DistanceRSU drsu = new DistanceRSU(rsu, 20);
 
@@ -89,5 +87,5 @@ public class ExampleCorrectlyDetection1 {
 		ExampleCorrectlyDetection1.log.info("{} --> {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
 
 	}
- 
+
 }

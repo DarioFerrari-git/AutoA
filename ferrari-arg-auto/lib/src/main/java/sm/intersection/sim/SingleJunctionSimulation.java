@@ -3,15 +3,29 @@
  */
 package sm.intersection.sim;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tweetyproject.arg.aspic.reasoner.SimpleAspicReasoner;
+import org.tweetyproject.arg.aspic.ruleformulagenerator.PlFormulaGenerator;
+import org.tweetyproject.arg.aspic.syntax.AspicArgumentationTheory;
+import org.tweetyproject.arg.dung.reasoner.AbstractExtensionReasoner;
+import org.tweetyproject.arg.dung.semantics.Semantics;
+import org.tweetyproject.commons.ParserException;
+import org.tweetyproject.logics.pl.parser.PlParser;
+import org.tweetyproject.logics.pl.syntax.PlFormula;
+import org.tweetyproject.logics.pl.syntax.Proposition;
 
+import sm.arg.general.Debatable;
 import sm.arg.intersection.CrossingCar;
+import sm.arg.intersection.FourWaysJunctionConfig;
+import sm.intersection.RSU;
 import sm.intersection.STATUS;
 import sm.intersection.SmartJunction;
+import sm.intersection.SmartRoad;
 import sm.intersection.WAY;
 
 /**
@@ -35,42 +49,91 @@ public class SingleJunctionSimulation {
 		this.going = false;
 	}
 
-	public void step(final Boolean log /*, final long steps*/) {
+	public void step(final Boolean log /* , final long steps */) {
 		if (!this.going) {
 //			for (int s = 0; s < steps; s++) {
-				this.steps++;
-				final List<CrossingCar> toRemove = new ArrayList<>();
-				for (final CrossingCar car : this.cars) {
-					switch (car.getState()) {
-					case APPROACHING:
-						car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
-						break;
-					case SERVED:
-						this.log.warn("SHOULDN'T HAPPEN");
-						break;
-					default:
-						throw new IllegalArgumentException("Unexpected value: " + car.getState());
+			this.steps++;
+			final List<CrossingCar> toRemove = new ArrayList<>();
+			for (final CrossingCar car : this.cars) {
+				switch (car.getState()) {
+				case APPROACHING:
+					car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
+
+					try {
+						assignRightOfWay(); // TODO complete and tests
+					} catch (ParserException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					if (car.getDistance() <= 0) { // TODO junction approximated as point in space
-						car.setState(STATUS.SERVED);
-						this.log.info("<{}> {}, removing from simulation", car.getName(), car.getState());
-						toRemove.add(car);
-					}
+
+					break;
+				case SERVED:
+					this.log.warn("SHOULDN'T HAPPEN");
+					break;
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + car.getState());
 				}
-				this.cars.removeAll(toRemove);
-				if (log) {
-					this.logSituation();
+				if (car.getDistance() <= 0) { // TODO junction approximated as point in space
+					car.setState(STATUS.SERVED);
+					this.log.info("<{}> {}, removing from simulation", car.getName(), car.getState());
+					toRemove.add(car);
 				}
+			}
+			this.cars.removeAll(toRemove);
+			if (log) {
+				this.logSituation();
+			}
 //			}
 		} else {
 			this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
 		}
 	}
 
+	private void assignRightOfWay() throws ParserException, IOException {
+		/*
+		 * create ASPIC+ theory
+		 */
+		final List<Proposition> p = new ArrayList<>(); // TODO p non viene mai letto però....a cosa serve dunque?
+		final AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
+		t.setRuleFormulaGenerator(new PlFormulaGenerator());
+		((Debatable) this.junction.getPolicy()).addAsArgTheory(t); // TODO check if redesign can avoid casts
+		for (SmartRoad road : this.junction.getRoads().values()) {
+			for (RSU<?> rsu : road.getRsus()) {
+				if (rsu.getType().isAssignableFrom(Debatable.class)) {
+					final Proposition b = ((Debatable) rsu).addAsArgTheory(t).get(0);
+					p.add(b);
+				}
+			}
+		}
+		Proposition a = null;
+		for (final CrossingCar element : this.cars) {
+			a = element.addAsArgTheory(t).get(0);
+			p.add(a);
+		}
+		final FourWaysJunctionConfig config = new FourWaysJunctionConfig(this.junction, this.cars); // TODO valido solo
+																									// per una junction
+																									// di quel tipo
+		config.addAsArgTheory(t);
+		/*
+		 * query ASPIC+ theory
+		 */
+		final PlParser plparser = new PlParser();
+		final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
+				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
+		final PlFormula pf = plparser.parseFormula("Incident");
+		/*
+		 * TODO cambiare stato veicoli (vedi classe {@link sm.intersection.STATUS}) a
+		 * seconda della situazione
+		 */
+	}
+
 	public void go(final Boolean log) {
 		if (!going) {
 			while (!this.cars.isEmpty()) {
-				this.step(log, /*1,*/ true);
+				this.step(log, /* 1, */ true);
 			}
 		} else {
 			this.log.warn("SIMULATION ALREADY GOING");
@@ -129,7 +192,7 @@ public class SingleJunctionSimulation {
 	public List<CrossingCar> getCars() {
 		return cars;
 	}
-	
+
 	public SingleJunctionSimulation addCar(CrossingCar car) {
 		this.cars.add(car);
 		return this;
@@ -149,10 +212,10 @@ public class SingleJunctionSimulation {
 		return steps;
 	}
 
-	private void step(final Boolean log, /*final long steps,*/ final Boolean bypass) {
+	private void step(final Boolean log, /* final long steps, */ final Boolean bypass) {
 		if (bypass) {
 			this.going = false;
-			this.step(log/*, steps*/);
+			this.step(log/* , steps */);
 			this.going = true;
 		}
 	}

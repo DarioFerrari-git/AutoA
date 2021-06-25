@@ -39,6 +39,16 @@ public final class FourWaysJunctionConfig implements Debatable {
 	private final Logger log = LoggerFactory.getLogger(FourWaysJunctionConfig.class);
 	private final SmartJunction junction;
 	private final List<CrossingCar> cars;
+	
+	/**
+	 * 
+	 * @param junction
+	 * @param cars
+	 */
+	public FourWaysJunctionConfig(final SmartJunction junction, final List<CrossingCar> cars) {
+		this.junction = junction;
+		this.cars = cars;
+	}
 
 	/**
 	 * Given RSUs are replicated on each road
