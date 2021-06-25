@@ -34,25 +34,39 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 
 	@Override
 	public void step(Boolean log) {
-		if (super.getSteps() < this.genSteps) {
-			for (int i = 0; i < this.vXs; i++) {
-				this.addCar(gen.newCar());
+		if (!this.going) {
+			if (super.getSteps() >= this.maxSteps) {
+				this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
+			} else {
+				if (super.getSteps() < this.genSteps) {
+					for (int i = 0; i < this.vXs; i++) {
+						this.addCar(gen.newCar());
+					}
+				}
+				super.step(log);
 			}
+		} else {
+			this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
 		}
-		super.step(log);
 	}
 
 	@Override
 	public void go(Boolean log) {
-		this.step(log); // to avoid premature termination of super.go() due to cars being empty
-		while (super.getSteps() < this.maxSteps && !super.getCars().isEmpty()) {
-			this.step(log);
-//			super.go(log); // check which step() is called therein: this, or superclass
-		}
-		if (super.getSteps() >= this.maxSteps) {
-			this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
+		if (!going) {
+			this.step(log); // to avoid premature termination of super.go() due to cars being empty
+			while (super.getSteps() < this.maxSteps && !super.getCars().isEmpty()) {
+				this.going = false;
+				this.step(log);
+				this.going = true;
+		//			super.go(log); // check which step() is called therein: this, or superclass
+			}
+			if (super.getSteps() >= this.maxSteps) {
+				this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
+			} else {
+				this.log.warn("ALL CARS SERVED");
+			}
 		} else {
-			this.log.warn("ALL CARS SERVED");
+			this.log.warn("SIMULATION ALREADY GOING");
 		}
 	}
 

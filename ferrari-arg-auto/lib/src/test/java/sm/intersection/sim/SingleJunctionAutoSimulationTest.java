@@ -3,6 +3,9 @@
  */
 package sm.intersection.sim;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,6 +62,35 @@ public class SingleJunctionAutoSimulationTest {
 	public final void testGo() {
 		this.sim1.go(true);
 		this.sim2.go(true);
+	}
+	
+	/**
+	 * Test method for {@link sm.intersection.sim.SingleJunctionAutoSimulation#pause()}.
+	 */
+	@Test
+	public final void testPause() {
+		assertFalse(this.sim2.isGoing());
+		this.sim2.pause();
+		assertFalse(this.sim2.isGoing());
+		this.sim2.step(true/*, 1*/);
+		assertFalse(this.sim2.isGoing());
+		this.sim2.pause();
+		assertFalse(this.sim2.isGoing());
+		this.sim2.step(true/*, 2*/);
+		assertFalse(this.sim2.isGoing());
+		this.sim2.pause();
+		assertFalse(this.sim2.isGoing());
+		this.sim2.go(true);
+		assertTrue(this.sim2.isGoing());
+		this.sim2.go(true);
+		assertTrue(this.sim2.isGoing());
+		this.sim2.step(true/*, 1*/);
+		assertTrue(this.sim2.isGoing());
+		this.sim2.pause();
+		assertFalse(this.sim2.isGoing());
+		this.sim2.step(true/*, 1*/);
+		assertFalse(this.sim2.isGoing());
+		this.sim2.step(true/*, 0*/);
 	}
 
 }

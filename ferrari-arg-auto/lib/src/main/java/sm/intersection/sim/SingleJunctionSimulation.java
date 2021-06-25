@@ -25,7 +25,7 @@ public class SingleJunctionSimulation {
 	private final List<CrossingCar> cars;
 	private final double step;
 	private long steps;
-	private boolean going;
+	protected boolean going;
 
 	public SingleJunctionSimulation(final SmartJunction junction, final List<CrossingCar> cars) {
 		this.junction = junction;
