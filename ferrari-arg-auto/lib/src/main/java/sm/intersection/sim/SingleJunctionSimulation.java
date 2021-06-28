@@ -60,12 +60,10 @@ public class SingleJunctionSimulation {
 					car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
 
 					try {
-						assignRightOfWay(); // TODO complete and tests
+						assignRightOfWay(); // TODO complete and test
 					} catch (ParserException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
