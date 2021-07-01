@@ -39,9 +39,9 @@ public final class FourWaysJunctionConfig implements Debatable {
 	private final Logger log = LoggerFactory.getLogger(FourWaysJunctionConfig.class);
 	private final SmartJunction junction;
 	private final List<CrossingCar> cars;
-	
+
 	/**
-	 * 
+	 *
 	 * @param junction
 	 * @param cars
 	 */
@@ -97,7 +97,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 		}
 		return this;
 	}
-	
+
 	/**
 	 * way must exist in junction
 	 *
@@ -141,7 +141,12 @@ public final class FourWaysJunctionConfig implements Debatable {
 	}
 
 	@Override
-	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
+	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) { // TODO per capire meglio
+																							// cosa succede conviene
+																							// spezzare il codice in
+																							// metodi privati che si
+																							// occupano ognuno di un
+																							// sotto-problema
 		Proposition a = null;
 		Proposition b = null;
 		Proposition c = null;
@@ -149,7 +154,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 		Proposition f = null;
 		final ArrayList<String> alreadyConsidered = new ArrayList<>();
 		boolean Problems = false;
-		final ArrayList<String>WaitList=new ArrayList<>();
+		final ArrayList<String> WaitList = new ArrayList<>();
 		final ArrayList<String> CarsInvolvedinCrush = new ArrayList<>();
 		DefeasibleInferenceRule<PlFormula> r1 = new DefeasibleInferenceRule<>();
 		StrictInferenceRule<PlFormula> r2 = new StrictInferenceRule<>();
@@ -182,13 +187,14 @@ public final class FourWaysJunctionConfig implements Debatable {
 				if (!this.cars.get(i).equals(this.cars.get(j))
 						&& !alreadyConsidered.contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())) {
 					if (this.noConflicts(i, j)) {
-						c =  new Proposition("CanTransitSimultaneously_"+this.cars.get(i).getName()+this.cars.get(j).getName());	
+						c = new Proposition(
+								"CanTransitSimultaneously_" + this.cars.get(i).getName() + this.cars.get(j).getName());
 						r1 = new DefeasibleInferenceRule<>();
 						r1.setConclusion(c);
 						r1.addPremise(a);
 						r1.addPremise(f);
 						t.addRule(r1);
-						
+
 						r2 = new StrictInferenceRule<>();
 						r2.setConclusion(new Negation(b));
 						r2.addPremise(c);
@@ -220,8 +226,10 @@ public final class FourWaysJunctionConfig implements Debatable {
 								r1.addPremise(c);
 								r1.addPremise(a);
 								t.add(r1);
-								if(!WaitList.contains(this.cars.get(i).getName())) {WaitList.add(this.cars.get(i).getName());}
-								
+								if (!WaitList.contains(this.cars.get(i).getName())) {
+									WaitList.add(this.cars.get(i).getName());
+								}
+
 								r2.setConclusion(new Negation(b));
 								r2.addPremise(d);
 								r2.addPremise(f);
@@ -232,7 +240,8 @@ public final class FourWaysJunctionConfig implements Debatable {
 					}
 				}
 			}
-		}System.out.println(WaitList);
+		}
+		System.out.println(WaitList);
 		a = new Proposition("Incident");
 		if (CarsInvolvedinCrush.size() > 0) {
 			r2 = new StrictInferenceRule<>();
@@ -243,25 +252,28 @@ public final class FourWaysJunctionConfig implements Debatable {
 			}
 			t.add(r2);
 		}
-		for (int i = 0; i < this.cars.size(); i++) {
-			if(WaitList.size()<this.cars.size()) {
-			a=new Proposition(this.cars.get(i).getName()+"_PassesFirst");
-		if(!WaitList.contains(this.cars.get(i).getName())) {
-			r1= new DefeasibleInferenceRule<>();
-			r1.setConclusion(a);
-			for(final String element: WaitList) {
-				b=new Proposition(element+"_Wait");
-				r1.addPremise(b);
+		for (final CrossingCar element2 : this.cars) {
+			if (WaitList.size() < this.cars.size()) {
+				a = new Proposition(element2.getName() + "_PassesFirst");
+				if (!WaitList.contains(element2.getName())) {
+					r1 = new DefeasibleInferenceRule<>();
+					r1.setConclusion(a);
+					for (final String element : WaitList) {
+						b = new Proposition(element + "_Wait");
+						r1.addPremise(b);
+					}
+					t.add(r1);
+				}
+			} else {
+				System.out.println("STALLO");
+				break;
 			}
-			t.add(r1);
-		}}
-			else {System.out.println("STALLO");break;}
 		}
 		return Arrays.asList(a, b, c, d, f);
 	}
 
 	private boolean noConflicts(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima
-																// DIRECTION e poi WAY? così no, in altro modo?
+															// DIRECTION e poi WAY? così no, in altro modo?
 		return this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
 				&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
 				|| this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)

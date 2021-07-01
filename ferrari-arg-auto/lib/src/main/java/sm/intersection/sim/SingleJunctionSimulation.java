@@ -59,15 +59,20 @@ public class SingleJunctionSimulation {
 				switch (car.getState()) {
 				case APPROACHING:
 					car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
-
 					try {
-						assignRightOfWay(car); // TODO complete and test
-					} catch (ParserException e) {
+						this.assignRightOfWay(car); // TODO complete and test
+					} catch (final ParserException e) {
 						e.printStackTrace();
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
-
+					break;
+				case WAITING:
+					car.getCar().getCar().setSpeed(car.getCar().getCar().getSpeed() / 2); // TODO make configurable
+					car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
+					break;
+				case CROSSING:
+					car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
 					break;
 				case SERVED:
 					this.log.warn("SHOULDN'T HAPPEN");
@@ -91,7 +96,7 @@ public class SingleJunctionSimulation {
 		}
 	}
 
-	private void assignRightOfWay(CrossingCar Car) throws ParserException, IOException {
+	private void assignRightOfWay(final CrossingCar Car) throws ParserException, IOException {
 		/*
 		 * create ASPIC+ theory
 		 */
@@ -99,8 +104,8 @@ public class SingleJunctionSimulation {
 		final AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
 		t.setRuleFormulaGenerator(new PlFormulaGenerator());
 		((Debatable) this.junction.getPolicy()).addAsArgTheory(t); // TODO check if redesign can avoid casts
-		for (SmartRoad road : this.junction.getRoads().values()) {
-			for (RSU<?> rsu : road.getRsus()) {
+		for (final SmartRoad road : this.junction.getRoads().values()) {
+			for (final RSU<?> rsu : road.getRsus()) {
 				if (rsu.getType().isAssignableFrom(Debatable.class)) {
 					final Proposition b = ((Debatable) rsu).addAsArgTheory(t).get(0);
 					p.add(b);
@@ -112,7 +117,9 @@ public class SingleJunctionSimulation {
 			a = element.addAsArgTheory(t).get(0);
 			p.add(a);
 		}
-		final FourWaysJunctionConfig config = new FourWaysJunctionConfig(this.junction, this.cars); // TODO valido solo																								// di quel tipo
+		final FourWaysJunctionConfig config = new FourWaysJunctionConfig(this.junction, this.cars); // TODO valido solo
+																									// per una junction
+																									// di quel tipo
 		config.addAsArgTheory(t);
 		/*
 		 * query ASPIC+ theory
@@ -120,11 +127,14 @@ public class SingleJunctionSimulation {
 		final PlParser plparser = new PlParser();
 		final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-			final PlFormula pf = plparser.parseFormula(Car.getName()+"_PassesFirst");
-			if(ar.query(t, pf,InferenceMode.CREDULOUS)) {Car.setState(STATUS.CROSSING);} //TODO errore nella simulazione in quanto non è stato definito cosa fare in caso di crossing o waiting
-			else Car.setState(STATUS.WAITING);
-		
-		//System.out.println(t.getConclusions());
+		final PlFormula pf = plparser.parseFormula(Car.getName() + "_PassesFirst");
+		if (ar.query(t, pf, InferenceMode.CREDULOUS)) {
+			Car.setState(STATUS.CROSSING);
+		} else { // TODO errore nella simulazione in quanto non è stato definito cosa fare in caso di crossing o waiting
+			Car.setState(STATUS.WAITING);
+		}
+
+		// System.out.println(t.getConclusions());
 		/*
 		 * TODO cambiare stato veicoli (vedi classe {@link sm.intersection.STATUS}) a
 		 * seconda della situazione
@@ -132,7 +142,7 @@ public class SingleJunctionSimulation {
 	}
 
 	public void go(final Boolean log) {
-		if (!going) {
+		if (!this.going) {
 			while (!this.cars.isEmpty()) {
 				this.step(log, /* 1, */ true);
 			}
@@ -184,17 +194,17 @@ public class SingleJunctionSimulation {
 	 * @return the junction
 	 */
 	public SmartJunction getJunction() {
-		return junction;
+		return this.junction;
 	}
 
 	/**
 	 * @return the cars
 	 */
 	public List<CrossingCar> getCars() {
-		return cars;
+		return this.cars;
 	}
 
-	public SingleJunctionSimulation addCar(CrossingCar car) {
+	public SingleJunctionSimulation addCar(final CrossingCar car) {
 		this.cars.add(car);
 		return this;
 	}
@@ -203,14 +213,14 @@ public class SingleJunctionSimulation {
 	 * @return the step
 	 */
 	public double getStep() {
-		return step;
+		return this.step;
 	}
 
 	/**
 	 * @return the steps
 	 */
 	public long getSteps() {
-		return steps;
+		return this.steps;
 	}
 
 	private void step(final Boolean log, /* final long steps, */ final Boolean bypass) {
