@@ -48,7 +48,7 @@ public class RandStrategyTest {
 	 */
 	@Test
 	public final void testConfigJunction() {
-		fail("Not yet implemented"); // TODO
+		fail("Not yet implemented");
 	}
 
 	/**
@@ -66,7 +66,6 @@ public class RandStrategyTest {
 			System.out.println(car);
 			assertTrue(this.strat.getJunction().getRoads().containsKey(car.getWay()));
 			assertTrue(this.strat.getJunction().getRoads().get(car.getWay()) != null);
-			// TODO assert distanza RSU su car.way == distanza car
 			for (CrossingCar otherCar : cars) {
 				assertNotEquals(car, otherCar);
 			}

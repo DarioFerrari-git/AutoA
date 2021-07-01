@@ -45,7 +45,6 @@ public class JunctionMap {
 	
 	public SmartJunction next(WAY way, DIRECTION dir) {
 		// TODO restituire nuovo incrocio sapendo strada di provenienza (way) e direzione (dir) dell'auto
-	
 		return null;
 	}
 

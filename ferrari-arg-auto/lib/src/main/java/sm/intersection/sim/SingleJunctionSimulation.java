@@ -60,18 +60,19 @@ public class SingleJunctionSimulation {
 				case APPROACHING:
 					car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
 					try {
-						this.assignRightOfWay(car); // TODO complete and test
+						this.assignRightOfWay(car);
 					} catch (final ParserException e) {
 						e.printStackTrace();
 					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 					break;
-				case WAITING:
+				case WAITING: // TODO should be checked for right of away again sooner or later...
 					car.getCar().getCar().setSpeed(car.getCar().getCar().getSpeed() / 2); // TODO make configurable
+					// TODO what if cars surpass each other while decelerating?
 					car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
 					break;
-				case CROSSING:
+				case CROSSING: // TODO should be checked for right of away anyway as new cars are approaching
 					car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
 					break;
 				case SERVED:
@@ -80,7 +81,7 @@ public class SingleJunctionSimulation {
 				default:
 					throw new IllegalArgumentException("Unexpected value: " + car.getState());
 				}
-				if (car.getDistance() <= 0) { // TODO junction approximated as point in space
+				if (car.getDistance() <= 0) { // junction approximated as point in space
 					car.setState(STATUS.SERVED);
 					this.log.info("<{}> {}, removing from simulation", car.getName(), car.getState());
 					toRemove.add(car);
@@ -117,9 +118,8 @@ public class SingleJunctionSimulation {
 			a = element.addAsArgTheory(t).get(0);
 			p.add(a);
 		}
-		final FourWaysJunctionConfig config = new FourWaysJunctionConfig(this.junction, this.cars); // TODO valido solo
-																									// per una junction
-																									// di quel tipo
+		// TODO valido solo per una junction di quel tipo
+		final FourWaysJunctionConfig config = new FourWaysJunctionConfig(this.junction, this.cars);
 		config.addAsArgTheory(t);
 		/*
 		 * query ASPIC+ theory
@@ -130,15 +130,10 @@ public class SingleJunctionSimulation {
 		final PlFormula pf = plparser.parseFormula(Car.getName() + "_PassesFirst");
 		if (ar.query(t, pf, InferenceMode.CREDULOUS)) {
 			Car.setState(STATUS.CROSSING);
-		} else { // TODO errore nella simulazione in quanto non è stato definito cosa fare in caso di crossing o waiting
+		} else {
 			Car.setState(STATUS.WAITING);
 		}
-
 		// System.out.println(t.getConclusions());
-		/*
-		 * TODO cambiare stato veicoli (vedi classe {@link sm.intersection.STATUS}) a
-		 * seconda della situazione
-		 */
 	}
 
 	public void go(final Boolean log) {
@@ -174,11 +169,8 @@ public class SingleJunctionSimulation {
 					System.out.printf(
 							"\t\t <%s> %s going %s in %.2f s (urgency: %.2f) at %.2f km/h (distance: %.2f m) \n",
 							car.getName(), car.getState(), car.getRoutes().get(0), car.getTimeToCross(),
-							car.getCar().getUrgency(), car.getCar().getCar().getSpeed(), car.getDistance()); // TODO
-																												// only
-																												// fetches
-																												// first
-																												// route
+							// TODO code below only fetches first route
+							car.getCar().getUrgency(), car.getCar().getCar().getSpeed(), car.getDistance());
 				}
 			}
 			System.out.printf("\t\t ----- %d car(s) \n", nCars);

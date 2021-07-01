@@ -140,13 +140,12 @@ public final class FourWaysJunctionConfig implements Debatable {
 		return this.cars;
 	}
 
+	/*
+	 * TODO per capire meglio cosa succede conviene spezzare il codice in metodi privati 
+	 * che si occupano ognuno di un sotto-problema
+	 */
 	@Override
-	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) { // TODO per capire meglio
-																							// cosa succede conviene
-																							// spezzare il codice in
-																							// metodi privati che si
-																							// occupano ognuno di un
-																							// sotto-problema
+	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
 		Proposition a = null;
 		Proposition b = null;
 		Proposition c = null;
@@ -163,9 +162,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 			c = new Proposition(a + "_CorrectlyDetected");
 			d = new Proposition(a + "_WronglyDetected");
 			r1 = new DefeasibleInferenceRule<>();
-			// TODO non riusciamo a utilizzare l'auto-traduzione dentro DistanceRSU? lì
-			// dentro c'è già il controllo della soglia... ->Non è possibile in quanto è
-			// necessaria una dipendenza con le CrossingCars
+			// Non è possibile ri-utilizzare l'auto-traduzione dentro DistanceRSU in quanto è necessaria una dipendenza con le CrossingCars
 			if (this.junction.getRoads().get(this.cars.get(i).getWay()).getRsus().get(0).getConfidence() < 0.5) {
 				b = new Proposition("RSU_untrustworthy");
 				r1.setConclusion(d);
@@ -272,8 +269,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 		return Arrays.asList(a, b, c, d, f);
 	}
 
-	private boolean noConflicts(final int i, final int j) { // TODO può essere semplificato? se controlliamo prima
-															// DIRECTION e poi WAY? così no, in altro modo?
+	private boolean noConflicts(final int i, final int j) { // pare non poter essere semplificato
 		return this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
 				&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
 				|| this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
