@@ -25,6 +25,7 @@ import sm.intersection.BaseRSU;
 import sm.intersection.Car;
 import sm.intersection.DIRECTION;
 import sm.intersection.JunctionMap;
+import sm.intersection.SmartJunction;
 import sm.intersection.UrgentCar;
 
 public class Example1 {
@@ -82,11 +83,11 @@ public class Example1 {
 
 		
 
-		FourWaysJunctionConfig[][] mp=new FourWaysJunctionConfig[2][2];
+		SmartJunction[][] mp=new SmartJunction[2][2];
 	
 		JunctionMap m= new JunctionMap(2,2,mp);
-		m.setJunction(0, 0, fourWC);
-		m.setJunction(1, 1, fourWC);
+		m.setJunction(0, 0, fourWC.getJunction());
+		m.setJunction(1, 1, fourWC.getJunction());
 		System.out.println(m.toString());
 		
 	

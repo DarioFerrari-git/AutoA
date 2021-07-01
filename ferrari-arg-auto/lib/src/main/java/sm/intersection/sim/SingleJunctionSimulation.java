@@ -14,6 +14,7 @@ import org.tweetyproject.arg.aspic.ruleformulagenerator.PlFormulaGenerator;
 import org.tweetyproject.arg.aspic.syntax.AspicArgumentationTheory;
 import org.tweetyproject.arg.dung.reasoner.AbstractExtensionReasoner;
 import org.tweetyproject.arg.dung.semantics.Semantics;
+import org.tweetyproject.commons.InferenceMode;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
@@ -60,7 +61,7 @@ public class SingleJunctionSimulation {
 					car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
 
 					try {
-						assignRightOfWay(); // TODO complete and test
+						assignRightOfWay(car); // TODO complete and test
 					} catch (ParserException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -90,7 +91,7 @@ public class SingleJunctionSimulation {
 		}
 	}
 
-	private void assignRightOfWay() throws ParserException, IOException {
+	private void assignRightOfWay(CrossingCar Car) throws ParserException, IOException {
 		/*
 		 * create ASPIC+ theory
 		 */
@@ -111,9 +112,7 @@ public class SingleJunctionSimulation {
 			a = element.addAsArgTheory(t).get(0);
 			p.add(a);
 		}
-		final FourWaysJunctionConfig config = new FourWaysJunctionConfig(this.junction, this.cars); // TODO valido solo
-																									// per una junction
-																									// di quel tipo
+		final FourWaysJunctionConfig config = new FourWaysJunctionConfig(this.junction, this.cars); // TODO valido solo																								// di quel tipo
 		config.addAsArgTheory(t);
 		/*
 		 * query ASPIC+ theory
@@ -121,7 +120,11 @@ public class SingleJunctionSimulation {
 		final PlParser plparser = new PlParser();
 		final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
 				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-		final PlFormula pf = plparser.parseFormula("Incident");
+			final PlFormula pf = plparser.parseFormula(Car.getName()+"_PassesFirst");
+			if(ar.query(t, pf,InferenceMode.CREDULOUS)) {Car.setState(STATUS.CROSSING);} //TODO errore nella simulazione in quanto non è stato definito cosa fare in caso di crossing o waiting
+			else Car.setState(STATUS.WAITING);
+		
+		//System.out.println(t.getConclusions());
 		/*
 		 * TODO cambiare stato veicoli (vedi classe {@link sm.intersection.STATUS}) a
 		 * seconda della situazione

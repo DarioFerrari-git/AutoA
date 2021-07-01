@@ -149,7 +149,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 		Proposition f = null;
 		final ArrayList<String> alreadyConsidered = new ArrayList<>();
 		boolean Problems = false;
-//		boolean GlobalIncident = false;
+		final ArrayList<String>WaitList=new ArrayList<>();
 		final ArrayList<String> CarsInvolvedinCrush = new ArrayList<>();
 		DefeasibleInferenceRule<PlFormula> r1 = new DefeasibleInferenceRule<>();
 		StrictInferenceRule<PlFormula> r2 = new StrictInferenceRule<>();
@@ -182,11 +182,16 @@ public final class FourWaysJunctionConfig implements Debatable {
 				if (!this.cars.get(i).equals(this.cars.get(j))
 						&& !alreadyConsidered.contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())) {
 					if (this.noConflicts(i, j)) {
+						c =  new Proposition("CanTransitSimultaneously_"+this.cars.get(i).getName()+this.cars.get(j).getName());	
+						r1 = new DefeasibleInferenceRule<>();
+						r1.setConclusion(c);
+						r1.addPremise(a);
+						r1.addPremise(f);
+						t.addRule(r1);
+						
 						r2 = new StrictInferenceRule<>();
 						r2.setConclusion(new Negation(b));
-						r2.addPremise(a);
-						r2.addPremise(f);
-						t.addRule(r2);
+						r2.addPremise(c);
 						alreadyConsidered.add(this.cars.get(j).getName() + "0" + this.cars.get(i).getName());
 //						this.log.debug(alreadyConsidered.toString());
 					} else {
@@ -210,14 +215,16 @@ public final class FourWaysJunctionConfig implements Debatable {
 							}
 							if (!Problems && this.cars.get(j)
 									.equals(this.junction.getPolicy().rightOfWay(this.cars.get(i), this.cars.get(j)))) {
-								d = new Proposition(f + "_passesFirst");
+								d = new Proposition(a + "_Wait");
 								r1.setConclusion(d);
 								r1.addPremise(c);
-								r1.addPremise(f);
+								r1.addPremise(a);
 								t.add(r1);
+								if(!WaitList.contains(this.cars.get(i).getName())) {WaitList.add(this.cars.get(i).getName());}
+								
 								r2.setConclusion(new Negation(b));
 								r2.addPremise(d);
-								r2.addPremise(a);
+								r2.addPremise(f);
 								t.add(r2);
 								alreadyConsidered.add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
 							}
@@ -225,7 +232,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 					}
 				}
 			}
-		}
+		}System.out.println(WaitList);
 		a = new Proposition("Incident");
 		if (CarsInvolvedinCrush.size() > 0) {
 			r2 = new StrictInferenceRule<>();
@@ -236,7 +243,20 @@ public final class FourWaysJunctionConfig implements Debatable {
 			}
 			t.add(r2);
 		}
-
+		for (int i = 0; i < this.cars.size(); i++) {
+			if(WaitList.size()<this.cars.size()) {
+			a=new Proposition(this.cars.get(i).getName()+"_PassesFirst");
+		if(!WaitList.contains(this.cars.get(i).getName())) {
+			r1= new DefeasibleInferenceRule<>();
+			r1.setConclusion(a);
+			for(final String element: WaitList) {
+				b=new Proposition(element+"_Wait");
+				r1.addPremise(b);
+			}
+			t.add(r1);
+		}}
+			else {System.out.println("STALLO");break;}
+		}
 		return Arrays.asList(a, b, c, d, f);
 	}
 

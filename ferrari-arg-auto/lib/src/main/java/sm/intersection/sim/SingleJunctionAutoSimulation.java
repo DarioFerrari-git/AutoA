@@ -64,7 +64,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 				this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
 			} else {
 				this.log.warn("ALL CARS SERVED");
-			}
+			} 
 		} else {
 			this.log.warn("SIMULATION ALREADY GOING");
 		}

@@ -9,7 +9,7 @@ public class JunctionMap {
 	private final int n;
 	private final int m;
 
-	public JunctionMap(final int n, final int m, final FourWaysJunctionConfig[][] junctions) {// ,final
+	public JunctionMap(final int n, final int m, final SmartJunction[][] junctions) {// ,final
 																								// FourWaysJunctionConfig
 																								// bho0) {
 		this.n = n;
@@ -17,7 +17,7 @@ public class JunctionMap {
 		this.junctions = junctions;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				this.junctions[i][j] = new FourWaysJunctionConfig(null, null);
+				this.junctions[i][j] = new SmartJunction(null, null, null);
 			}
 		}
 	}
@@ -34,17 +34,18 @@ public class JunctionMap {
 		return str;
 	}
 
-	public FourWaysJunctionConfig getJunction(final int x, final int y) {
+	public SmartJunction getJunction(final int x, final int y) {
 		return this.junctions[x][y];
 	}
 
-	public JunctionMap setJunction(final int x, final int y, final FourWaysJunctionConfig fourWC) {
-		this.junctions[x][y] = fourWC;
+	public JunctionMap setJunction(final int x, final int y, final SmartJunction smartJ) {
+		this.junctions[x][y] = smartJ;
 		return this;
 	}
 	
 	public SmartJunction next(WAY way, DIRECTION dir) {
 		// TODO restituire nuovo incrocio sapendo strada di provenienza (way) e direzione (dir) dell'auto
+	
 		return null;
 	}
 
