@@ -9,22 +9,22 @@ package sm.intersection;
  */
 public final class BasePolicy {
 
-	private final String name;
+    private final String name;
 
-	public BasePolicy(final String name) {
-		this.name = name;
-	}
+    public BasePolicy(final String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return this.name;
-	}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("BasePolicy [name=%s]", this.name);
-	}
+    @Override
+    public String toString() {
+        return String.format("BasePolicy [name=%s]", this.name);
+    }
 
 }

@@ -20,31 +20,31 @@ import sm.intersection.CrossingPolicy;
  */
 public final class UrgencyPolicy implements CrossingPolicy, Debatable {
 
-	private final BasePolicy policy;
+    private final BasePolicy policy;
 
-	public UrgencyPolicy(final String name) {
-		this.policy = new BasePolicy(name);
-	}
+    public UrgencyPolicy(final String name) {
+        this.policy = new BasePolicy(name);
+    }
 
-	@Override
-	public CrossingCar rightOfWay(final CrossingCar car1, final CrossingCar car2) {
-		return car1.getCar().getUrgency() > car2.getCar().getUrgency() ? car1 : car2;
-	}
+    @Override
+    public CrossingCar rightOfWay(final CrossingCar car1, final CrossingCar car2) {
+        return car1.getCar().getUrgency() > car2.getCar().getUrgency() ? car1 : car2;
+    }
 
-	@Override
-	public String getName() {
-		return this.policy.getName();
-	}
+    @Override
+    public String getName() {
+        return this.policy.getName();
+    }
 
-	@Override
-	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
-		final Proposition a = new Proposition(this.getName());
-		t.addAxiom(a);
-		return Collections.singletonList(a);
-	}
+    @Override
+    public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
+        final Proposition a = new Proposition(this.getName());
+        t.addAxiom(a);
+        return Collections.singletonList(a);
+    }
 
-	@Override
-	public String toString() {
-		return String.format("UrgencyPolicy [policy=%s]", this.policy);
-	}
+    @Override
+    public String toString() {
+        return String.format("UrgencyPolicy [policy=%s]", this.policy);
+    }
 }

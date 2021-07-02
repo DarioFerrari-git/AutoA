@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection.sim;
 
@@ -12,8 +12,8 @@ import sm.intersection.SmartJunction;
  */
 public interface VehiclesGenStrategy {
 
-	CrossingCar newCar();
+    CrossingCar newCar();
 
-	VehiclesGenStrategy configJunction(final SmartJunction junction);
+    VehiclesGenStrategy configJunction(final SmartJunction junction);
 
 }

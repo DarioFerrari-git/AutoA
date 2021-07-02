@@ -20,52 +20,52 @@ import sm.intersection.CrossingPolicy;
  */
 public final class NumArgsPolicy implements CrossingPolicy, Debatable {
 
-	private final BasePolicy policy;
+    private final BasePolicy policy;
 
-	public NumArgsPolicy(final String name) {
-		this.policy = new BasePolicy(name);
-	}
+    public NumArgsPolicy(final String name) {
+        this.policy = new BasePolicy(name);
+    }
 
-	/**
-	 * In case of a tie car2 wins
-	 */
-	@Override
-	public CrossingCar rightOfWay(final CrossingCar car1, final CrossingCar car2) {
-		int args1 = 0;
-		int args2 = 0;
-		if (car1.getTimeToCross() < car2.getTimeToCross()) {
-			args1++;
-		} else {
-			args2++;
-		}
-		if (car1.getCar().getCar().getRoutes().size() > car2.getCar().getCar().getRoutes().size()) {
-			args2++;
-		} else {
-			args1++;
-		}
-		if (car1.getCar().getCar().getSpeed() > car2.getCar().getCar().getSpeed()) {
-			args1++;
-		} else {
-			args2++;
-		}
-		return args1 > args2 ? car1 : car2;
-	}
+    /**
+     * In case of a tie car2 wins
+     */
+    @Override
+    public CrossingCar rightOfWay(final CrossingCar car1, final CrossingCar car2) {
+        int args1 = 0;
+        int args2 = 0;
+        if (car1.getTimeToCross() < car2.getTimeToCross()) {
+            args1++;
+        } else {
+            args2++;
+        }
+        if (car1.getCar().getCar().getRoutes().size() > car2.getCar().getCar().getRoutes().size()) {
+            args2++;
+        } else {
+            args1++;
+        }
+        if (car1.getCar().getCar().getSpeed() > car2.getCar().getCar().getSpeed()) {
+            args1++;
+        } else {
+            args2++;
+        }
+        return args1 > args2 ? car1 : car2;
+    }
 
-	@Override
-	public String getName() {
-		return this.policy.getName();
-	}
+    @Override
+    public String getName() {
+        return this.policy.getName();
+    }
 
-	@Override
-	public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
-		final Proposition a = new Proposition(this.getName());
-		t.addAxiom(a);
-		return Collections.singletonList(a);
-	}
+    @Override
+    public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
+        final Proposition a = new Proposition(this.getName());
+        t.addAxiom(a);
+        return Collections.singletonList(a);
+    }
 
-	@Override
-	public String toString() {
-		return String.format("NumArgsPolicy [policy=%s]", this.policy);
-	}
+    @Override
+    public String toString() {
+        return String.format("NumArgsPolicy [policy=%s]", this.policy);
+    }
 
 }

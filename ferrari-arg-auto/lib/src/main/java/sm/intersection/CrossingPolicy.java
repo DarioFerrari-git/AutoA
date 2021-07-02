@@ -11,7 +11,7 @@ import sm.arg.intersection.CrossingCar;
  */
 public interface CrossingPolicy {
 
-	CrossingCar rightOfWay(CrossingCar car1, CrossingCar car2);
+    CrossingCar rightOfWay(CrossingCar car1, CrossingCar car2);
 
-	String getName();
+    String getName();
 }

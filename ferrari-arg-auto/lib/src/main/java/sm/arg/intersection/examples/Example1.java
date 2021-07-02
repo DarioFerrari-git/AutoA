@@ -30,75 +30,69 @@ import sm.intersection.UrgentCar;
 
 public class Example1 {
 
-	private final static Logger log = LoggerFactory.getLogger(Example1.class);
+    private final static Logger log = LoggerFactory.getLogger(Example1.class);
 
-	public static void main(final String[] args) throws ParserException, IOException {
-		final List<Proposition> p = new ArrayList<>();
+    public static void main(final String[] args) throws ParserException, IOException {
+        final List<Proposition> p = new ArrayList<>();
 
-		List<DIRECTION> route = new ArrayList<>();
-		route.add(DIRECTION.LEFT);
-		final Car N = new Car("N", 50);
-		N.addRoute(route);
-		final UrgentCar U_N = new UrgentCar(N, 0.7);
+        List<DIRECTION> route = new ArrayList<>();
+        route.add(DIRECTION.LEFT);
+        final Car N = new Car("N", 50);
+        N.addRoute(route);
+        final UrgentCar U_N = new UrgentCar(N, 0.7);
 
-		route = new ArrayList<>();
-		route.add(DIRECTION.STRAIGHT);
-		final Car R = new Car("R", 52);
-		R.addRoute(route);
-		route = new ArrayList<>();
-		route.add(DIRECTION.RIGHT);
-		R.addRoute(route);
-		final UrgentCar U_R = new UrgentCar(R, 0.6);
+        route = new ArrayList<>();
+        route.add(DIRECTION.STRAIGHT);
+        final Car R = new Car("R", 52);
+        R.addRoute(route);
+        route = new ArrayList<>();
+        route.add(DIRECTION.RIGHT);
+        R.addRoute(route);
+        final UrgentCar U_R = new UrgentCar(R, 0.6);
 
-		route = new ArrayList<>();
-		route.add(DIRECTION.STRAIGHT);
-		final Car A = new Car("A", 55);
-		A.addRoute(route);
-		final UrgentCar U_A = new UrgentCar(A, 0.5);
+        route = new ArrayList<>();
+        route.add(DIRECTION.STRAIGHT);
+        final Car A = new Car("A", 55);
+        A.addRoute(route);
+        final UrgentCar U_A = new UrgentCar(A, 0.5);
 
-		final NumArgsPolicy nap = new NumArgsPolicy("numArgs");
+        final NumArgsPolicy nap = new NumArgsPolicy("numArgs");
 
-		final BaseRSU rsu = new BaseRSU("RSU", 0.4);
-		final DistanceRSU drsu = new DistanceRSU(rsu, 20);
+        final BaseRSU rsu = new BaseRSU("RSU", 0.4);
+        final DistanceRSU drsu = new DistanceRSU(rsu, 20);
 
-		final FourWaysJunctionConfig fourWC = new FourWaysJunctionConfig("1", nap, drsu);
-		Example1.log.info(fourWC.toString());
-		fourWC.addCar(U_N, "NORTH");
-		fourWC.addCar(U_R, "EAST");
-		fourWC.addCar(U_A, "SOUTH");
-		Example1.log.info(fourWC.toString());
+        final FourWaysJunctionConfig fourWC = new FourWaysJunctionConfig("1", nap, drsu);
+        Example1.log.info(fourWC.toString());
+        fourWC.addCar(U_N, "NORTH");
+        fourWC.addCar(U_R, "EAST");
+        fourWC.addCar(U_A, "SOUTH");
+        Example1.log.info(fourWC.toString());
 
-		final AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
-		t.setRuleFormulaGenerator(new PlFormulaGenerator());
-		nap.addAsArgTheory(t);
-		final Proposition b = drsu.addAsArgTheory(t).get(0);
-		p.add(b);
-		Proposition a = null;
-		for (final CrossingCar element : fourWC.getCars()) {
-			a = element.addAsArgTheory(t).get(0);
-			p.add(a);
-		}
-		fourWC.addAsArgTheory(t);
-		Example1.log.info(t.toString());
+        final AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
+        t.setRuleFormulaGenerator(new PlFormulaGenerator());
+        nap.addAsArgTheory(t);
+        final Proposition b = drsu.addAsArgTheory(t).get(0);
+        p.add(b);
+        Proposition a = null;
+        for (final CrossingCar element : fourWC.getCars()) {
+            a = element.addAsArgTheory(t).get(0);
+            p.add(a);
+        }
+        fourWC.addAsArgTheory(t);
+        Example1.log.info(t.toString());
 
-		
+        final SmartJunction[][] mp = new SmartJunction[2][2];
 
-		SmartJunction[][] mp=new SmartJunction[2][2];
-	
-		JunctionMap m= new JunctionMap(2,2,mp);
-		m.setJunction(0, 0, fourWC.getJunction());
-		m.setJunction(1, 1, fourWC.getJunction());
-		System.out.println(m.toString());
-		
-	
-		
-		
-		
-		final PlParser plparser = new PlParser();
-		final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
-				AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-		final PlFormula pf = plparser.parseFormula("Incident");
-		Example1.log.info("{} --> {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
+        final JunctionMap m = new JunctionMap(2, 2, mp);
+        m.setJunction(0, 0, fourWC.getJunction());
+        m.setJunction(1, 1, fourWC.getJunction());
+        System.out.println(m.toString());
 
-	}
+        final PlParser plparser = new PlParser();
+        final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
+                AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
+        final PlFormula pf = plparser.parseFormula("Incident");
+        Example1.log.info("{} --> {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
+
+    }
 }

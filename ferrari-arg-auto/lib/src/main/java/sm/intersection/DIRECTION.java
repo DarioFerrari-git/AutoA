@@ -7,14 +7,14 @@ import java.util.Random;
 
 public enum DIRECTION {
 
-	STRAIGHT, LEFT, RIGHT;
+    STRAIGHT, LEFT, RIGHT;
 
-	private static final List<DIRECTION> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
-	private static final int SIZE = VALUES.size();
-	private static final Random RANDOM = new Random();
+    private static final List<DIRECTION> VALUES = Collections.unmodifiableList(Arrays.asList(DIRECTION.values()));
+    private static final int SIZE = DIRECTION.VALUES.size();
+    private static final Random RANDOM = new Random();
 
-	public static DIRECTION random() {
-		return VALUES.get(RANDOM.nextInt(SIZE));
-	}
+    public static DIRECTION random() {
+        return DIRECTION.VALUES.get(DIRECTION.RANDOM.nextInt(DIRECTION.SIZE));
+    }
 
 }

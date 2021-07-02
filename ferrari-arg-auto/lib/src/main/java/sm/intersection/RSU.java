@@ -2,18 +2,18 @@ package sm.intersection;
 
 public interface RSU<T> {
 
-	/**
-	 *
-	 * @return the measurement
-	 *
-	 *         worst case: X is everything subclassing Object
-	 */
-	<X extends T> X getMeasurement();
+    /**
+     *
+     * @return the measurement
+     *
+     *         worst case: X is everything subclassing Object
+     */
+    <X extends T> X getMeasurement();
 
-	<X extends T> BaseRSU getRsu();
+    <X extends T> BaseRSU getRsu();
 
-	double getConfidence();
+    double getConfidence();
 
-	Class<T> getType();
+    Class<T> getType();
 
 }

@@ -9,6 +9,6 @@ package sm.intersection;
  */
 public enum STATUS {
 
-	APPROACHING, WAITING, ARGUING, CROSSING, SERVED
+    APPROACHING, WAITING, ARGUING, CROSSING, SERVED
 
 }
