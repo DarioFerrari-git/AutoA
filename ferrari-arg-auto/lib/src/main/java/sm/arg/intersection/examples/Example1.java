@@ -17,6 +17,8 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
 
+import sm.arg.general.ArgumentationGraph;
+import sm.arg.intersection.ArgKeys;
 import sm.arg.intersection.CrossingCar;
 import sm.arg.intersection.DistanceRSU;
 import sm.arg.intersection.FourWaysJunctionConfig;
@@ -58,15 +60,16 @@ public class Example1 {
 
         final NumArgsPolicy nap = new NumArgsPolicy("numArgs");
 
-        final BaseRSU rsu = new BaseRSU("RSU", 0.4);
+        final BaseRSU rsu = new BaseRSU("RSU", 0.7
+        		);
         final DistanceRSU drsu = new DistanceRSU(rsu, 20);
 
         final FourWaysJunctionConfig fourWC = new FourWaysJunctionConfig("1", nap, drsu);
-        Example1.log.info(fourWC.toString());
+    //    Example1.log.info(fourWC.toString());
         fourWC.addCar(U_N, "NORTH");
         fourWC.addCar(U_R, "EAST");
         fourWC.addCar(U_A, "SOUTH");
-        Example1.log.info(fourWC.toString());
+    //    Example1.log.info(fourWC.toString());
 
         final AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
         t.setRuleFormulaGenerator(new PlFormulaGenerator());
@@ -79,19 +82,21 @@ public class Example1 {
             p.add(a);
         }
         fourWC.addAsArgTheory(t);
-        Example1.log.info(t.toString());
-
+        
+       // Example1.log.info(t.toString());
+ArgumentationGraph bho =new ArgumentationGraph(t);
+bho.graph2text(fourWC.getCars(),fourWC.getJunction().getPolicy());
         final SmartJunction[][] mp = new SmartJunction[2][2];
 
         final JunctionMap m = new JunctionMap(2, 2, mp);
         m.setJunction(0, 0, fourWC.getJunction());
         m.setJunction(1, 1, fourWC.getJunction());
-        System.out.println(m.toString());
+       // System.out.println(m.toString());
 
         final PlParser plparser = new PlParser();
         final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
                 AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-        final PlFormula pf = plparser.parseFormula("Incident");
+        final PlFormula pf = plparser.parseFormula("A_"+ArgKeys.PassesFirst);
         Example1.log.info("{} --> {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
 
     }

@@ -20,7 +20,9 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
 
+import sm.arg.general.ArgumentationGraph;
 import sm.arg.general.Debatable;
+import sm.arg.intersection.ArgKeys;
 import sm.arg.intersection.CrossingCar;
 import sm.arg.intersection.FourWaysJunctionConfig;
 import sm.intersection.RSU;
@@ -107,12 +109,16 @@ public class SingleJunctionSimulation {
         ((Debatable) this.junction.getPolicy()).addAsArgTheory(t); // TODO check if redesign can avoid casts
         for (final SmartRoad road : this.junction.getRoads().values()) {
             for (final RSU<?> rsu : road.getRsus()) {
-                if (rsu.getType().isAssignableFrom(Debatable.class)) {
-                    final Proposition b = ((Debatable) rsu).addAsArgTheory(t).get(0);
+                
+            	//NON VIENE IMMESSA NELLA TEORIA LA PROPOSIZIONE B! if non è mai vero...
+            	errore!
+            	if (rsu.getType().isAssignableFrom(Debatable.class)) {
+                	final Proposition b = ((Debatable) rsu).addAsArgTheory(t).get(0);
                     p.add(b);
                 }
             }
         }
+        System.out.println(t);
         Proposition a = null;
         for (final CrossingCar element : this.cars) {
             if (!element.getState().equals(STATUS.SERVED)) {
@@ -120,6 +126,7 @@ public class SingleJunctionSimulation {
                 p.add(a);
             }
         }
+        
         // TODO valido solo per una junction di quel tipo
         final FourWaysJunctionConfig config = new FourWaysJunctionConfig(this.junction, this.cars);
         config.addAsArgTheory(t); // TODO controlliamo di non considerare auto SERVED
@@ -130,12 +137,16 @@ public class SingleJunctionSimulation {
         final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
                 AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
         final PlFormula pf = plparser.parseFormula(Car.getName() + "_PassesFirst");
-        if (ar.query(t, pf, InferenceMode.CREDULOUS)) {
+      //  final PlFormula pf = plparser.parseFormula(""+ArgKeys.RSU_trustworthy);
+       if (ar.query(t, pf, InferenceMode.CREDULOUS)) {
             Car.setState(STATUS.CROSSING);
         } else {
             Car.setState(STATUS.WAITING);
         }
-        // System.out.println(t.getConclusions());
+        ArgumentationGraph Agraph=new ArgumentationGraph(t);
+        Agraph.graph2text(this.cars,this.junction.getPolicy());
+   
+   //  System.out.println(ar.query(t, pf, InferenceMode.CREDULOUS));
     }
 
     public void go(final Boolean log) {
@@ -146,6 +157,7 @@ public class SingleJunctionSimulation {
         } else {
             this.log.warn("SIMULATION ALREADY GOING");
         }
+        
     }
 
     public void pause() {

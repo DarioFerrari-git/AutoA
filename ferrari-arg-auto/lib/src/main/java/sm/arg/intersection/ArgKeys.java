@@ -9,6 +9,6 @@ package sm.arg.intersection;
  */
 public enum ArgKeys {
     
-    KEYWORD1, KEYWORD2, ...
+	CorrectlyDetected, WronglyDetected, RSU_untrustworthy, RSU_trustworthy, PossibleIncident, CanTransitSimultaneously, Wait, Incident, PassesFirst
 
 }

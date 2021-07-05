@@ -12,7 +12,7 @@ public final class BasePolicy {
     private final String name;
 
     public BasePolicy(final String name) {
-        this.name = name;
+        this.name = name.toLowerCase();
     }
 
     /**

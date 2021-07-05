@@ -98,7 +98,7 @@ public class Aspic {
         System.out.println();
 
         for (final Attack att : aaf.getAttacks()) {
-            System.out.println(att);
+       //     System.out.println(att);
         }
 
         System.out.println();
