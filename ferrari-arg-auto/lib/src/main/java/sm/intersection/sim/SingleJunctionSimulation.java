@@ -109,10 +109,8 @@ public class SingleJunctionSimulation {
         ((Debatable) this.junction.getPolicy()).addAsArgTheory(t); // TODO check if redesign can avoid casts
         for (final SmartRoad road : this.junction.getRoads().values()) {
             for (final RSU<?> rsu : road.getRsus()) {
-                
-            	//NON VIENE IMMESSA NELLA TEORIA LA PROPOSIZIONE B! if non è mai vero...
-            	errore!
-            	if (rsu.getType().isAssignableFrom(Debatable.class)) {
+            	//TODO NON VIENE IMMESSA NELLA TEORIA LA PROPOSIZIONE B! if non è mai vero...
+            	if (rsu.getClass().isAssignableFrom(Debatable.class)) {
                 	final Proposition b = ((Debatable) rsu).addAsArgTheory(t).get(0);
                     p.add(b);
                 }
