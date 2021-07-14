@@ -10,7 +10,7 @@ public interface RSU<T> {
      */
     <X extends T> X getMeasurement();
 
-    <X extends T> BaseRSU getRsu();
+    BaseRSU getRsu();
 
     double getConfidence();
 

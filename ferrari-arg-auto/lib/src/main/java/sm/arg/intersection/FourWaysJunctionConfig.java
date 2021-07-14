@@ -230,7 +230,7 @@ public final class FourWaysJunctionConfig implements Debatable {
                                 if (!WaitList.contains(this.cars.get(i).getName())) {
                                     WaitList.add(this.cars.get(i).getName());
                                 }
-System.out.println(r1);
+//System.out.println(r1);
                                 r2.setConclusion(new Negation(b));
                                 r2.addPremise(d);
                                 r2.addPremise(f);
