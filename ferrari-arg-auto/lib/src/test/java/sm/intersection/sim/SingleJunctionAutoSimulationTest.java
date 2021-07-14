@@ -60,7 +60,7 @@ public class SingleJunctionAutoSimulationTest {
 	 */
 	@Test
 	public final void testGo() {
-		this.sim1.go(true);
+//		this.sim1.go(true);
 		this.sim2.go(true);
 	}
 	

@@ -57,12 +57,14 @@ public class SingleJunctionSimulation {
             //			for (int s = 0; s < steps; s++) {
             this.steps++;
             final List<CrossingCar> toRemove = new ArrayList<>();
+            boolean first = true;
             for (final CrossingCar car : this.cars) {
                 switch (car.getState()) {
                     case APPROACHING:
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         try {
-                            this.assignRightOfWay(car); // TODO does not consider timing
+                            this.assignRightOfWay(car, first); // TODO does not consider timing
+                            first = false;
                         } catch (final ParserException e) {
                             e.printStackTrace();
                         } catch (final IOException e) {
@@ -99,7 +101,7 @@ public class SingleJunctionSimulation {
         }
     }
 
-    private void assignRightOfWay(final CrossingCar Car) throws ParserException, IOException {
+    private void assignRightOfWay(final CrossingCar Car, boolean first) throws ParserException, IOException {
         /*
          * create ASPIC+ theory
          */
@@ -109,16 +111,12 @@ public class SingleJunctionSimulation {
         ((Debatable) this.junction.getPolicy()).addAsArgTheory(t); // TODO check if redesign can avoid casts
         for (final SmartRoad road : this.junction.getRoads().values()) {
             for (final RSU<?> rsu : road.getRsus()) {
-                //              System.out.printf("### %s \n", rsu.getClass().getName());
-                //TODO NON VIENE IMMESSA NELLA TEORIA LA PROPOSIZIONE B! if non è mai vero...
                 if (Debatable.class.isAssignableFrom(rsu.getClass())) {
-                    //            	    System.out.printf("WITHIN IF \n");
                     final Proposition b = ((Debatable) rsu).addAsArgTheory(t).get(0);
                     p.add(b);
                 }
             }
         }
-//        System.out.println(t);
         Proposition a = null;
         for (final CrossingCar element : this.cars) {
             if (!element.getState().equals(STATUS.SERVED)) {
@@ -136,17 +134,18 @@ public class SingleJunctionSimulation {
         final PlParser plparser = new PlParser();
         final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
                 AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-        //        final PlFormula pf = plparser.parseFormula(Car.getName() + "_PassesFirst");
-        final PlFormula pf = plparser.parseFormula("" + ArgKeys.RSU_trustworthy);
+        final PlFormula pf = plparser.parseFormula(Car.getName() + "_" + ArgKeys.PassesFirst);
+        //        final PlFormula pf = plparser.parseFormula("" + ArgKeys.RSU_trustworthy);
         if (ar.query(t, pf, InferenceMode.CREDULOUS)) {
             Car.setState(STATUS.CROSSING);
         } else {
             Car.setState(STATUS.WAITING);
         }
         ArgumentationGraph Agraph = new ArgumentationGraph(t);
-        //        Agraph.graph2text(this.cars,this.junction.getPolicy());
-
-//        System.out.println(ar.query(t, pf, InferenceMode.CREDULOUS));
+        if (first) {
+            Agraph.graph2text(this.cars, this.junction.getPolicy());
+        }
+        log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
     }
 
     public void go(final Boolean log) {

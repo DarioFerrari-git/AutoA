@@ -159,33 +159,34 @@ public final class FourWaysJunctionConfig implements Debatable {
         StrictInferenceRule<PlFormula> r2 = new StrictInferenceRule<>();
         for (int i = 0; i < this.cars.size(); i++) {
             a = new Proposition(this.cars.get(i).getName());
-            c = new Proposition(a+"_"+ ArgKeys.CorrectlyDetected);
-            d = new Proposition(a + "_"+ArgKeys.WronglyDetected);
+            c = new Proposition(a + "_" + ArgKeys.CorrectlyDetected);
+            d = new Proposition(a + "_" + ArgKeys.WronglyDetected);
             r1 = new DefeasibleInferenceRule<>();
             // Non è possibile ri-utilizzare l'auto-traduzione dentro DistanceRSU in quanto è necessaria una dipendenza con le CrossingCars
             if (this.junction.getRoads().get(this.cars.get(i).getWay()).getRsus().get(0).getConfidence() < 0.5) {
-                b = new Proposition(""+ArgKeys.RSU_untrustworthy);
+                b = new Proposition("" + ArgKeys.RSU_untrustworthy);
                 r1.setConclusion(d);
                 r1.addPremise(b);
                 r1.addPremise(a);
                 t.addRule(r1);
                 Problems = true;
             } else {
-                b = new Proposition(""+ArgKeys.RSU_trustworthy);
+                b = new Proposition("" + ArgKeys.RSU_trustworthy);
                 r1.setConclusion(c);
                 r1.addPremise(b);
                 r1.addPremise(a);
                 t.addRule(r1);
             }
             for (int j = 0; j < this.cars.size(); j++) {
-                b = new Proposition(ArgKeys.PossibleIncident+"_" + this.cars.get(i).getName() + this.cars.get(j).getName());
+                b = new Proposition(
+                        ArgKeys.PossibleIncident + "_" + this.cars.get(i).getName() + this.cars.get(j).getName());
                 f = new Proposition(this.cars.get(j).getName());
 
                 if (!this.cars.get(i).equals(this.cars.get(j))
                         && !alreadyConsidered.contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())) {
                     if (this.noConflicts(i, j)) {
-                        c = new Proposition(
-                                ArgKeys.CanTransitSimultaneously+"_" + this.cars.get(i).getName() + this.cars.get(j).getName());
+                        c = new Proposition(ArgKeys.CanTransitSimultaneously + "_" + this.cars.get(i).getName()
+                                + this.cars.get(j).getName());
                         r1 = new DefeasibleInferenceRule<>();
                         r1.setConclusion(c);
                         r1.addPremise(a);
@@ -208,9 +209,9 @@ public final class FourWaysJunctionConfig implements Debatable {
                                 && !this.cars.get(i).equals(this.cars.get(j)) && !alreadyConsidered
                                         .contains(this.cars.get(i).getName() + "x" + this.cars.get(j).getName())) {
                             if (Problems) {
-                            	a= new Proposition(this.cars.get(i).getName()+"_"+ArgKeys.WronglyDetected);
-                                f= new Proposition(this.cars.get(j).getName()+"_"+ArgKeys.WronglyDetected);
-                            	r1.setConclusion(b);
+                                a = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.WronglyDetected);
+                                f = new Proposition(this.cars.get(j).getName() + "_" + ArgKeys.WronglyDetected);
+                                r1.setConclusion(b);
                                 r1.addPremise(a);
                                 r1.addPremise(f);
                                 t.addRule(r1);
@@ -220,9 +221,9 @@ public final class FourWaysJunctionConfig implements Debatable {
                             }
                             if (!Problems && this.cars.get(j)
                                     .equals(this.junction.getPolicy().rightOfWay(this.cars.get(i), this.cars.get(j)))) {
-                            	a= new Proposition(this.cars.get(i).getName()+"_"+ArgKeys.CorrectlyDetected);
-                                f= new Proposition(this.cars.get(j).getName()+"_"+ArgKeys.CorrectlyDetected);
-                                d = new Proposition(this.cars.get(i).getName() + "_"+ArgKeys.Wait);
+                                a = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.CorrectlyDetected);
+                                f = new Proposition(this.cars.get(j).getName() + "_" + ArgKeys.CorrectlyDetected);
+                                d = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.Wait);
                                 r1.setConclusion(d);
                                 r1.addPremise(c);
                                 r1.addPremise(a);
@@ -230,7 +231,13 @@ public final class FourWaysJunctionConfig implements Debatable {
                                 if (!WaitList.contains(this.cars.get(i).getName())) {
                                     WaitList.add(this.cars.get(i).getName());
                                 }
-//System.out.println(r1);
+                                /*
+                                 * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug: 
+                                 * se la stampa ha un qualche valore generale, usiamo log.info(), 
+                                 * se serve solo per debug usiamo log.debug()
+                                 * Al prosimo ricevimento ricordamelo che ne parliamo
+                                 */
+                                // System.out.println(r1);
                                 r2.setConclusion(new Negation(b));
                                 r2.addPremise(d);
                                 r2.addPremise(f);
@@ -242,31 +249,37 @@ public final class FourWaysJunctionConfig implements Debatable {
                 }
             }
         }
-     //   System.out.println(WaitList);
-        a = new Proposition(""+ArgKeys.Incident);
+        /*
+         * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug: 
+         * se la stampa ha un qualche valore generale, usiamo log.info(), 
+         * se serve solo per debug usiamo log.debug()
+         * Al prosimo ricevimento ricordamelo che ne parliamo
+         */
+        //   System.out.println(WaitList);
+        a = new Proposition("" + ArgKeys.Incident);
         if (CarsInvolvedinCrush.size() > 0) {
             r2 = new StrictInferenceRule<>();
             r2.setConclusion(a);
             for (final String element : CarsInvolvedinCrush) {
-                b = new Proposition(ArgKeys.PossibleIncident+"_" + element);
+                b = new Proposition(ArgKeys.PossibleIncident + "_" + element);
                 r2.addPremise(b);
             }
             t.add(r2);
         }
         for (final CrossingCar element2 : this.cars) {
-            if (WaitList.size() < this.cars.size()&&!Problems) {
-                a = new Proposition(element2.getName() + "_"+ArgKeys.PassesFirst);
+            if (WaitList.size() < this.cars.size() && !Problems) {
+                a = new Proposition(element2.getName() + "_" + ArgKeys.PassesFirst);
                 if (!WaitList.contains(element2.getName())) {
                     r1 = new DefeasibleInferenceRule<>();
                     r1.setConclusion(a);
                     for (final String element : WaitList) {
-                        b = new Proposition(element + "_"+ArgKeys.Wait);
+                        b = new Proposition(element + "_" + ArgKeys.Wait);
                         r1.addPremise(b);
                     }
                     t.add(r1);
                 }
             } else {
-                System.out.println("FAILED");
+                log.error("FAILED"); // TODO cosa è failed?
                 break;
             }
         }
