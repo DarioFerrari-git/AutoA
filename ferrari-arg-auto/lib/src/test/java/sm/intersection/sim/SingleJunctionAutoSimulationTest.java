@@ -32,9 +32,9 @@ public class SingleJunctionAutoSimulationTest {
 		FourWaysJunctionConfig config = new FourWaysJunctionConfig("junction1", new NumArgsPolicy("numArgsPolicy1"),
 				new DistanceRSU(new BaseRSU("distance1", 1), 100));
 		VehiclesGenStrategy strat = new RandStrategy();
-		strat.configJunction(config.getJunction());
-		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 10, strat);
-		this.sim2 = new SingleJunctionAutoSimulation(config.getJunction(), 3, 3, 10, strat);
+		strat.configJunction(config.getJunction(), 1);
+		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 20, strat);
+		this.sim2 = new SingleJunctionAutoSimulation(config.getJunction(), 3, 3, 30, strat);
 	}
 
 	/**
@@ -60,8 +60,8 @@ public class SingleJunctionAutoSimulationTest {
 	 */
 	@Test
 	public final void testGo() {
-//		this.sim1.go(true);
-		this.sim2.go(true);
+		this.sim1.go(true);
+//		this.sim2.go(true);
 	}
 	
 	/**

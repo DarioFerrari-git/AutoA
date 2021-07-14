@@ -58,7 +58,7 @@ public class RandStrategyTest {
 	public final void testNewCar() {
 		FourWaysJunctionConfig config = new FourWaysJunctionConfig("junction1", new NumArgsPolicy("numArgsPolicy1"),
 				new DistanceRSU(new BaseRSU("distance1", 1), 100));
-		this.strat.configJunction(config.getJunction());
+		this.strat.configJunction(config.getJunction(), 1);
 		CrossingCar car;
 		List<CrossingCar> cars = new ArrayList<>();
 		for (int i = 0; i < RandStrategyTest.ITER; i++) {

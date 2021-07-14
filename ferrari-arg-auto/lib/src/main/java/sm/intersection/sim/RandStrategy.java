@@ -32,16 +32,17 @@ public final class RandStrategy implements VehiclesGenStrategy {
 
     private List<WAY> values;
     private int size;
-    private final Random random = new Random();
+    private Random random;
 
     private long nCars;
 
     @Override
-    public VehiclesGenStrategy configJunction(final SmartJunction junction) {
+    public VehiclesGenStrategy configJunction(final SmartJunction junction, long seed) {
         this.junction = junction;
         this.values = List.copyOf(this.junction.getRoads().keySet());
         this.size = this.values.size();
         this.nCars = 0;
+        this.random = new Random(seed);
         this.setup = true;
         return this;
     }

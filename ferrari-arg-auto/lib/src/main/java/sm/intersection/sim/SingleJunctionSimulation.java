@@ -60,7 +60,8 @@ public class SingleJunctionSimulation {
             boolean first = true;
             for (final CrossingCar car : this.cars) {
                 switch (car.getState()) {
-                    case APPROACHING:
+                    case APPROACHING: // in questo modo nel caso APPROACHING si esegue lo stesso codice del caso CROSSING ("fall-through"))
+                    case CROSSING:
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         try {
                             this.assignRightOfWay(car, first); // TODO does not consider timing
@@ -75,10 +76,18 @@ public class SingleJunctionSimulation {
                         car.getCar().getCar().setSpeed(car.getCar().getCar().getSpeed() / 2); // TODO make deceleration configurable
                         // TODO what if cars surpass each other while decelerating?
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
+                        try {
+                            this.assignRightOfWay(car, first); // TODO does not consider timing
+                            first = false;
+                        } catch (final ParserException e) {
+                            e.printStackTrace();
+                        } catch (final IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
-                    case CROSSING: // TODO should be checked for right of way anyway as new cars are approaching
+                    /*case CROSSING: // TODO should be checked for right of way anyway as new cars are approaching
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
-                        break;
+                        break;*/
                     case SERVED:
                         this.log.warn("SHOULDN'T HAPPEN");
                         break;
