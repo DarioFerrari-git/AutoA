@@ -18,15 +18,15 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 
     private final Logger log = LoggerFactory.getLogger(SingleJunctionAutoSimulation.class);
     //	private final SingleJunctionSimulation sim;
-    private final double vXs;
+    private final double gXs;
     private final long genSteps;
     private final long maxSteps;
     private final VehiclesGenStrategy gen;
 
-    public SingleJunctionAutoSimulation(final SmartJunction junction, final int vehiclesPerSecond, final long genSteps,
+    public SingleJunctionAutoSimulation(final SmartJunction junction, final int genPerSecond, final long genSteps,
             final long maxSteps, final VehiclesGenStrategy strategy) {
         super(junction, new ArrayList<>());
-        this.vXs = vehiclesPerSecond;
+        this.gXs = genPerSecond; // TODO maybe has no longer sense given VehiclesGenStrategy establishes no. of cars to generate...?
         this.genSteps = genSteps;
         this.maxSteps = maxSteps;
         this.gen = strategy;
@@ -39,8 +39,8 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
                 this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
             } else {
                 if (super.getSteps() < this.genSteps) {
-                    for (int i = 0; i < this.vXs; i++) {
-                        this.addCar(this.gen.newCar());
+                    for (int i = 0; i < this.gXs; i++) {
+                        this.addCars(this.gen.newCars());
                     }
                 }
                 super.step(log);

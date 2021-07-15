@@ -3,6 +3,8 @@
  */
 package sm.intersection.sim;
 
+import java.util.List;
+
 import sm.arg.intersection.CrossingCar;
 import sm.intersection.SmartJunction;
 
@@ -12,8 +14,10 @@ import sm.intersection.SmartJunction;
  */
 public interface VehiclesGenStrategy {
 
-    CrossingCar newCar();
+    List<CrossingCar> newCars();
 
-    VehiclesGenStrategy configJunction(final SmartJunction junction, final long seed); // TODO refactor to be set separately set, eventually not supported for non-random strategies
+    VehiclesGenStrategy configJunction(final SmartJunction junction);
+    
+    void setSeed(final long seed);
 
 }

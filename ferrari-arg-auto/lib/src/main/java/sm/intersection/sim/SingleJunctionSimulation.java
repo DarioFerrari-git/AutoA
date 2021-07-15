@@ -218,8 +218,8 @@ public class SingleJunctionSimulation {
         return this.cars;
     }
 
-    public SingleJunctionSimulation addCar(final CrossingCar car) {
-        this.cars.add(car);
+    public SingleJunctionSimulation addCars(final List<CrossingCar> cars) {
+        this.cars.addAll(cars);
         return this;
     }
 

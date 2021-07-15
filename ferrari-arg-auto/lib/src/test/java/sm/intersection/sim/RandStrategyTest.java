@@ -52,25 +52,29 @@ public class RandStrategyTest {
 	}
 
 	/**
-	 * Test method for {@link sm.intersection.sim.RandStrategy#newCar()}.
+	 * Test method for {@link sm.intersection.sim.RandStrategy#newCars()}.
 	 */
 	@Test
-	public final void testNewCar() {
+	public final void testNewCars() {
 		FourWaysJunctionConfig config = new FourWaysJunctionConfig("junction1", new NumArgsPolicy("numArgsPolicy1"),
 				new DistanceRSU(new BaseRSU("distance1", 1), 100));
-		this.strat.configJunction(config.getJunction(), 1);
-		CrossingCar car;
+		this.strat.configJunction(config.getJunction());
+		this.strat.setSeed(1); // if needed, otherwise can skip
+		List<CrossingCar> newCars = new ArrayList<>();
 		List<CrossingCar> cars = new ArrayList<>();
 		for (int i = 0; i < RandStrategyTest.ITER; i++) {
-			car = this.strat.newCar();
-			System.out.println(car);
-			assertTrue(this.strat.getJunction().getRoads().containsKey(car.getWay()));
-			assertTrue(this.strat.getJunction().getRoads().get(car.getWay()) != null);
-			for (CrossingCar otherCar : cars) {
-				assertNotEquals(car, otherCar);
-			}
-			cars.add(car);
-			assertEquals(this.strat.getnCars(), cars.size());
+			newCars.addAll(this.strat.newCars());
+			System.out.println(newCars);
+			for (CrossingCar car : newCars) {
+			    assertTrue(this.strat.getJunction().getRoads().containsKey(car.getWay()));
+	            assertTrue(this.strat.getJunction().getRoads().get(car.getWay()) != null);
+	            for (CrossingCar otherCar : cars) {
+	                assertNotEquals(car, otherCar);
+	            }
+	            cars.add(car);
+	            assertEquals(this.strat.getnCars(), cars.size());
+            }
+			newCars = new ArrayList<>();
 		}
 	}
 

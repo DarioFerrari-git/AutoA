@@ -33,22 +33,29 @@ public final class RandStrategy implements VehiclesGenStrategy {
     private List<WAY> values;
     private int size;
     private Random random;
+    private long seed;
 
     private long nCars;
 
     @Override
-    public VehiclesGenStrategy configJunction(final SmartJunction junction, long seed) {
+    public VehiclesGenStrategy configJunction(final SmartJunction junction) {
         this.junction = junction;
         this.values = List.copyOf(this.junction.getRoads().keySet());
         this.size = this.values.size();
         this.nCars = 0;
-        this.random = new Random(seed);
+        this.random = new Random();
         this.setup = true;
         return this;
     }
+    
+    @Override
+    public void setSeed(long seed) {
+        this.seed = seed;
+        this.random = new Random(this.seed);
+    }
 
     @Override
-    public CrossingCar newCar() {
+    public List<CrossingCar> newCars() {
         if (this.setup) {
             final WAY way = this.values.get(this.random.nextInt(this.size));
             Double d = null;
@@ -66,7 +73,7 @@ public final class RandStrategy implements VehiclesGenStrategy {
                     new Car(String.format("%s_%d", way, this.nCars), this.random.nextDouble() * 50), // TODO make speed range configurable
                     this.random.nextDouble()); // TODO make priority range configurable
             car.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
-            return new CrossingCar(car, way, STATUS.APPROACHING, d);
+            return Collections.singletonList(new CrossingCar(car, way, STATUS.APPROACHING, d));
         } else {
             this.log.warn("REFERENCE JUNCTION NOT YET CONFIGURED");
             return null;

@@ -32,7 +32,8 @@ public class SingleJunctionAutoSimulationTest {
 		FourWaysJunctionConfig config = new FourWaysJunctionConfig("junction1", new NumArgsPolicy("numArgsPolicy1"),
 				new DistanceRSU(new BaseRSU("distance1", 1), 100));
 		VehiclesGenStrategy strat = new RandStrategy();
-		strat.configJunction(config.getJunction(), 1);
+		strat.configJunction(config.getJunction());
+		strat.setSeed(1); // same seed = same random numbers
 		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 20, strat);
 		this.sim2 = new SingleJunctionAutoSimulation(config.getJunction(), 3, 3, 30, strat);
 	}
