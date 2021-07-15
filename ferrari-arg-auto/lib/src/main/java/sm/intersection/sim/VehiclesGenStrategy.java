@@ -18,6 +18,6 @@ public interface VehiclesGenStrategy {
 
     VehiclesGenStrategy configJunction(final SmartJunction junction);
     
-    void setSeed(final long seed);
+    VehiclesGenStrategy setSeed(final long seed);
 
 }

@@ -11,10 +11,14 @@ public enum DIRECTION {
 
     private static final List<DIRECTION> VALUES = Collections.unmodifiableList(Arrays.asList(DIRECTION.values()));
     private static final int SIZE = DIRECTION.VALUES.size();
-    private static final Random RANDOM = new Random();
+    private static Random RANDOM;
 
     public static DIRECTION random() {
         return DIRECTION.VALUES.get(DIRECTION.RANDOM.nextInt(DIRECTION.SIZE));
+    }
+    
+    public static void setSeed(long seed) {
+        RANDOM = new Random(seed);
     }
 
 }

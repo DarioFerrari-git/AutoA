@@ -58,10 +58,21 @@ public class SingleJunctionSimulation {
             this.steps++;
             final List<CrossingCar> toRemove = new ArrayList<>();
             boolean first = true;
+            double newSpeed;
             for (final CrossingCar car : this.cars) {
+                if (car.getDistance() <= 0) { // junction approximated as point in space
+                    car.setState(STATUS.SERVED);
+                    this.log.info("<{}> {}, removing from simulation", car.getName(), car.getState());
+                    toRemove.add(car);
+                }
                 switch (car.getState()) {
                     case APPROACHING: // in questo modo nel caso APPROACHING si esegue lo stesso codice del caso CROSSING ("fall-through"))
                     case CROSSING:
+                        if (car.getCar().getCar().getSpeed() < 50) {
+                            newSpeed = car.getCar().getCar().getSpeed() * 5 / 4;
+                            newSpeed = newSpeed > 50 ? 50 : newSpeed;
+                            car.getCar().getCar().setSpeed(newSpeed); // TODO make acceleration configurable
+                        }
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         try {
                             this.assignRightOfWay(car, first); // TODO does not consider timing
@@ -73,7 +84,9 @@ public class SingleJunctionSimulation {
                         }
                         break;
                     case WAITING: // TODO should be checked for right of away again sooner or later...
-                        car.getCar().getCar().setSpeed(car.getCar().getCar().getSpeed() / 2); // TODO make deceleration configurable
+                        if (car.getCar().getCar().getSpeed() >= 50) {
+                            car.getCar().getCar().setSpeed(car.getCar().getCar().getSpeed() * 3 / 4); // TODO make deceleration configurable
+                        }
                         // TODO what if cars surpass each other while decelerating?
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         try {
@@ -89,15 +102,10 @@ public class SingleJunctionSimulation {
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         break;*/
                     case SERVED:
-                        this.log.warn("SHOULDN'T HAPPEN");
+                        this.log.warn("<{}> will be removed next step", car.getName());
                         break;
                     default:
                         throw new IllegalArgumentException("Unexpected value: " + car.getState());
-                }
-                if (car.getDistance() <= 0) { // junction approximated as point in space
-                    car.setState(STATUS.SERVED);
-                    this.log.info("<{}> {}, removing from simulation", car.getName(), car.getState());
-                    toRemove.add(car);
                 }
             }
             this.cars.removeAll(toRemove);

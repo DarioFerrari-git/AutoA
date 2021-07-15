@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package sm.intersection.sim;
 
@@ -21,12 +21,18 @@ import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
 
 /**
+ * Random ways and routes, fixed speed and urgency (MAX), single 1-step route.
+ *   - WAY is random
+ *   - speed is 50
+ *   - urgency is 1
+ *   - 1 route only, with 1 random DIRECTION only
+ *   
  * @author sm
  *
  */
-public final class RandStrategy implements VehiclesGenStrategy {
-
-    private final Logger log = LoggerFactory.getLogger(RandStrategy.class);
+public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
+    
+    private final Logger log = LoggerFactory.getLogger(FlatRouteMaxStrategy.class);
     private SmartJunction junction;
     private boolean setup = false;
 
@@ -34,29 +40,16 @@ public final class RandStrategy implements VehiclesGenStrategy {
     private int size;
     private Random random;
     private long seed;
+    private boolean seedSet;
 
     private long nCars;
 
     @Override
-    public VehiclesGenStrategy configJunction(final SmartJunction junction) {
-        this.junction = junction;
-        this.values = List.copyOf(this.junction.getRoads().keySet());
-        this.size = this.values.size();
-        this.nCars = 0;
-        this.random = new Random();
-        this.setup = true;
-        return this;
-    }
-    
-    @Override
-    public void setSeed(long seed) {
-        this.seed = seed;
-        this.random = new Random(this.seed);
-    }
-
-    @Override
     public List<CrossingCar> newCars() {
         if (this.setup) {
+            if (!this.seedSet) {
+                this.log.warn("SEED NOT SET, USING NON-REPRODUCIBLE STRATEGY");
+            }
             final WAY way = this.values.get(this.random.nextInt(this.size));
             Double d = null;
             for (final RSU<?> rsu : this.junction.getRoads().get(way).getRsus()) {
@@ -70,8 +63,7 @@ public final class RandStrategy implements VehiclesGenStrategy {
             }
             this.nCars++;
             final UrgentCar car = new UrgentCar(
-                    new Car(String.format("%s_%d", way, this.nCars), this.random.nextDouble() * 50), // TODO make speed range configurable
-                    this.random.nextDouble()); // TODO make priority range configurable
+                    new Car(String.format("%s_%d", way, this.nCars), 50), 1);
             car.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
             return Collections.singletonList(new CrossingCar(car, way, STATUS.APPROACHING, d));
         } else {
@@ -80,6 +72,27 @@ public final class RandStrategy implements VehiclesGenStrategy {
         }
     }
 
+    @Override
+    public VehiclesGenStrategy configJunction(SmartJunction junction) {
+        this.junction = junction;
+        this.values = List.copyOf(this.junction.getRoads().keySet());
+        this.size = this.values.size();
+        this.nCars = 0;
+        this.random = new Random();
+        this.seedSet = false;
+        this.setup = true;
+        return this;
+    }
+
+    @Override
+    public VehiclesGenStrategy setSeed(long seed) {
+        this.seed = seed;
+        this.seedSet = true;
+        this.random = new Random(this.seed);
+        DIRECTION.setSeed(this.seed);
+        return this;
+    }
+    
     /**
      * @return the junction
      */

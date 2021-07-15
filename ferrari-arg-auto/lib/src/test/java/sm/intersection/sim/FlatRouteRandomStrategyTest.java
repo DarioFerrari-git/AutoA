@@ -22,17 +22,17 @@ import sm.intersection.BaseRSU;
  * @author sm
  *
  */
-public class RandStrategyTest {
+public class FlatRouteRandomStrategyTest {
 	
 	private static final int ITER = 1000;
-	private RandStrategy strat;
+	private FlatRouteRandomStrategy strat;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.strat = new RandStrategy();
+		this.strat = new FlatRouteRandomStrategy();
 	}
 
 	/**
@@ -44,15 +44,7 @@ public class RandStrategyTest {
 	}
 
 	/**
-	 * Test method for {@link sm.intersection.sim.RandStrategy#configJunction(sm.intersection.SmartJunction)}.
-	 */
-	@Test
-	public final void testConfigJunction() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link sm.intersection.sim.RandStrategy#newCars()}.
+	 * Test method for {@link sm.intersection.sim.FlatRouteRandomStrategy#newCars()}.
 	 */
 	@Test
 	public final void testNewCars() {
@@ -62,7 +54,7 @@ public class RandStrategyTest {
 		this.strat.setSeed(1); // if needed, otherwise can skip
 		List<CrossingCar> newCars = new ArrayList<>();
 		List<CrossingCar> cars = new ArrayList<>();
-		for (int i = 0; i < RandStrategyTest.ITER; i++) {
+		for (int i = 0; i < FlatRouteRandomStrategyTest.ITER; i++) {
 			newCars.addAll(this.strat.newCars());
 			System.out.println(newCars);
 			for (CrossingCar car : newCars) {
