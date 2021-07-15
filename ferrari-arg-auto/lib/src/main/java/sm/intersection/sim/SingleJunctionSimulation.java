@@ -118,7 +118,7 @@ public class SingleJunctionSimulation {
         }
     }
 
-    private void assignRightOfWay(final CrossingCar Car, boolean first) throws ParserException, IOException {
+    private void assignRightOfWay(final CrossingCar Car, final boolean first) throws ParserException, IOException {
         /*
          * create ASPIC+ theory
          */
@@ -158,11 +158,11 @@ public class SingleJunctionSimulation {
         } else {
             Car.setState(STATUS.WAITING);
         }
-        ArgumentationGraph Agraph = new ArgumentationGraph(t);
+        final ArgumentationGraph Agraph = new ArgumentationGraph(t);
         if (first) {
             Agraph.graph2text(this.cars, this.junction.getPolicy());
         }
-        log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
+        this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
     }
 
     public void go(final Boolean log) {

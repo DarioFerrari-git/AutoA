@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection.sim;
 
@@ -21,17 +21,15 @@ import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
 
 /**
- * Random ways and routes, fixed speed and urgency (MAX), single 1-step route.
- *   - WAY is random
- *   - speed is 50
- *   - urgency is 1
- *   - 1 route only, with 1 random DIRECTION only
- *   
+ * Random ways and routes, fixed speed and urgency (MAX), single 1-step route. -
+ * WAY is random - speed is 50 - urgency is 1 - 1 route only, with 1 random
+ * DIRECTION only
+ * 
  * @author sm
  *
  */
 public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
-    
+
     private final Logger log = LoggerFactory.getLogger(FlatRouteMaxStrategy.class);
     private SmartJunction junction;
     private boolean setup = false;
@@ -62,8 +60,7 @@ public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
                 }
             }
             this.nCars++;
-            final UrgentCar car = new UrgentCar(
-                    new Car(String.format("%s_%d", way, this.nCars), 50), 1);
+            final UrgentCar car = new UrgentCar(new Car(String.format("%s_%d", way, this.nCars), 50), 1);
             car.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
             return Collections.singletonList(new CrossingCar(car, way, STATUS.APPROACHING, d));
         } else {
@@ -73,7 +70,7 @@ public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
     }
 
     @Override
-    public VehiclesGenStrategy configJunction(SmartJunction junction) {
+    public VehiclesGenStrategy configJunction(final SmartJunction junction) {
         this.junction = junction;
         this.values = List.copyOf(this.junction.getRoads().keySet());
         this.size = this.values.size();
@@ -85,14 +82,14 @@ public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
     }
 
     @Override
-    public VehiclesGenStrategy setSeed(long seed) {
+    public VehiclesGenStrategy setSeed(final long seed) {
         this.seed = seed;
         this.seedSet = true;
         this.random = new Random(this.seed);
         DIRECTION.setSeed(this.seed);
         return this;
     }
-    
+
     /**
      * @return the junction
      */

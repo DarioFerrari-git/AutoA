@@ -55,10 +55,10 @@ public final class DistanceRSU implements RSU<Double>, Debatable {
     public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) { // TODO threshold as param
         Proposition a = null;
         if (this.rsu.getConfidence() > 0.5) {
-            a = new Proposition(""+ArgKeys.RSU_trustworthy);
+            a = new Proposition("" + ArgKeys.RSU_trustworthy);
             t.addAxiom(a);
         } else {
-            a = new Proposition(""+ArgKeys.RSU_untrustworthy);
+            a = new Proposition("" + ArgKeys.RSU_untrustworthy);
             t.addAxiom(a);
         }
         return Collections.singletonList(a);

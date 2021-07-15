@@ -16,9 +16,9 @@ public enum DIRECTION {
     public static DIRECTION random() {
         return DIRECTION.VALUES.get(DIRECTION.RANDOM.nextInt(DIRECTION.SIZE));
     }
-    
-    public static void setSeed(long seed) {
-        RANDOM = new Random(seed);
+
+    public static void setSeed(final long seed) {
+        DIRECTION.RANDOM = new Random(seed);
     }
 
 }

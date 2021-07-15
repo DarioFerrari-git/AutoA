@@ -21,12 +21,10 @@ import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
 
 /**
- * Totally random vehicles generation strategy with single 1-step route.
- *   - WAY is random
- *   - speed is random 0-50
- *   - urgency is random 0-1
- *   - 1 route only, with 1 random DIRECTION only
- * 
+ * Totally random vehicles generation strategy with single 1-step route. - WAY
+ * is random - speed is random 0-50 - urgency is random 0-1 - 1 route only, with
+ * 1 random DIRECTION only
+ *
  * @author sm
  *
  */
@@ -55,9 +53,9 @@ public final class FlatRouteRandomStrategy implements VehiclesGenStrategy {
         this.setup = true;
         return this;
     }
-    
+
     @Override
-    public VehiclesGenStrategy setSeed(long seed) {
+    public VehiclesGenStrategy setSeed(final long seed) {
         this.seed = seed;
         this.seedSet = true;
         this.random = new Random(this.seed);

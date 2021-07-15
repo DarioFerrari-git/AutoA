@@ -141,7 +141,7 @@ public final class FourWaysJunctionConfig implements Debatable {
     }
 
     /*
-     * TODO per capire meglio cosa succede conviene spezzare il codice in metodi privati 
+     * TODO per capire meglio cosa succede conviene spezzare il codice in metodi privati
      * che si occupano ognuno di un sotto-problema
      */
     @Override
@@ -232,8 +232,8 @@ public final class FourWaysJunctionConfig implements Debatable {
                                     WaitList.add(this.cars.get(i).getName());
                                 }
                                 /*
-                                 * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug: 
-                                 * se la stampa ha un qualche valore generale, usiamo log.info(), 
+                                 * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug:
+                                 * se la stampa ha un qualche valore generale, usiamo log.info(),
                                  * se serve solo per debug usiamo log.debug()
                                  * Al prosimo ricevimento ricordamelo che ne parliamo
                                  */
@@ -250,8 +250,8 @@ public final class FourWaysJunctionConfig implements Debatable {
             }
         }
         /*
-         * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug: 
-         * se la stampa ha un qualche valore generale, usiamo log.info(), 
+         * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug:
+         * se la stampa ha un qualche valore generale, usiamo log.info(),
          * se serve solo per debug usiamo log.debug()
          * Al prosimo ricevimento ricordamelo che ne parliamo
          */
@@ -279,7 +279,7 @@ public final class FourWaysJunctionConfig implements Debatable {
                     t.add(r1);
                 }
             } else {
-                log.error("FAILED"); // TODO cosa è failed?
+                this.log.error("FAILED"); // TODO cosa è failed?
                 break;
             }
         }

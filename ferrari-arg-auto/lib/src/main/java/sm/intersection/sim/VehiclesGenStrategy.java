@@ -17,7 +17,7 @@ public interface VehiclesGenStrategy {
     List<CrossingCar> newCars();
 
     VehiclesGenStrategy configJunction(final SmartJunction junction);
-    
+
     VehiclesGenStrategy setSeed(final long seed);
 
 }
