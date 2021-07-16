@@ -29,6 +29,7 @@ import sm.intersection.DIRECTION;
 import sm.intersection.JunctionMap;
 import sm.intersection.SmartJunction;
 import sm.intersection.UrgentCar;
+import sm.intersection.sim.ConflictStrategy;
 
 public class Example1 {
 
@@ -85,7 +86,7 @@ public class Example1 {
         
        // Example1.log.info(t.toString());
 ArgumentationGraph bho =new ArgumentationGraph(t);
-bho.graph2text(fourWC.getCars(),fourWC.getJunction().getPolicy());
+//bho.graph2text(fourWC.getCars(),fourWC.getJunction().getPolicy());
         final SmartJunction[][] mp = new SmartJunction[2][2];
 
         final JunctionMap m = new JunctionMap(2, 2, mp);
@@ -98,6 +99,12 @@ bho.graph2text(fourWC.getCars(),fourWC.getJunction().getPolicy());
                 AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
         final PlFormula pf = plparser.parseFormula("A_"+ArgKeys.PassesFirst);
         Example1.log.info("{} --> {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
-
+ System.out.println();
+       
+ ConflictStrategy cf=new ConflictStrategy();
+ cf.configJunction(fourWC.getJunction());
+ cf.setSeed(1);
+ cf.newCars();
+ 
     }
 }

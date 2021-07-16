@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public final class Car {
 
-    private final String name;
+    private String name;
     private final Map<Integer, List<DIRECTION>> routes;
     private double speed;
     private int next;
@@ -72,10 +72,15 @@ public final class Car {
         this.speed = speed;
         return this;
     }
+    public Car setName(final String name) {
+    	this.name=name;
+    	return this;
+    }
 
     @Override
     public String toString() {
         return String.format("Car [name=%s, routes=%s, speed=%s]", this.name, this.routes, this.speed);
     }
-
 }
+
+
