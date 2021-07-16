@@ -84,7 +84,7 @@ public class SingleJunctionSimulation {
                         }
                         break;
                     case WAITING: // TODO should be checked for right of away again sooner or later...
-                        if (car.getCar().getCar().getSpeed() >= 50) {
+                        if (car.getCar().getCar().getSpeed() >= 50) { // TODO this way the car decelerates one single time
                             car.getCar().getCar().setSpeed(car.getCar().getCar().getSpeed() * 3 / 4); // TODO make deceleration configurable
                         }
                         // TODO what if cars surpass each other while decelerating?
