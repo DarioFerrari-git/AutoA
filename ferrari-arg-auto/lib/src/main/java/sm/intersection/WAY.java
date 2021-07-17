@@ -7,7 +7,7 @@ import java.util.Random;
 
 public enum WAY {
 
-    NORTH(1), EAST(2), SOUTH(3), WEST(4);
+    NORTH(0), EAST(1), SOUTH(2), WEST(3);
 
     private final int intValue;
 

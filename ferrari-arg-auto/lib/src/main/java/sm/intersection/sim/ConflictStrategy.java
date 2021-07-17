@@ -59,6 +59,10 @@ public class ConflictStrategy implements VehiclesGenStrategy {
 	            if (!this.seedSet) {
 	                this.log.warn("SEED NOT SET, USING NON-REPRODUCIBLE STRATEGY");
 	            }
+	            int cont=0;
+	            List<CrossingCar>lc=new ArrayList<CrossingCar>();
+	            
+	           
 	            final WAY way1 = this.values.get(this.random.nextInt(this.size));
 	            WAY way2=null;
 	            Double d = null;
@@ -83,103 +87,107 @@ public class ConflictStrategy implements VehiclesGenStrategy {
 	            		this.random.nextDouble());
 	            double alpha=Math.random();
 	            if(car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.STRAIGHT.toString())){
-	            	//System.out.println("sono qui");
+	            	
 	            	 if(alpha<=0.16) {
-	            		 if(way1.intWay(way1)+1<=3) {
-	            		 way2=WAY.VALUES.get(way1.intWay(way1)+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
-	            		 else {int v= way1.intWay(way1)+1-4;
-	            		// System.out.println(v+"-");
+	            		 if(way1.intValue()+1<=3) {
+	            		 way2=WAY.VALUES.get(way1.intValue()+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
+	            		 else {int v= way1.intValue()+1-4;
+	            	
 	            			way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
-							//System.out.println(way2.VALUES.get(v)+" ");
+	            			 
 	            	 	}
 	            		 }
 	            	 if(alpha<=0.32&&alpha>0.16) {
-	            		 if(way1.intWay(way1)+1<=3) {
-	            		 way2=WAY.VALUES.get(way1.intWay(way1)+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));} 
-	            		 else {int v= way1.intWay(way1)+1-4;
-	            		// System.out.println(v+"--");
+	            		 if(way1.intValue()+1<=3) {
+	            		 way2=WAY.VALUES.get(way1.intValue()+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));} 
+	            		 else {int v= way1.intValue()+1-4;
+	            		
 	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
-	            		 //System.out.println(way2.VALUES.get(v)+" ");
+	            		 
 	            		 } 	 
 	            		 }
 	            	 if(alpha<=0.48&&alpha>0.32) {
-	            		 if(way1.intWay(way1)+2<=3) {
-	            		 way2=WAY.VALUES.get(way1.intWay(way1)+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
-	            		 else {int v= way1.intWay(way1)+2-4;
-	            		// System.out.println(v+"---");
-	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));//System.out.println(way2.VALUES.get(v)+" ");
+	            		 if(way1.intValue()+2<=3) {
+	            		 way2=WAY.VALUES.get(way1.intValue()+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
+	            		 else {int v= way1.intValue()+2-4;
+	            		
+	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
 	            		 } 
 	            		 }
 	            	 if(alpha<=0.64&&alpha>0.48) {
-	            		 if(way1.intWay(way1)+3<=3) {
-	            		 way2=WAY.VALUES.get(way1.intWay(way1)+3);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
-	            		 else {int v= way1.intWay(way1)+3-4;
-	            		 //System.out.println(v+"----");
-	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));//System.out.println(way2.VALUES.get(v)+" ");
+	            		 if(way1.intValue()+3<=3) {
+	            		 way2=WAY.VALUES.get(way1.intValue()+3);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
+	            		 else {int v= way1.intValue()+3-4;
+	            		 
+	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
 	            		 }
 	            		 }
 	            	 if(alpha<=0.8&&alpha>0.64) { 
-	            	     if(way1.intWay(way1)+3<=3){
-	            	     way2=values.get(way1.intWay(way1)+3);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
-	            	     else {int v= way1.intWay(way1)+3-4;
-	            	    // System.out.println(v+"-----");
-	            	     way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));//System.out.println(way2.VALUES.get(v)+" ");
+	            	     if(way1.intValue()+3<=3){
+	            	     way2=WAY.VALUES.get(way1.intValue()+3);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
+	            	     else {int v= way1.intValue()+3-4;
+	            	    
+	            	     way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
 	            	     }
 	            		 }
 	            	 if(alpha>0.8) { 
-	            		 if (way1.intWay(way1)+3<=3){way2=values.get(way1.intWay(way1)+3);car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));}
-	            		 else {int v= way1.intWay(way1)+3-4;
-	            		// System.out.println(v+"------");
-	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));//System.out.println(way2.VALUES.get(v)+" ");
+	            		 if (way1.intValue()+3<=3){way2=WAY.VALUES.get(way1.intValue()+3);car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));}
+	            		 else {int v= way1.intValue()+3-4;
+	            
+	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));
 	            		 }
 	            		 }
 	            }	   	 
 	            if(car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.RIGHT.toString())){
 	            	if(alpha<0.5) {
-	            		if(way1.intWay(way1)+1<=3) {way2=values.get(way1.intWay(way1)+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
-	            		else {int v= way1.intWay(way1)+1-4;
+	            		if(way1.intValue()+1<=3) {way2=WAY.VALUES.get(way1.intValue()+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
+	            		else {int v= way1.intValue()+1-4;
 	            		way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
 	            	}
 	            	if(alpha>0.5) {
-	            		if(way1.intWay(way1)+2<=3){way2=values.get(way1.intWay(way1)+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
-	            		else {int v= way1.intWay(way1)+2-4;
-	            		way2=WAY.VALUES.get(way1.intWay(way1)+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
+	            		if(way1.intValue()+2<=3){way2=WAY.VALUES.get(way1.intValue()+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
+	            		else {int v= way1.intValue()+2-4;
+	            		way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
 	            	}
 	            }
 	            if(car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.LEFT.toString())){
 	            	if(alpha<=0.2) {
-	            		if(way1.intWay(way1)+1<=3) {way2=values.get(way1.intWay(way1)+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
-	            		else {int v= way1.intWay(way1)+1-4;
-	            		way2=WAY.VALUES.get(way1.intWay(way1)+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}		
+	            		
+	            		if(way1.intValue()+1<=3) {way2=WAY.VALUES.get(way1.intValue()+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
+	            		else {int v= way1.intValue()+1-4;
+	            		way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}		
 	            	}
-	            	 if(alpha<=0.4&&alpha>0.2) { 
-	            		 if(way1.intWay(way1)+1<=3){way2=values.get(way1.intWay(way1)+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
-	            		 else {int v= way1.intWay(way1)+1-4;
-	            		 way2=WAY.VALUES.get(way1.intWay(way1)+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}	 
+	            	 if(alpha<=0.4&&alpha>0.2) {
+	            		
+	            		 if(way1.intValue()+1<=3){way2=WAY.VALUES.get(way1.intValue()+1);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}
+	            		 else {int v= way1.intValue()+1-4;
+	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));}	 
 	            	 }
-	            	 if(alpha<=0.6&&alpha>0.4) { 
-	            		 if(way1.intWay(way1)+2<=3){way2=values.get(way1.intWay(way1)+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
-	            		 else {int v= way1.intWay(way1)+2-4;
-	            		 way2=WAY.VALUES.get(way1.intWay(way1)+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}	 
+	            	 if(alpha<=0.6&&alpha>0.4) {
+	            	
+	            		 if(way1.intValue()+2<=3){way2=WAY.VALUES.get(way1.intValue()+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
+	            		 else {int v= way1.intValue()+2-4;
+	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}	 
 	            	 }
 	            	 if(alpha<=0.8&&alpha>0.6) {
-	            		 if(way1.intWay(way1)+2<=3){way2=values.get(way1.intWay(way1)+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));}
-	            		 else {int v= way1.intWay(way1)+2-4;
-	            		 way2=WAY.VALUES.get(way1.intWay(way1)+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));}	 
+	            	
+	            		 if(way1.intValue()+2<=3){way2=WAY.VALUES.get(way1.intValue()+2);car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));}
+	            		 else {int v= way1.intValue()+2-4;
+	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));}	 
 	            	 }
 	            	 if(alpha>0.8) {
-	            		 if(way1.intWay(way1)+3<=3){way2=values.get(way1.intWay(way1)+3);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
-	            		 else {int v= way1.intWay(way1)+3-4;
-	            		 way2=WAY.VALUES.get(way1.intWay(way1)+3);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}	 
+	            	
+	            		 if(way1.intValue()+3<=3){way2=WAY.VALUES.get(way1.intValue()+3);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}
+	            		 else {int v= way1.intValue()+3-4;
+	            		 way2=WAY.VALUES.get(v);car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));}	 
 	            	 }
-	            }    
+	            }
 	            car2.getCar().setName(String.format("%s_%d", way2, this.nCars));
-	            List<CrossingCar>lc=new ArrayList<CrossingCar>();
 	            lc.add(new CrossingCar(car1, way1, STATUS.APPROACHING, d));
 	            lc.add(new CrossingCar(car2, way2, STATUS.APPROACHING, d));
 	        //    System.out.println(lc.get(0).getWay().toString()+" "+lc.get(0).getWay().intWay(way1));
 	        //    System.out.println(lc.get(1).getWay().toString()+" "+lc.get(1).getWay().intWay(way2));
-	            System.out.println(lc);
+	        //    System.out.println(lc);
 	            return lc;
 	            } else {
 	            this.log.warn("REFERENCE JUNCTION NOT YET CONFIGURED");
