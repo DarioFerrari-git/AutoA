@@ -177,7 +177,9 @@ public final class FourWaysJunctionConfig implements Debatable {
                 r1.addPremise(a);
                 t.addRule(r1);
             }
+            if(!cars.get(i).getState().equals(STATUS.SERVED)) {
             for (int j = 0; j < this.cars.size(); j++) {
+            if(!cars.get(j).getState().equals(STATUS.SERVED)) {
                 b = new Proposition(
                         ArgKeys.PossibleIncident + "_" + this.cars.get(i).getName() + this.cars.get(j).getName());
                 f = new Proposition(this.cars.get(j).getName());
@@ -247,8 +249,8 @@ public final class FourWaysJunctionConfig implements Debatable {
                         }
                     }
                 }
-            }
-        }
+            }}
+        }}
         /*
          * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug:
          * se la stampa ha un qualche valore generale, usiamo log.info(),
@@ -267,7 +269,7 @@ public final class FourWaysJunctionConfig implements Debatable {
             t.add(r2);
         }
         for (final CrossingCar element2 : this.cars) {
-            if (WaitList.size() < this.cars.size() && !Problems) {
+            if (WaitList.size() < this.cars.size() && !Problems&&!element2.getState().equals(STATUS.SERVED)) {
                 a = new Proposition(element2.getName() + "_" + ArgKeys.PassesFirst);
                 if (!WaitList.contains(element2.getName())) {
                     r1 = new DefeasibleInferenceRule<>();
@@ -278,9 +280,23 @@ public final class FourWaysJunctionConfig implements Debatable {
                     }
                     t.add(r1);
                 }
-            } else {
-                this.log.error("FAILED"); // TODO cosa è failed?
-                break;
+            } else if(element2.getState().equals(STATUS.SERVED)&&!Problems){
+                a = new Proposition(element2.getName()+"_"+ArgKeys.CorrectlyDetected);
+                c = new Proposition(element2.getName()+"_"+ArgKeys.DeleteFromSystem);
+                b = new Proposition(element2.getName()+"_"+ArgKeys.Served);
+                d = new Proposition(""+ArgKeys.Served);
+                r1=new DefeasibleInferenceRule<>();
+                r1.setConclusion(b);
+                r1.addPremise(a);
+                r1.addPremise(d);
+                t.add(r1);
+                r1=new DefeasibleInferenceRule<>();
+                r1.setConclusion(c);
+                r1.addPremise(a);
+                r1.addPremise(b);
+                t.add(r1);
+            }else {
+            	break;
             }
         }
         return Arrays.asList(a, b, c, d, f);

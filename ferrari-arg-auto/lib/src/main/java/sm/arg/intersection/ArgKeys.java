@@ -25,6 +25,10 @@ public enum ArgKeys {
     //If a possible incident became a real incident.
     Incident,
     //If two cars are in conflict but are also detected, one car will obtain a crossing status.
-    PassesFirst
+    PassesFirst,
+    //If a car is Served by the system
+    DeleteFromSystem,
+    //If a car obtain the status Served
+    Served
 
 }
