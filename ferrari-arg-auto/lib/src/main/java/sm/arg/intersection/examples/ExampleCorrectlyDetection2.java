@@ -26,7 +26,14 @@ import sm.intersection.BaseRSU;
 import sm.intersection.Car;
 import sm.intersection.DIRECTION;
 import sm.intersection.UrgentCar;
-
+/*
+ * 
+ * An example where we can see a Four Ways Junction where two cars have to cross. 
+ * The RSU system is trustworthy so these two cars are correctly detected.
+ * This scenario permit all cars to cross the junction simultaneously due to no possible conflict has been detected.
+ *  
+ * 
+ */
 public class ExampleCorrectlyDetection2 {
     private final static Logger log = LoggerFactory.getLogger(Example1.class);
 

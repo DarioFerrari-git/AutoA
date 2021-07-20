@@ -1,0 +1,10 @@
+=>live_in_chicago
+=>quaker
+=>republican
+
+d1: republican => !pacifist
+d2: quaker => pacifist
+d3: live_in_chicago => has_a_gun
+d4: live_in_chicago, pacifist => !has_a_gun
+
+d1 < d2 < d3 < d4

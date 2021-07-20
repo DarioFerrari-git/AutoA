@@ -25,7 +25,16 @@ import sm.intersection.BaseRSU;
 import sm.intersection.Car;
 import sm.intersection.DIRECTION;
 import sm.intersection.UrgentCar;
-
+/*
+ * 
+ * An example where we can see a Four Ways Junction where two cars have to cross. 
+ * The RSU system is untrustworthy so these two cars are wrongly detected.
+ * This scenario  has an important critical issue: these cars are going to move on two conflict paths. 
+ * For this reason we can expect the RSU system have to impose a crossing order but the RSU does not work. 
+ * An Incident is unavoidable.
+ * 
+ * 
+ */
 public class ExampleWronglyDetection1 {
     private final static Logger log = LoggerFactory.getLogger(Example1.class);
 

@@ -1,0 +1,11 @@
+=> WearsRing
+=> PartyAnimal
+
+d1: WearsRing => Married
+d2: PartyAnimal => Bachelor
+
+s1: Married -> ! Bachelor
+s2: Bachelor -> ! Married
+
+relazioni di precedenza su s sono inutili (strict rules)
+(s1 < s2 o s2 < s1)

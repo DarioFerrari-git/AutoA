@@ -1,0 +1,9 @@
+=>tiger 
+=>baby
+=>pet
+
+d1: tiger => danger
+d2: baby => !danger
+d3: pet => !danger
+
+d2<d1<d3

@@ -1,0 +1,9 @@
+=>chicken
+=>scared
+
+d1: chicken => bird
+d2: bird => fly
+d3: chicken => !fly
+d4: chicken,scared => fly
+
+d1 < d2 < d3 < d4
