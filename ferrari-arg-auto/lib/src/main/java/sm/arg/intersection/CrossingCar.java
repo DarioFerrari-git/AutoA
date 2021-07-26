@@ -27,6 +27,7 @@ public class CrossingCar implements Debatable {
     private WAY way;
     private STATUS state;
     private double distance;
+    private DIRECTION lane;
 
     /**
      * @param car
@@ -39,6 +40,7 @@ public class CrossingCar implements Debatable {
         this.way = way;
         this.state = state;
         this.distance = distance;
+        this.lane = car.getCar().getRoutes().get(0).get(0);
     }
 
     /**
@@ -112,7 +114,7 @@ public class CrossingCar implements Debatable {
 
     @Override
     public String toString() {
-        return String.format("CrossingCar [car=%s, way=%s, state=%s, distance=%s]", this.car, this.way, this.state,
+        return String.format("CrossingCar [car=%s, way=%s,lane=%s, state=%s, distance=%s]", this.car, this.way,this.lane, this.state,
                 this.distance);
     }
 

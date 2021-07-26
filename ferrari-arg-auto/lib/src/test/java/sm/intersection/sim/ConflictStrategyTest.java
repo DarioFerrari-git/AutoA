@@ -24,7 +24,7 @@ import sm.intersection.BaseRSU;
  */
 public class ConflictStrategyTest {
     
-    private static final int ITER = 20;
+    private static final int ITER = 10;
     private ConflictStrategy strat;
 
     /**

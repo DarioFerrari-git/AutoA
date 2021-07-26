@@ -84,7 +84,7 @@ public class Example1 {
         }
         fourWC.addAsArgTheory(t);
         
-       // Example1.log.info(t.toString());
+        Example1.log.info(t.toString());
 ArgumentationGraph bho =new ArgumentationGraph(t);
 //bho.graph2text(fourWC.getCars(),fourWC.getJunction().getPolicy());
         final SmartJunction[][] mp = new SmartJunction[2][2];

@@ -59,7 +59,7 @@ public class ConflictStrategy implements VehiclesGenStrategy {
 	            if (!this.seedSet) {
 	                this.log.warn("SEED NOT SET, USING NON-REPRODUCIBLE STRATEGY");
 	            }
-	            int cont=0;
+	            
 	            List<CrossingCar>lc=new ArrayList<CrossingCar>();
 	            
 	           

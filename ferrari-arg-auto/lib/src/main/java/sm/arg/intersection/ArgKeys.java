@@ -21,7 +21,7 @@ public enum ArgKeys {
     //If two cars are not in conflict. 
     CanTransitSimultaneously,
     //If two cars are in conflict but are also detected, one car will reduce its speed and will obtain a waiting status.
-    Wait,
+    WaitDueTo,
     //If a possible incident became a real incident.
     Incident,
     //If two cars are in conflict but are also detected, one car will obtain a crossing status.

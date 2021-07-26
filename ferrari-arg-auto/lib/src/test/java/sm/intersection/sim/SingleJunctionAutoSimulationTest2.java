@@ -19,7 +19,7 @@ import sm.intersection.BaseRSU;
  * @author sm
  *
  */
-public class SingleJunctionAutoSimulationTest {
+public class SingleJunctionAutoSimulationTest2 {
 	
 	private SingleJunctionAutoSimulation sim1;
 	private SingleJunctionAutoSimulation sim2;
@@ -31,8 +31,8 @@ public class SingleJunctionAutoSimulationTest {
 	public void setUp() throws Exception {
 		FourWaysJunctionConfig config = new FourWaysJunctionConfig("junction1", new NumArgsPolicy("numArgsPolicy1"),
 				new DistanceRSU(new BaseRSU("distance1", 1), 100));
-		//VehiclesGenStrategy strat = new ConflictStrategy();
-		VehiclesGenStrategy strat = new FlatRouteMaxStrategy();
+		VehiclesGenStrategy strat = new ConflictStrategy();
+		//VehiclesGenStrategy strat = new FlatRouteMaxStrategy();
 		strat.configJunction(config.getJunction());
 		strat.setSeed(1); // same seed = same random numbers
 		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 20, strat);
