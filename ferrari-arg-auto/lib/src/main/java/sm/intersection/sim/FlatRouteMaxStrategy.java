@@ -24,7 +24,7 @@ import sm.intersection.WAY;
  * Random ways and routes, fixed speed and urgency (MAX), single 1-step route. -
  * WAY is random - speed is 50 - urgency is 1 - 1 route only, with 1 random
  * DIRECTION only
- * 
+ *
  * @author sm
  *
  */

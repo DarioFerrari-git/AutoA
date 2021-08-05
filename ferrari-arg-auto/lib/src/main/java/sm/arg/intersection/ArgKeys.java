@@ -12,13 +12,13 @@ public enum ArgKeys {
     CorrectlyDetected,
     //If a car hasn't been detected by RSU.
     WronglyDetected,
-    //If RSU hasn't an efficient parameter alfa>standard value. 
+    //If RSU hasn't an efficient parameter alfa>standard value.
     RSU_untrustworthy,
-    //If RSU has an efficient parameter alfa>standard value. 
+    //If RSU has an efficient parameter alfa>standard value.
     RSU_trustworthy,
     //An event created by two different cars not detected and in conflict.
     PossibleIncident,
-    //If two cars are not in conflict. 
+    //If two cars are not in conflict.
     CanTransitSimultaneously,
     //If two cars are in conflict but are also detected, one car will reduce its speed and will obtain a waiting status.
     WaitDueTo,

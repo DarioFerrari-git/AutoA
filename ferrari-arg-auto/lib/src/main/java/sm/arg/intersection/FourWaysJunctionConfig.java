@@ -180,105 +180,124 @@ public final class FourWaysJunctionConfig implements Debatable {
                 r1.addPremise(a);
                 t.addRule(r1);
             }
-            if(!cars.get(i).getState().equals(STATUS.SERVED)) {
-            for (int j = 0; j < this.cars.size(); j++) {
-            if(!cars.get(j).getState().equals(STATUS.SERVED)) {
-                b = new Proposition(
-                        ArgKeys.PossibleIncident + "_" + this.cars.get(i).getName() + this.cars.get(j).getName());
-                f = new Proposition(this.cars.get(j).getName());
-
-                if (!this.cars.get(i).equals(this.cars.get(j))
-                        && !alreadyConsidered.contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())) {
-                    if (this.noConflicts(i, j)) {
-                        c = new Proposition(ArgKeys.CanTransitSimultaneously + "_" + this.cars.get(i).getName()
+            if (!this.cars.get(i).getState().equals(STATUS.SERVED)) {
+                for (int j = 0; j < this.cars.size(); j++) {
+                    if (!this.cars.get(j).getState().equals(STATUS.SERVED)) {
+                        b = new Proposition(ArgKeys.PossibleIncident + "_" + this.cars.get(i).getName()
                                 + this.cars.get(j).getName());
-                        r1 = new DefeasibleInferenceRule<>();
-                        r1.setConclusion(c);
-                        r1.addPremise(a);
-                        r1.addPremise(f);
-                        t.addRule(r1);
+                        f = new Proposition(this.cars.get(j).getName());
 
-                        r2 = new StrictInferenceRule<>();
-                        r2.setConclusion(new Negation(b));
-                        r2.addPremise(c);
-                        alreadyConsidered.add(this.cars.get(j).getName() + "0" + this.cars.get(i).getName());
-                        //						this.log.debug(alreadyConsidered.toString());
-                    
-                //   System.out.println (this.cars.get(i).getName()+"/"+this.cars.get(j).getName()); 
-                    } else {
-                        c = new Proposition(this.junction.getPolicy().getName());
-                        r1 = new DefeasibleInferenceRule<>();
-                        r2 = new StrictInferenceRule<>();
-                        
-                        if (!alreadyConsidered.contains(this.cars.get(j).getName() + "0" + this.cars.get(i).getName())
-                                && !alreadyConsidered
-                                        .contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())
-                                && !this.cars.get(i).equals(this.cars.get(j)) && !alreadyConsidered
-                                        .contains(this.cars.get(i).getName() + "x" + this.cars.get(j).getName())) {
-                        //	System.out.println(this.cars.get(i).getName()+"*"+this.cars.get(j).getName());
-                            
-                        	if (Problems) {
-                                a = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.WronglyDetected);
-                                f = new Proposition(this.cars.get(j).getName() + "_" + ArgKeys.WronglyDetected);
-                                r1.setConclusion(b);
+                        if (!this.cars.get(i).equals(this.cars.get(j)) && !alreadyConsidered
+                                .contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())) {
+                            if (this.noConflicts(i, j)) {
+                                c = new Proposition(ArgKeys.CanTransitSimultaneously + "_" + this.cars.get(i).getName()
+                                        + this.cars.get(j).getName());
+                                r1 = new DefeasibleInferenceRule<>();
+                                r1.setConclusion(c);
                                 r1.addPremise(a);
                                 r1.addPremise(f);
                                 t.addRule(r1);
-                                alreadyConsidered.add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
-                                //								GlobalIncident = true;
-                                CarsInvolvedinCrush.add(this.cars.get(i).getName() + this.cars.get(j).getName());
-                            }else if (this.cars.get(j)
-                                    .equals(this.junction.getPolicy().rightOfWay(this.cars.get(i), this.cars.get(j)))) {
-                          //  System.out.println(this.cars.get(i).getName()+" "+this.cars.get(j).getName());
-                                a = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.CorrectlyDetected);
-                                f = new Proposition(this.cars.get(j).getName() + "_" + ArgKeys.CorrectlyDetected);
-                                d = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.WaitDueTo+this.cars.get(j).getName());
-                                r1.setConclusion(d);
-                                r1.addPremise(c);
-                                r1.addPremise(a);
-                                t.add(r1);
-                                if (!WaitList.contains(this.cars.get(i).getName()+ "_" + ArgKeys.WaitDueTo+this.cars.get(j).getName())&&!WL.contains(this.cars.get(i).getName())) {
-                                	
-                                    WaitList.add(this.cars.get(i).getName()+ "_" + ArgKeys.WaitDueTo+this.cars.get(j).getName()); WL.add(this.cars.get(i).getName());
-                                }//else {System.out.println(this.cars.get(i).getName()+" "+this.cars.get(j).getName());}
-                                /*
-                                 * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug:
-                                 * se la stampa ha un qualche valore generale, usiamo log.info(),
-                                 * se serve solo per debug usiamo log.debug()
-                                 * Al prosimo ricevimento ricordamelo che ne parliamo
-                                 */
-                                // System.out.println(r1);
+
+                                r2 = new StrictInferenceRule<>();
                                 r2.setConclusion(new Negation(b));
-                                r2.addPremise(d);
-                                r2.addPremise(f);
-                                t.add(r2);
-                                alreadyConsidered.add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
-                            }else if (this.cars.get(i)
-                                    .equals(this.junction.getPolicy().rightOfWay(this.cars.get(i), this.cars.get(j)))) {
-                            	a = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.CorrectlyDetected);
-                                f = new Proposition(this.cars.get(j).getName() + "_" + ArgKeys.CorrectlyDetected);
-                                d = new Proposition(this.cars.get(j).getName() + "_" + ArgKeys.WaitDueTo+this.cars.get(i).getName());
-                                r1.setConclusion(d);
-                                r1.addPremise(c);
-                                r1.addPremise(a);
-                                t.add(r1);
-                                if (!WaitList.contains(this.cars.get(j).getName()+ "_" + ArgKeys.WaitDueTo+this.cars.get(i).getName())&&!WL.contains(this.cars.get(i).getName())) {
-                                	
-                                    WaitList.add(this.cars.get(j).getName()+ "_" + ArgKeys.WaitDueTo+this.cars.get(i).getName()); WL.add(this.cars.get(j).getName());
+                                r2.addPremise(c);
+                                alreadyConsidered.add(this.cars.get(j).getName() + "0" + this.cars.get(i).getName());
+                                //						this.log.debug(alreadyConsidered.toString());
+
+                                //   System.out.println (this.cars.get(i).getName()+"/"+this.cars.get(j).getName()); 
+                            } else {
+                                c = new Proposition(this.junction.getPolicy().getName());
+                                r1 = new DefeasibleInferenceRule<>();
+                                r2 = new StrictInferenceRule<>();
+
+                                if (!alreadyConsidered
+                                        .contains(this.cars.get(j).getName() + "0" + this.cars.get(i).getName())
+                                        && !alreadyConsidered
+                                                .contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())
+                                        && !this.cars.get(i).equals(this.cars.get(j)) && !alreadyConsidered.contains(
+                                                this.cars.get(i).getName() + "x" + this.cars.get(j).getName())) {
+                                    //	System.out.println(this.cars.get(i).getName()+"*"+this.cars.get(j).getName());
+
+                                    if (Problems) {
+                                        a = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.WronglyDetected);
+                                        f = new Proposition(this.cars.get(j).getName() + "_" + ArgKeys.WronglyDetected);
+                                        r1.setConclusion(b);
+                                        r1.addPremise(a);
+                                        r1.addPremise(f);
+                                        t.addRule(r1);
+                                        alreadyConsidered
+                                                .add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
+                                        //								GlobalIncident = true;
+                                        CarsInvolvedinCrush
+                                                .add(this.cars.get(i).getName() + this.cars.get(j).getName());
+                                    } else if (this.cars.get(j).equals(
+                                            this.junction.getPolicy().rightOfWay(this.cars.get(i), this.cars.get(j)))) {
+                                        //  System.out.println(this.cars.get(i).getName()+" "+this.cars.get(j).getName());
+                                        a = new Proposition(
+                                                this.cars.get(i).getName() + "_" + ArgKeys.CorrectlyDetected);
+                                        f = new Proposition(
+                                                this.cars.get(j).getName() + "_" + ArgKeys.CorrectlyDetected);
+                                        d = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.WaitDueTo
+                                                + this.cars.get(j).getName());
+                                        r1.setConclusion(d);
+                                        r1.addPremise(c);
+                                        r1.addPremise(a);
+                                        t.add(r1);
+                                        if (!WaitList.contains(this.cars.get(i).getName() + "_" + ArgKeys.WaitDueTo
+                                                + this.cars.get(j).getName())
+                                                && !WL.contains(this.cars.get(i).getName())) {
+
+                                            WaitList.add(this.cars.get(i).getName() + "_" + ArgKeys.WaitDueTo
+                                                    + this.cars.get(j).getName());
+                                            WL.add(this.cars.get(i).getName());
+                                        } //else {System.out.println(this.cars.get(i).getName()+" "+this.cars.get(j).getName());}
+                                        /*
+                                         * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug:
+                                         * se la stampa ha un qualche valore generale, usiamo log.info(),
+                                         * se serve solo per debug usiamo log.debug()
+                                         * Al prosimo ricevimento ricordamelo che ne parliamo
+                                         */
+                                        // System.out.println(r1);
+                                        r2.setConclusion(new Negation(b));
+                                        r2.addPremise(d);
+                                        r2.addPremise(f);
+                                        t.add(r2);
+                                        alreadyConsidered
+                                                .add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
+                                    } else if (this.cars.get(i).equals(
+                                            this.junction.getPolicy().rightOfWay(this.cars.get(i), this.cars.get(j)))) {
+                                        a = new Proposition(
+                                                this.cars.get(i).getName() + "_" + ArgKeys.CorrectlyDetected);
+                                        f = new Proposition(
+                                                this.cars.get(j).getName() + "_" + ArgKeys.CorrectlyDetected);
+                                        d = new Proposition(this.cars.get(j).getName() + "_" + ArgKeys.WaitDueTo
+                                                + this.cars.get(i).getName());
+                                        r1.setConclusion(d);
+                                        r1.addPremise(c);
+                                        r1.addPremise(a);
+                                        t.add(r1);
+                                        if (!WaitList.contains(this.cars.get(j).getName() + "_" + ArgKeys.WaitDueTo
+                                                + this.cars.get(i).getName())
+                                                && !WL.contains(this.cars.get(i).getName())) {
+
+                                            WaitList.add(this.cars.get(j).getName() + "_" + ArgKeys.WaitDueTo
+                                                    + this.cars.get(i).getName());
+                                            WL.add(this.cars.get(j).getName());
+                                        }
+                                        r2.setConclusion(new Negation(b));
+                                        r2.addPremise(d);
+                                        r2.addPremise(f);
+                                        t.add(r2);
+                                        alreadyConsidered
+                                                .add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
+                                    }
                                 }
-                                r2.setConclusion(new Negation(b));
-                                r2.addPremise(d);
-                                r2.addPremise(f);
-                                t.add(r2);
-                                alreadyConsidered.add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
                             }
                         }
                     }
                 }
             }
-            }
         }
-            }
         /*
          * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug:
          * se la stampa ha un qualche valore generale, usiamo log.info(),
@@ -296,95 +315,97 @@ public final class FourWaysJunctionConfig implements Debatable {
             }
             t.add(r2);
         }
-       // 	System.out.println(WaitList);
-       // 	System.out.println(WL);
-        
-        
-        
+        // 	System.out.println(WaitList);
+        // 	System.out.println(WL);
+
         for (final CrossingCar element2 : this.cars) {
-        	if(!Problems) {
-        	
-            if (!element2.getState().equals(STATUS.SERVED)&&!WL.contains(element2.getName())) {
-                a = new Proposition(element2.getName() + "_" + ArgKeys.PassesFirst);
-                b = new Proposition(element2.getName() + "_" + ArgKeys.CorrectlyDetected);
-                FirstPassList.add(element2.getName());
+            if (!Problems) {
+
+                if (!element2.getState().equals(STATUS.SERVED) && !WL.contains(element2.getName())) {
+                    a = new Proposition(element2.getName() + "_" + ArgKeys.PassesFirst);
+                    b = new Proposition(element2.getName() + "_" + ArgKeys.CorrectlyDetected);
+                    FirstPassList.add(element2.getName());
                     r1 = new DefeasibleInferenceRule<>();
                     r1.setConclusion(a);
                     r1.addPremise(b);
                     t.add(r1);
-             //   System.out.println(1+element2.getName());
-            } else if(element2.getState().equals(STATUS.SERVED)){
-                a = new Proposition(element2.getName()+"_"+ArgKeys.CorrectlyDetected);
-                c = new Proposition(element2.getName()+"_"+ArgKeys.DeleteFromSystem);
-                b = new Proposition(element2.getName()+"_"+ArgKeys.Served);
-                d = new Proposition(""+ArgKeys.Served);
-                r1=new DefeasibleInferenceRule<>();
-                r1.setConclusion(b);
-                r1.addPremise(a);
-                r1.addPremise(d);
-                t.add(r1);
-                r1=new DefeasibleInferenceRule<>();
-                r1.setConclusion(c);
-                r1.addPremise(a);
-                r1.addPremise(b);
-                t.add(r1);
-            }}}
-        
-        //	System.out.println(WaitList);
-        	for (final CrossingCar element3 : this.cars) {
-            	r1 = new DefeasibleInferenceRule<>();  
-            		if(!FirstPassList.contains(element3.getName())&&!element3.getState().equals(STATUS.SERVED)) {
-            			for(String element2:WaitList) {
-            				String[] FirstC=element2.split("To");
-        		if(element2.contains(element3.getName()+ "_" + ArgKeys.WaitDueTo)&&FirstPassList.contains(FirstC[1])&&!Problems) {
-        		
-        		 a = new Proposition("!"+element3.getName() + "_" + ArgKeys.PassesFirst);
-               	 b= new Proposition(element3.getName()+"_"+ ArgKeys.CorrectlyDetected);
-               	
-                    r1.setConclusion(a);
+                    //   System.out.println(1+element2.getName());
+                } else if (element2.getState().equals(STATUS.SERVED)) {
+                    a = new Proposition(element2.getName() + "_" + ArgKeys.CorrectlyDetected);
+                    c = new Proposition(element2.getName() + "_" + ArgKeys.DeleteFromSystem);
+                    b = new Proposition(element2.getName() + "_" + ArgKeys.Served);
+                    d = new Proposition("" + ArgKeys.Served);
+                    r1 = new DefeasibleInferenceRule<>();
+                    r1.setConclusion(b);
+                    r1.addPremise(a);
+                    r1.addPremise(d);
+                    t.add(r1);
+                    r1 = new DefeasibleInferenceRule<>();
+                    r1.setConclusion(c);
+                    r1.addPremise(a);
                     r1.addPremise(b);
                     t.add(r1);
-        		WaitListEFF.add(element3.getName());
-        		} 
+                }
             }
-            }		
-        	
-            }
-        	for (final CrossingCar element3 : this.cars) {
-            	r1 = new DefeasibleInferenceRule<>();  
-            	if(!FirstPassList.contains(element3.getName())&&!WaitListEFF.contains(element3.getName())&&!Problems&&!element3.getState().equals(STATUS.SERVED)) {
-            		 a = new Proposition(element3.getName() + "_" + ArgKeys.PassesFirst);
-                   	 b= new Proposition(element3.getName()+ "_" + ArgKeys.CorrectlyDetected);
-                   	FirstPassList.add(element3.getName());
+        }
+
+        //	System.out.println(WaitList);
+        for (final CrossingCar element3 : this.cars) {
+            r1 = new DefeasibleInferenceRule<>();
+            if (!FirstPassList.contains(element3.getName()) && !element3.getState().equals(STATUS.SERVED)) {
+                for (final String element2 : WaitList) {
+                    final String[] FirstC = element2.split("To");
+                    if (element2.contains(element3.getName() + "_" + ArgKeys.WaitDueTo)
+                            && FirstPassList.contains(FirstC[1]) && !Problems) {
+
+                        a = new Proposition("!" + element3.getName() + "_" + ArgKeys.PassesFirst);
+                        b = new Proposition(element3.getName() + "_" + ArgKeys.CorrectlyDetected);
+
                         r1.setConclusion(a);
-                        r1.addPremise(a);
+                        r1.addPremise(b);
                         t.add(r1);
-                 //     System.out.println(2+element3.getName());
-            	}
-        	
-        	}
-    
-     //   System.out.println(FirstPassList);
-        
+                        WaitListEFF.add(element3.getName());
+                    }
+                }
+            }
+
+        }
+        for (final CrossingCar element3 : this.cars) {
+            r1 = new DefeasibleInferenceRule<>();
+            if (!FirstPassList.contains(element3.getName()) && !WaitListEFF.contains(element3.getName()) && !Problems
+                    && !element3.getState().equals(STATUS.SERVED)) {
+                a = new Proposition(element3.getName() + "_" + ArgKeys.PassesFirst);
+                b = new Proposition(element3.getName() + "_" + ArgKeys.CorrectlyDetected);
+                FirstPassList.add(element3.getName());
+                r1.setConclusion(a);
+                r1.addPremise(a);
+                t.add(r1);
+                //     System.out.println(2+element3.getName());
+            }
+
+        }
+
+        //   System.out.println(FirstPassList);
+
         return Arrays.asList(a, b, c, d, f);
     }
 
     private boolean noConflicts(final int i, final int j) { // pare non poter essere semplificato
         return this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
                 && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
-        /*        || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                        && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
-                        && this.cars.get(i).getWay().equals(WAY.WEST) && !this.cars.get(j).getWay().equals(WAY.NORTH)
-                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                        && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
-                        && this.cars.get(i).getWay().equals(WAY.NORTH) && !this.cars.get(j).getWay().equals(WAY.EAST)
-                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                        && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
-                        && this.cars.get(i).getWay().equals(WAY.EAST) && !this.cars.get(j).getWay().equals(WAY.SOUTH)
-                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                        && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
-                        && this.cars.get(i).getWay().equals(WAY.SOUTH) && !this.cars.get(j).getWay().equals(WAY.WEST)
-               */ || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+                /*        || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+                                && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
+                                && this.cars.get(i).getWay().equals(WAY.WEST) && !this.cars.get(j).getWay().equals(WAY.NORTH)
+                        || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+                                && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
+                                && this.cars.get(i).getWay().equals(WAY.NORTH) && !this.cars.get(j).getWay().equals(WAY.EAST)
+                        || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+                                && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
+                                && this.cars.get(i).getWay().equals(WAY.EAST) && !this.cars.get(j).getWay().equals(WAY.SOUTH)
+                        || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+                                && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
+                                && this.cars.get(i).getWay().equals(WAY.SOUTH) && !this.cars.get(j).getWay().equals(WAY.WEST)
+                       */ || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
                         && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
                         && this.cars.get(i).getWay().equals(WAY.SOUTH) && !this.cars.get(j).getWay().equals(WAY.NORTH)
                 || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)

@@ -56,7 +56,9 @@ public final class ArgumentationGraph {
             //            System.out.println("\t\t--------------------");
             for (final Object element : a) {
                 if (element.toString().contains(car.getName()) && element.toString().contains("_")
-                        && !element.toString().contains("RSU")&&!element.toString().contains(ArgKeys.WaitDueTo+car.getName())&&!element.toString().equals(car.getName())) {
+                        && !element.toString().contains("RSU")
+                        && !element.toString().contains(ArgKeys.WaitDueTo + car.getName())
+                        && !element.toString().equals(car.getName())) {
                     System.out.printf("%s ", element);
                 }
             }

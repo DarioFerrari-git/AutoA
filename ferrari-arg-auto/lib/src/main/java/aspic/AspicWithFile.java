@@ -14,15 +14,16 @@ import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-
 public class AspicWithFile {
-	public static void main(String[] args) throws FileNotFoundException, ParserException, IOException{
-		PlParser plparser = new PlParser();
-		AspicParser<PlFormula> parser = new AspicParser<>(plparser, new PlFormulaGenerator());
-		AspicArgumentationTheory<PlFormula> at = parser.parseBeliefBaseFromFile("/Users/darioferrari/git/AutoA2/ferrari-arg-auto/lib/src/main/java/aspic/ex1.aspic");		
-		SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<PlFormula>(AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-		PlFormula pf = (PlFormula)plparser.parseFormula("!has_a_gun");		
-		System.out.println(at);
-		System.out.println(pf + "\t" + ar.query(at,pf,InferenceMode.CREDULOUS));		
-	}
+    public static void main(final String[] args) throws FileNotFoundException, ParserException, IOException {
+        final PlParser plparser = new PlParser();
+        final AspicParser<PlFormula> parser = new AspicParser<>(plparser, new PlFormulaGenerator());
+        final AspicArgumentationTheory<PlFormula> at = parser.parseBeliefBaseFromFile(
+                "/Users/darioferrari/git/AutoA2/ferrari-arg-auto/lib/src/main/java/aspic/ex1.aspic");
+        final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
+                AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
+        final PlFormula pf = plparser.parseFormula("!has_a_gun");
+        System.out.println(at);
+        System.out.println(pf + "\t" + ar.query(at, pf, InferenceMode.CREDULOUS));
+    }
 }

@@ -152,16 +152,16 @@ public class SingleJunctionSimulation {
         final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
                 AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
         final PlFormula pf = plparser.parseFormula(Car.getName() + "_" + ArgKeys.PassesFirst);
-       //        final PlFormula pf = plparser.parseFormula(Car.getName()+"_"+ArgKeys.CorrectlyDetected);
+        //        final PlFormula pf = plparser.parseFormula(Car.getName()+"_"+ArgKeys.CorrectlyDetected);
         if (ar.query(t, pf, InferenceMode.CREDULOUS)) {
             Car.setState(STATUS.CROSSING);
-        //    System.out.println(Car.getName());
+            //    System.out.println(Car.getName());
         } else {
             Car.setState(STATUS.WAITING);
         }
         final ArgumentationGraph Agraph = new ArgumentationGraph(t);
         if (first) {
-           Agraph.graph2text(this.cars, this.junction.getPolicy());
+            Agraph.graph2text(this.cars, this.junction.getPolicy());
         }
         this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
     }
