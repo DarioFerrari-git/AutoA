@@ -112,10 +112,11 @@ public class SingleJunctionSimulation {
                     toRemove.add(car);
                 }
             }
-            this.cars.removeAll(toRemove);
             if (log) {
                 this.logSituation();
             }
+            this.cars.removeAll(toRemove);
+
             //			}
         } else {
             this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
@@ -199,7 +200,7 @@ public class SingleJunctionSimulation {
             System.out.printf("\t %s: %d lane(s) \n", way, this.junction.getRoads().get(way).getRoad().nLanes(),
                     this.junction.getRoads().get(way).getRoad().getLanes());
             for (final CrossingCar car : this.cars) {
-                if (car.getWay().equals(way)) {
+                if (car.getWay().equals(way)&&!car.getState().equals(STATUS.SERVED)) {
                     nCars++;
                     System.out.printf(
                             "\t\t <%s> %s going %s in %.2f s (urgency: %.2f) at %.2f km/h (distance: %.2f m) \n",
@@ -259,3 +260,4 @@ public class SingleJunctionSimulation {
     }
 
 }
+
