@@ -189,7 +189,7 @@ public final class FourWaysJunctionConfig implements Debatable {
 
                         if (!this.cars.get(i).equals(this.cars.get(j)) && !alreadyConsidered
                                 .contains(this.cars.get(i).getName() + "0" + this.cars.get(j).getName())) {
-                            if (this.noConflicts(i, j)) {
+                            if (this.noConflicts(i, j)||this.noConflicts(j, i)) {
                                 c = new Proposition(ArgKeys.CanTransitSimultaneously + "_" + this.cars.get(i).getName()
                                         + this.cars.get(j).getName());
                                 r1 = new DefeasibleInferenceRule<>();
@@ -244,13 +244,12 @@ public final class FourWaysJunctionConfig implements Debatable {
                                         r1.addPremise(a);
                                         t.add(r1);
                                         if (!WaitList.contains(this.cars.get(i).getName() + "_" + ArgKeys.WaitDueTo
-                                                + this.cars.get(j).getName())
-                                                && !WL.contains(this.cars.get(i).getName())) {
-
-                                            WaitList.add(this.cars.get(i).getName() + "_" + ArgKeys.WaitDueTo
+                                                + this.cars.get(j).getName())) {
+                                          WaitList.add(this.cars.get(i).getName() + "_" + ArgKeys.WaitDueTo
                                                     + this.cars.get(j).getName());
-                                            WL.add(this.cars.get(i).getName());
-                                        } //else {System.out.println(this.cars.get(i).getName()+" "+this.cars.get(j).getName());}
+                                        }
+                                        if(!WL.contains(this.cars.get(i).getName())){ WL.add(this.cars.get(i).getName());}
+                                        //else {System.out.println(this.cars.get(i).getName()+" "+this.cars.get(j).getName());}
                                         /*
                                          * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug:
                                          * se la stampa ha un qualche valore generale, usiamo log.info(),
@@ -316,7 +315,7 @@ public final class FourWaysJunctionConfig implements Debatable {
             t.add(r2);
         }
         // 	System.out.println(WaitList);
-        // 	System.out.println(WL);
+      //   	System.out.println(WL);
 
         for (final CrossingCar element2 : this.cars) {
             if (!Problems) {
@@ -329,7 +328,7 @@ public final class FourWaysJunctionConfig implements Debatable {
                     r1.setConclusion(a);
                     r1.addPremise(b);
                     t.add(r1);
-                    //   System.out.println(1+element2.getName());
+                      // System.out.println(1+element2.getName());
                 } else if (element2.getState().equals(STATUS.SERVED)) {
                     a = new Proposition(element2.getName() + "_" + ArgKeys.CorrectlyDetected);
                     c = new Proposition(element2.getName() + "_" + ArgKeys.DeleteFromSystem);
@@ -355,9 +354,10 @@ public final class FourWaysJunctionConfig implements Debatable {
             if (!FirstPassList.contains(element3.getName()) && !element3.getState().equals(STATUS.SERVED)) {
                 for (final String element2 : WaitList) {
                     final String[] FirstC = element2.split("To");
+                //    System.out.println(FirstC[0]+" "+FirstC[1]);
                     if (element2.contains(element3.getName() + "_" + ArgKeys.WaitDueTo)
                             && FirstPassList.contains(FirstC[1]) && !Problems) {
-
+//System.out.println(element3.getName()+" ok ");
                         a = new Proposition("!" + element3.getName() + "_" + ArgKeys.PassesFirst);
                         b = new Proposition(element3.getName() + "_" + ArgKeys.CorrectlyDetected);
 
@@ -370,15 +370,18 @@ public final class FourWaysJunctionConfig implements Debatable {
             }
 
         }
+      //  System.out.println(FirstPassList);
+    //    System.out.println(WaitListEFF);
         for (final CrossingCar element3 : this.cars) {
             r1 = new DefeasibleInferenceRule<>();
             if (!FirstPassList.contains(element3.getName()) && !WaitListEFF.contains(element3.getName()) && !Problems
                     && !element3.getState().equals(STATUS.SERVED)) {
-                a = new Proposition(element3.getName() + "_" + ArgKeys.PassesFirst);
+            //	System.out.println(element3.getName());
+            	a = new Proposition(element3.getName() + "_" + ArgKeys.PassesFirst);
                 b = new Proposition(element3.getName() + "_" + ArgKeys.CorrectlyDetected);
                 FirstPassList.add(element3.getName());
                 r1.setConclusion(a);
-                r1.addPremise(a);
+                r1.addPremise(b);
                 t.add(r1);
                 //     System.out.println(2+element3.getName());
             }
@@ -393,42 +396,41 @@ public final class FourWaysJunctionConfig implements Debatable {
     private boolean noConflicts(final int i, final int j) { // pare non poter essere semplificato
         return this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
                 && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                /*        || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                                && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
-                                && this.cars.get(i).getWay().equals(WAY.WEST) && !this.cars.get(j).getWay().equals(WAY.NORTH)
-                        || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                                && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
-                                && this.cars.get(i).getWay().equals(WAY.NORTH) && !this.cars.get(j).getWay().equals(WAY.EAST)
-                        || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                                && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
-                                && this.cars.get(i).getWay().equals(WAY.EAST) && !this.cars.get(j).getWay().equals(WAY.SOUTH)
-                        || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                                && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
-                                && this.cars.get(i).getWay().equals(WAY.SOUTH) && !this.cars.get(j).getWay().equals(WAY.WEST)
-                       */ || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                        && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
-                        && this.cars.get(i).getWay().equals(WAY.SOUTH) && !this.cars.get(j).getWay().equals(WAY.NORTH)
+                       
+                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
+                		&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
+                
+                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+                		&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
+                		&& this.cars.get(j).getWay().equals(WAY.SOUTH) && this.cars.get(i).getWay().equals(WAY.WEST)
+                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+                		&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
+                		&& this.cars.get(j).getWay().equals(WAY.WEST) && this.cars.get(i).getWay().equals(WAY.NORTH)
+                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+                		&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
+                		&& this.cars.get(j).getWay().equals(WAY.NORTH) && this.cars.get(i).getWay().equals(WAY.EAST)
+                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
+                		&& this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
+                		&& this.cars.get(j).getWay().equals(WAY.EAST) && this.cars.get(i).getWay().equals(WAY.SOUTH)
+                
                 || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
                         && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
-                        && this.cars.get(i).getWay().equals(WAY.NORTH) && !this.cars.get(j).getWay().equals(WAY.SOUTH)
-                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                        && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
-                        && this.cars.get(i).getWay().equals(WAY.WEST) && !this.cars.get(j).getWay().equals(WAY.EAST)
-                || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.RIGHT)
-                        && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
-                        && this.cars.get(i).getWay().equals(WAY.EAST) && !this.cars.get(j).getWay().equals(WAY.WEST)
+                        
                 || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
                         && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
                         && this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.WEST)
                 || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.LEFT)
                         && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.LEFT)
                         && this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.SOUTH)
+                        
                 || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
                         && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
                         && this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.WEST)
                 || this.cars.get(i).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
                         && this.cars.get(j).getRoutes().get(0).contains(DIRECTION.STRAIGHT)
-                        && this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.SOUTH);
+                        && this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.SOUTH)
+        		|| this.cars.get(i).getWay().equals(this.cars.get(j).getWay());
+    
     }
 
     @Override

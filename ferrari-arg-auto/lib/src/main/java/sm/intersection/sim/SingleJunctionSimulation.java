@@ -59,12 +59,27 @@ public class SingleJunctionSimulation {
             final List<CrossingCar> toRemove = new ArrayList<>();
             boolean first = true;
             double newSpeed;
+            /*
+             * (1) Argue first...
+             */
             for (final CrossingCar car : this.cars) {
-                if (car.getDistance() <= 0) { // junction approximated as point in space
-                    car.setState(STATUS.SERVED);
-                    this.log.info("<{}> {}, removing from simulation", car.getName(), car.getState());
-                    toRemove.add(car);
+                if (!car.getState().equals(STATUS.SERVED)) {
+                    try {
+                        this.assignRightOfWay(car, first); // TODO does not consider timing
+                        first = false;
+                    } catch (ParserException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } // TODO does not consider timing
                 }
+            }
+            /*
+             * (2) ...update cars' status then
+             */
+            for (final CrossingCar car : this.cars) {
                 switch (car.getState()) {
                     case APPROACHING: // in questo modo nel caso APPROACHING si esegue lo stesso codice del caso CROSSING ("fall-through"))
                     case CROSSING:
@@ -74,14 +89,6 @@ public class SingleJunctionSimulation {
                             car.getCar().getCar().setSpeed(newSpeed); // TODO make acceleration configurable
                         }
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
-                        try {
-                            this.assignRightOfWay(car, first); // TODO does not consider timing
-                            first = false;
-                        } catch (final ParserException e) {
-                            e.printStackTrace();
-                        } catch (final IOException e) {
-                            e.printStackTrace();
-                        }
                         break;
                     case WAITING: // TODO should be checked for right of away again sooner or later...
                         if (car.getCar().getCar().getSpeed() >= 50) { // TODO this way the car decelerates one single time
@@ -89,14 +96,6 @@ public class SingleJunctionSimulation {
                         }
                         // TODO what if cars surpass each other while decelerating?
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
-                        try {
-                            this.assignRightOfWay(car, first); // TODO does not consider timing
-                            first = false;
-                        } catch (final ParserException e) {
-                            e.printStackTrace();
-                        } catch (final IOException e) {
-                            e.printStackTrace();
-                        }
                         break;
                     /*case CROSSING: // TODO should be checked for right of way anyway as new cars are approaching
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
@@ -107,11 +106,17 @@ public class SingleJunctionSimulation {
                     default:
                         throw new IllegalArgumentException("Unexpected value: " + car.getState());
                 }
+                if (car.getDistance() <= 0) { // junction approximated as point in space
+                    car.setState(STATUS.SERVED);
+                    this.log.info("<{}> {}, removing from simulation", car.getName(), car.getState());
+                    toRemove.add(car);
+                }
             }
-            this.cars.removeAll(toRemove);
             if (log) {
                 this.logSituation();
             }
+            this.cars.removeAll(toRemove);
+
             //			}
         } else {
             this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
@@ -195,7 +200,7 @@ public class SingleJunctionSimulation {
             System.out.printf("\t %s: %d lane(s) \n", way, this.junction.getRoads().get(way).getRoad().nLanes(),
                     this.junction.getRoads().get(way).getRoad().getLanes());
             for (final CrossingCar car : this.cars) {
-                if (car.getWay().equals(way)) {
+                if (car.getWay().equals(way)&&!car.getState().equals(STATUS.SERVED)) {
                     nCars++;
                     System.out.printf(
                             "\t\t <%s> %s going %s in %.2f s (urgency: %.2f) at %.2f km/h (distance: %.2f m) \n",
@@ -255,3 +260,4 @@ public class SingleJunctionSimulation {
     }
 
 }
+
