@@ -27,7 +27,19 @@ public class JunctionMatrix {
     }
 
     public SmartJunction getJunction(final int row, final int col) {
-        return this.junctions[row][col];
+        return this.junctions[row][col]; // TODO handle not found
+    }
+    
+    public Optional<int[]> getJunction(final String name) {
+        Optional<int[]> res = Optional.empty();
+        for (int r = 0; r < junctions.length; r++) {
+            for (int c = 0; c < junctions[r].length; c++) {
+                if (this.junctions[r][c].getName().equals(name)) {
+                    res = Optional.of(new int[] {r, c});
+                }
+            }
+        }
+        return res;
     }
 
     public JunctionMatrix setJunction(final int row, final int col, final SmartJunction junction) {

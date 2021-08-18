@@ -52,11 +52,11 @@ public class SingleJunctionSimulation {
         this.going = false;
     }
 
-    public void step(final Boolean log /* , final long steps */) {
+    public List<CrossingCar> step(final Boolean log /* , final long steps */) {
+        final List<CrossingCar> toRemove = new ArrayList<>();
         if (!this.going) {
             //			for (int s = 0; s < steps; s++) {
             this.steps++;
-            final List<CrossingCar> toRemove = new ArrayList<>();
             boolean first = true;
             double newSpeed;
             /*
@@ -113,11 +113,11 @@ public class SingleJunctionSimulation {
                 this.logSituation();
             }
             this.cars.removeAll(toRemove);
-
             //			}
         } else {
             this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
         }
+        return toRemove;
     }
 
     private void assignRightOfWay(final CrossingCar Car, final boolean first) throws ParserException, IOException {
@@ -197,7 +197,7 @@ public class SingleJunctionSimulation {
             System.out.printf("\t %s: %d lane(s) \n", way, this.junction.getRoads().get(way).getRoad().nLanes(),
                     this.junction.getRoads().get(way).getRoad().getLanes());
             for (final CrossingCar car : this.cars) {
-                if (car.getWay().equals(way)&&!car.getState().equals(STATUS.SERVED)) {
+                if (car.getWay().equals(way) && !car.getState().equals(STATUS.SERVED)) {
                     nCars++;
                     System.out.printf(
                             "\t\t <%s> %s going %s in %.2f s (urgency: %.2f) at %.2f km/h (distance: %.2f m) \n",
@@ -257,4 +257,3 @@ public class SingleJunctionSimulation {
     }
 
 }
-

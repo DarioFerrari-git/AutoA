@@ -21,7 +21,7 @@ public final class SmartJunction {
      * @param roads
      */
     public SmartJunction(final String name, final Map<WAY, SmartRoad> roads, final CrossingPolicy policy) {
-        this.name = name;
+        this.name = name; // MUST BE UNIQUE
         this.roads = roads;
         this.policy = policy;
     }
