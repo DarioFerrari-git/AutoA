@@ -60,8 +60,9 @@ public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
                 }
             }
             this.nCars++;
-            final UrgentCar car = new UrgentCar(new Car(String.format("%s_%d", way, this.nCars), 50), 1);
-            car.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
+            final UrgentCar car = new UrgentCar(new Car(String.format("%s_%d", way, this.nCars), Defaults.MAX_SPEED),
+                    Defaults.MAX_URGENCY);
+            car.getCar().addRoute(Collections.singletonList(DIRECTION.random()));
             return Collections.singletonList(new CrossingCar(car, way, STATUS.APPROACHING, d));
         } else {
             this.log.warn("REFERENCE JUNCTION NOT YET CONFIGURED");
@@ -109,6 +110,18 @@ public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
      */
     public long getnCars() {
         return this.nCars;
+    }
+
+    @Override
+    public VehiclesGenStrategy setSpeedRange(int min, int max) {
+        throw new UnsupportedOperationException(
+                "This strategy always generates max speed and max urgency. To get random values, use, e.g., FlatRouteRandomStrategy");
+    }
+
+    @Override
+    public VehiclesGenStrategy setUrgencyRange(int min, int max) {
+        throw new UnsupportedOperationException(
+                "This strategy always generates max speed and max urgency. To get random values, use, e.g., FlatRouteRandomStrategy");
     }
 
 }

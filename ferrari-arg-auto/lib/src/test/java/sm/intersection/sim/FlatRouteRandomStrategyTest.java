@@ -58,6 +58,10 @@ public class FlatRouteRandomStrategyTest {
 			newCars.addAll(this.strat.newCars());
 			System.out.println(newCars);
 			for (CrossingCar car : newCars) {
+			    assertTrue(car.getCar().getCar().getSpeed() < Defaults.MAX_SPEED);
+			    assertTrue(car.getCar().getCar().getSpeed() > Defaults.MIN_SPEED);
+			    assertTrue(car.getCar().getUrgency() < Defaults.MAX_URGENCY);
+			    assertTrue(car.getCar().getUrgency() > Defaults.MIN_URGENCY);
 			    assertTrue(this.strat.getJunction().getRoads().containsKey(car.getWay()));
 	            assertTrue(this.strat.getJunction().getRoads().get(car.getWay()) != null);
 	            for (CrossingCar otherCar : cars) {

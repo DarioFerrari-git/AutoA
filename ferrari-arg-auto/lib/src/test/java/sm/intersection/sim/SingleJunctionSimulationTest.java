@@ -39,7 +39,7 @@ public class SingleJunctionSimulationTest {
 		UrgentCar car = new UrgentCar(new Car("car1", 50), 0);
 		car.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
 		config.addCar(car, WAY.NORTH.toString());
-		this.simulation = new SingleJunctionSimulation(config.getJunction(), config.getCars());
+		this.simulation = new SingleJunctionSimulation(config.getJunction(), config.getCars(), 1);
 	}
 
 	/**

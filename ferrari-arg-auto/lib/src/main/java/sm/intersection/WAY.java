@@ -27,18 +27,4 @@ public enum WAY {
         return this.intValue;
     }
 
-    public static Integer intWay(final WAY way) { // TODO can be refactored as constructor?
-        int W = 0;
-        if (way.toString().equals("EAST")) {
-            W = 1;
-        }
-        if (way.toString().equals("SOUTH")) {
-            W = 2;
-        }
-        if (way.toString().equals("WEST")) {
-            W = 3;
-        }
-        return W;
-
-    }
 }

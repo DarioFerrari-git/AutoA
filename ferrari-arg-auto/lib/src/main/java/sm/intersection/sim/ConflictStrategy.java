@@ -30,6 +30,10 @@ public class ConflictStrategy implements VehiclesGenStrategy {
     private boolean seedSet;
 
     private long nCars;
+    private int minSpeed;
+    private int maxSpeed;
+    private int minUrgency;
+    private int maxUrgency;
 
     @Override
     public VehiclesGenStrategy configJunction(final SmartJunction junction) {
@@ -39,6 +43,10 @@ public class ConflictStrategy implements VehiclesGenStrategy {
         this.nCars = 0;
         this.random = new Random();
         this.seedSet = false;
+        this.minSpeed = Defaults.MIN_SPEED;
+        this.maxSpeed = Defaults.MAX_SPEED;
+        this.minUrgency = Defaults.MIN_URGENCY;
+        this.maxUrgency = Defaults.MAX_URGENCY;
         this.setup = true;
         return this;
     }
@@ -54,7 +62,6 @@ public class ConflictStrategy implements VehiclesGenStrategy {
 
     @Override
     public List<CrossingCar> newCars() {
-        // TODO Auto-generated method stub
         if (this.setup) {
             if (!this.seedSet) {
                 this.log.warn("SEED NOT SET, USING NON-REPRODUCIBLE STRATEGY");
@@ -77,13 +84,15 @@ public class ConflictStrategy implements VehiclesGenStrategy {
             }
             this.nCars++;
             final UrgentCar car1 = new UrgentCar(
-                    new Car(String.format("%s_%d", way1, this.nCars), this.random.nextDouble() * 50), // TODO make speed range configurable
-                    this.random.nextDouble()); // TODO make priority range configurable
+                    new Car(String.format("%s_%d", way1, this.nCars),
+                            this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
+                    this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
             car1.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
             this.nCars++;
             final UrgentCar car2 = new UrgentCar(
-                    new Car(String.format("%s_%d", way2, this.nCars), this.random.nextDouble() * 50),
-                    this.random.nextDouble());
+                    new Car(String.format("%s_%d", way2, this.nCars),
+                            this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
+                    this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
             final double alpha = Math.random();
             if (car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.STRAIGHT.toString())) {
 
@@ -268,5 +277,19 @@ public class ConflictStrategy implements VehiclesGenStrategy {
      */
     public long getnCars() {
         return this.nCars;
+    }
+
+    @Override
+    public VehiclesGenStrategy setSpeedRange(int min, int max) {
+        this.minSpeed = min;
+        this.maxSpeed = max;
+        return this;
+    }
+
+    @Override
+    public VehiclesGenStrategy setUrgencyRange(int min, int max) {
+        this.minUrgency = min;
+        this.maxUrgency = max;
+        return this;
     }
 }

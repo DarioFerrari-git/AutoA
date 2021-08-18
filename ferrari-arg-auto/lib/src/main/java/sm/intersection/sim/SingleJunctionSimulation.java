@@ -44,10 +44,10 @@ public class SingleJunctionSimulation {
     private long steps;
     protected boolean going;
 
-    public SingleJunctionSimulation(final SmartJunction junction, final List<CrossingCar> cars) {
+    public SingleJunctionSimulation(final SmartJunction junction, final List<CrossingCar> cars, double step) {
         this.junction = junction;
         this.cars = cars;
-        this.step = 1; // TODO now assumed to be 1 s, but make it configurable (X seconds/minutes/...)
+        this.step = step;
         this.steps = 0;
         this.going = false;
     }
@@ -68,12 +68,12 @@ public class SingleJunctionSimulation {
                         this.assignRightOfWay(car, first); // TODO does not consider timing
                         first = false;
                     } catch (ParserException e) {
-                        // TODO Auto-generated catch block
+                        this.log.error("Malformed argumentation theory, see stack trace below:");
                         e.printStackTrace();
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                        this.log.error("Problems while building argumentation theory, see stack trace below:");
                         e.printStackTrace();
-                    } // TODO does not consider timing
+                    }
                 }
             }
             /*
@@ -90,16 +90,13 @@ public class SingleJunctionSimulation {
                         }
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         break;
-                    case WAITING: // TODO should be checked for right of away again sooner or later...
+                    case WAITING:
                         if (car.getCar().getCar().getSpeed() >= 50) { // TODO this way the car decelerates one single time
                             car.getCar().getCar().setSpeed(car.getCar().getCar().getSpeed() * 3 / 4); // TODO make deceleration configurable
                         }
                         // TODO what if cars surpass each other while decelerating?
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         break;
-                    /*case CROSSING: // TODO should be checked for right of way anyway as new cars are approaching
-                        car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
-                        break;*/
                     case SERVED:
                         this.log.warn("<{}> will be removed next step", car.getName());
                         break;
@@ -149,7 +146,7 @@ public class SingleJunctionSimulation {
 
         // TODO valido solo per una junction di quel tipo
         final FourWaysJunctionConfig config = new FourWaysJunctionConfig(this.junction, this.cars);
-        config.addAsArgTheory(t); // TODO controlliamo di non considerare auto SERVED
+        config.addAsArgTheory(t);
         /*
          * query ASPIC+ theory
          */

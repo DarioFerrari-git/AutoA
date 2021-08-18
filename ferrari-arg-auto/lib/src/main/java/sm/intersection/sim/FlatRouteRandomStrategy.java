@@ -41,6 +41,10 @@ public final class FlatRouteRandomStrategy implements VehiclesGenStrategy {
     private boolean seedSet;
 
     private long nCars;
+    private int minSpeed;
+    private int maxSpeed;
+    private int minUrgency;
+    private int maxUrgency;
 
     @Override
     public VehiclesGenStrategy configJunction(final SmartJunction junction) {
@@ -50,6 +54,10 @@ public final class FlatRouteRandomStrategy implements VehiclesGenStrategy {
         this.nCars = 0;
         this.random = new Random();
         this.seedSet = false;
+        this.minSpeed = Defaults.MIN_SPEED;
+        this.maxSpeed = Defaults.MAX_SPEED;
+        this.minUrgency = Defaults.MIN_URGENCY;
+        this.maxUrgency = Defaults.MAX_URGENCY;
         this.setup = true;
         return this;
     }
@@ -82,9 +90,10 @@ public final class FlatRouteRandomStrategy implements VehiclesGenStrategy {
             }
             this.nCars++;
             final UrgentCar car = new UrgentCar(
-                    new Car(String.format("%s_%d", way, this.nCars), this.random.nextDouble() * 50), // TODO make speed range configurable
-                    this.random.nextDouble()); // TODO make priority range configurable
-            car.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
+                    new Car(String.format("%s_%d", way, this.nCars),
+                            this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
+                    this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
+            car.getCar().addRoute(Collections.singletonList(DIRECTION.random()));
             return Collections.singletonList(new CrossingCar(car, way, STATUS.APPROACHING, d));
         } else {
             this.log.warn("REFERENCE JUNCTION NOT YET CONFIGURED");
@@ -111,6 +120,20 @@ public final class FlatRouteRandomStrategy implements VehiclesGenStrategy {
      */
     public long getnCars() {
         return this.nCars;
+    }
+
+    @Override
+    public VehiclesGenStrategy setSpeedRange(int min, int max) {
+        this.minSpeed = min;
+        this.maxSpeed = max;
+        return this;
+    }
+
+    @Override
+    public VehiclesGenStrategy setUrgencyRange(int min, int max) {
+        this.minUrgency = min;
+        this.maxUrgency = max;
+        return this;
     }
 
 }

@@ -23,10 +23,19 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
     private final long maxSteps;
     private final VehiclesGenStrategy gen;
 
+    /**
+     * 
+     * @param junction
+     * @param genPerSecond
+     * @param genSteps
+     * @param maxSteps
+     * @param strategy
+     * @param simStep
+     */
     public SingleJunctionAutoSimulation(final SmartJunction junction, final int genPerSecond, final long genSteps,
-            final long maxSteps, final VehiclesGenStrategy strategy) {
-        super(junction, new ArrayList<>());
-        this.gXs = genPerSecond; // TODO maybe has no longer sense given VehiclesGenStrategy establishes no. of cars to generate...?
+            final long maxSteps, final VehiclesGenStrategy strategy, double simStep) {
+        super(junction, new ArrayList<>(), simStep);
+        this.gXs = genPerSecond;
         this.genSteps = genSteps;
         this.maxSteps = maxSteps;
         this.gen = strategy;

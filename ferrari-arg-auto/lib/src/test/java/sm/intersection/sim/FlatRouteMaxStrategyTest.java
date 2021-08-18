@@ -58,6 +58,8 @@ public class FlatRouteMaxStrategyTest {
             newCars.addAll(this.strat.newCars());
             System.out.println(newCars);
             for (CrossingCar car : newCars) {
+                assertEquals(car.getCar().getCar().getSpeed(), Defaults.MAX_SPEED, 0.0001);
+                assertEquals(car.getCar().getUrgency(), Defaults.MAX_URGENCY, 0.0001);
                 assertTrue(this.strat.getJunction().getRoads().containsKey(car.getWay()));
                 assertTrue(this.strat.getJunction().getRoads().get(car.getWay()) != null);
                 for (CrossingCar otherCar : cars) {

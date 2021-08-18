@@ -35,8 +35,8 @@ public class SingleJunctionAutoSimulationTest {
 		VehiclesGenStrategy strat = new FlatRouteMaxStrategy();
 		strat.configJunction(config.getJunction());
 		strat.setSeed(1); // same seed = same random numbers
-		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 20, strat);
-		this.sim2 = new SingleJunctionAutoSimulation(config.getJunction(), 3, 3, 30, strat);
+		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 20, strat, 1);
+		this.sim2 = new SingleJunctionAutoSimulation(config.getJunction(), 3, 3, 30, strat, 1);
 	}
 
 	/**
