@@ -4,8 +4,8 @@
 package sm.intersection.sim;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -65,6 +65,10 @@ public class MultiJunctionSimulationTest {
                             nCars++;
                             route = new ArrayList<>();
                             route.add(d);
+                            if (Math.random() > 0.5) { // randomly generate second direction for some route
+                                DIRECTION.setSeed(1);
+                                route.add(DIRECTION.random());
+                            }
                             car.getCar().addRoute(route);
                             /*
                              * ...add car to junction...

@@ -208,4 +208,8 @@ public class CrossingCar implements Debatable {
         return this;
     }
 
+    public DIRECTION getLane() {
+        return this.lane;
+    }
+
 }
