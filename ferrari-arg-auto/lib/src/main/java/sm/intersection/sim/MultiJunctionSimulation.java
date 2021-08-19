@@ -49,10 +49,13 @@ public final class MultiJunctionSimulation {
          */
         for (SingleJunctionSimulation ssim : leaving.keySet()) {
             for (CrossingCar car : leaving.get(ssim)) {
-                next = this.network.next(this.network.getJunction(ssim.getJunction().getName()).get(), car.getWay(),
-                        car.getRoutes().get(0).get(0)); // TODO adapt to breadth (# aternatives) and depth (# of directions) of routes...HOW??
-                if (next.isPresent()) {
-                    this.simXnames.get(next.get().getName()).addCars(Collections.singletonList(car.updateAfterCrossing(next.get())));
+                if (car.getRoutes().get(0).size() > 0) {
+                    next = this.network.next(this.network.getJunction(ssim.getJunction().getName()).get(), car.getWay(),
+                            car.getRoutes().get(0).get(0)); // TODO adapt to breadth (# aternatives) and depth (# of directions) of routes...HOW??
+                    if (next.isPresent()) {
+                        this.simXnames.get(next.get().getName())
+                                .addCars(Collections.singletonList(car.updateAfterCrossing(next.get())));
+                    }
                 }
             }
         }

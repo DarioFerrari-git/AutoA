@@ -98,14 +98,14 @@ public class SingleJunctionSimulation {
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         break;
                     case SERVED:
-                        this.log.warn("<{}> will be removed next step", car.getName());
+                        this.log.warn("<{}> will leave junction <{}> next step", car.getName(), this.junction.getName());
                         break;
                     default:
                         throw new IllegalArgumentException("Unexpected value: " + car.getState());
                 }
                 if (car.getDistance() <= 0) { // junction approximated as point in space
                     car.setState(STATUS.SERVED);
-                    this.log.info("<{}> {}, removing from simulation", car.getName(), car.getState());
+                    this.log.info("<{}> {} in junction <{}>", car.getName(), car.getState(), this.junction.getName());
                     toRemove.add(car);
                 }
             }
@@ -197,7 +197,7 @@ public class SingleJunctionSimulation {
             System.out.printf("\t %s: %d lane(s) \n", way, this.junction.getRoads().get(way).getRoad().nLanes(),
                     this.junction.getRoads().get(way).getRoad().getLanes());
             for (final CrossingCar car : this.cars) {
-                if (car.getWay().equals(way) && !car.getState().equals(STATUS.SERVED)) {
+                if (car.getWay() != null && car.getWay().equals(way) && !car.getState().equals(STATUS.SERVED)) {
                     nCars++;
                     System.out.printf(
                             "\t\t <%s> %s going %s in %.2f s (urgency: %.2f) at %.2f km/h (distance: %.2f m) \n",

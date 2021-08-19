@@ -40,6 +40,7 @@ public class MultiJunctionSimulationTest {
         List<SingleJunctionSimulation> sims = new ArrayList<>();
         FourWaysJunctionConfig fourWays;
         SmartJunction[][] junctions = new SmartJunction[2][2];
+        List<DIRECTION> route;
         /*
          * For each junction in network...
          */
@@ -62,7 +63,9 @@ public class MultiJunctionSimulationTest {
                         for (DIRECTION d : DIRECTION.values()) {
                             car = new UrgentCar(new Car("car" + nCars, 50), 0);
                             nCars++;
-                            car.getCar().addRoute(Collections.singletonList(d));
+                            route = new ArrayList<>();
+                            route.add(d);
+                            car.getCar().addRoute(route);
                             /*
                              * ...add car to junction...
                              */
