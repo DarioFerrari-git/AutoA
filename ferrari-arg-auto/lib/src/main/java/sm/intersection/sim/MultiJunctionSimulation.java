@@ -11,7 +11,6 @@ import java.util.Optional;
 
 import sm.arg.intersection.CrossingCar;
 import sm.intersection.JunctionMatrix;
-import sm.intersection.STATUS;
 import sm.intersection.SmartJunction;
 
 /**
@@ -51,10 +50,9 @@ public final class MultiJunctionSimulation {
         for (SingleJunctionSimulation ssim : leaving.keySet()) {
             for (CrossingCar car : leaving.get(ssim)) {
                 next = this.network.next(this.network.getJunction(ssim.getJunction().getName()).get(), car.getWay(),
-                        car.getRoutes().get(0).remove(0)); // TODO adapt to breadth (# aternatives) and depth (# of directions) of routes...HOW??
+                        car.getRoutes().get(0).get(0)); // TODO adapt to breadth (# aternatives) and depth (# of directions) of routes...HOW??
                 if (next.isPresent()) {
-                    car.updateAfterCrossing();
-                    this.simXnames.get(next.get().getName()).addCars(Collections.singletonList(car));
+                    this.simXnames.get(next.get().getName()).addCars(Collections.singletonList(car.updateAfterCrossing(next.get())));
                 }
             }
         }
