@@ -7,13 +7,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tweetyproject.arg.aspic.syntax.AspicArgumentationTheory;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.Proposition;
 
 import sm.arg.general.Debatable;
 import sm.intersection.DIRECTION;
+import sm.intersection.RSU;
 import sm.intersection.STATUS;
+import sm.intersection.SmartJunction;
 import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
 
@@ -23,11 +27,12 @@ import sm.intersection.WAY;
  */
 public class CrossingCar implements Debatable {
 
+    private final Logger log = LoggerFactory.getLogger(CrossingCar.class);
     private final UrgentCar car;
     private WAY way;
     private STATUS state;
     private double distance;
-    private final DIRECTION lane;
+    private DIRECTION lane;
 
     /**
      * @param car
@@ -116,6 +121,95 @@ public class CrossingCar implements Debatable {
     public String toString() {
         return String.format("CrossingCar [car=%s, way=%s,lane=%s, state=%s, distance=%s]", this.car, this.way,
                 this.lane, this.state, this.distance);
+    }
+
+    /**
+     * 
+     * @param smartJunction the next junction to be placed into
+     * @return
+     */
+    public CrossingCar updateAfterCrossing(final SmartJunction nextJunction) { // TODO adapt to alternative routes
+        DIRECTION nextD = this.car.getCar().getRoutes().get(0).remove(0); // where car was going before this crossing
+        if (this.car.getCar().getRoutes().get(0).size() <= 0) { // trip concluded
+            this.way = null;
+            this.state = STATUS.SERVED;
+            this.distance = -1;
+            this.lane = null;
+            return this;
+        }
+        this.state = STATUS.APPROACHING;
+        this.lane = this.car.getCar().getRoutes().get(0).get(0);
+        WAY nextW = null;
+        switch (this.way) {
+            case WEST:
+                switch (nextD) {
+                    case STRAIGHT:
+                        nextW = this.way;
+                        break;
+                    case RIGHT:
+                        nextW = WAY.NORTH;
+                        break;
+                    case LEFT:
+                        nextW = WAY.SOUTH;
+                        break;
+                }
+                break;
+            case NORTH:
+                switch (nextD) {
+                    case STRAIGHT:
+                        nextW = this.way;
+                        break;
+                    case RIGHT:
+                        nextW = WAY.EAST;
+                        break;
+                    case LEFT:
+                        nextW = WAY.WEST;
+                        break;
+                }
+                break;
+            case EAST:
+                switch (nextD) {
+                    case STRAIGHT:
+                        nextW = this.way;
+                        break;
+                    case RIGHT:
+                        nextW = WAY.SOUTH;
+                        break;
+                    case LEFT:
+                        nextW = WAY.NORTH;
+                        break;
+                }
+                break;
+            case SOUTH:
+                switch (nextD) {
+                    case STRAIGHT:
+                        nextW = this.way;
+                        break;
+                    case RIGHT:
+                        nextW = WAY.WEST;
+                        break;
+                    case LEFT:
+                        nextW = WAY.EAST;
+                        break;
+                }
+                break;
+        }
+        this.way = nextW;
+        for (RSU<?> rsu : nextJunction.getRoads().get(nextW).getRsus()) {
+            if (rsu instanceof DistanceRSU && rsu.getType().isAssignableFrom(Double.class)) {
+                this.distance = (double) rsu.getMeasurement();
+            } else {
+                this.log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
+                        nextJunction.getRoads().get(way).getRsus());
+                this.distance = Double.NaN;
+                //                      throw new NoSuitableRSUException("No RSU instanceof DistanceRSU and assignable from Double found", this.junction.getRoads().get(way).getRsus());
+            }
+        }
+        return this;
+    }
+
+    public DIRECTION getLane() {
+        return this.lane;
     }
 
 }

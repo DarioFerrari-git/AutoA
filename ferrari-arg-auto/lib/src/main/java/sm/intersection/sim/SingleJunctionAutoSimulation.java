@@ -4,10 +4,12 @@
 package sm.intersection.sim;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sm.arg.intersection.CrossingCar;
 import sm.intersection.SmartJunction;
 
 /**
@@ -42,7 +44,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
     }
 
     @Override
-    public void step(final Boolean log) {
+    public List<CrossingCar> step(final Boolean log) {
         if (!this.going) {
             if (super.getSteps() >= this.maxSteps) {
                 this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
@@ -52,11 +54,12 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
                         this.addCars(this.gen.newCars());
                     }
                 }
-                super.step(log);
+                return super.step(log);
             }
         } else {
             this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
         }
+        return null;
     }
 
     @Override

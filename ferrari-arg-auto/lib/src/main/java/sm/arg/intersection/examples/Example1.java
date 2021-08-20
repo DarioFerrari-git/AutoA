@@ -26,7 +26,7 @@ import sm.arg.intersection.NumArgsPolicy;
 import sm.intersection.BaseRSU;
 import sm.intersection.Car;
 import sm.intersection.DIRECTION;
-import sm.intersection.JunctionMap;
+import sm.intersection.JunctionMatrix;
 import sm.intersection.SmartJunction;
 import sm.intersection.UrgentCar;
 
@@ -87,7 +87,7 @@ public class Example1 {
         //bho.graph2text(fourWC.getCars(),fourWC.getJunction().getPolicy());
         final SmartJunction[][] mp = new SmartJunction[2][2];
 
-        final JunctionMap m = new JunctionMap(2, 2, mp);
+        final JunctionMatrix m = new JunctionMatrix(mp);
         m.setJunction(0, 0, fourWC.getJunction());
         m.setJunction(1, 1, fourWC.getJunction());
         // System.out.println(m.toString());
