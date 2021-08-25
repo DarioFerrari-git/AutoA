@@ -81,5 +81,10 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
             this.log.warn("SIMULATION ALREADY GOING");
         }
     }
+    
+    @Override
+    public long getMaxSteps() {
+        return this.maxSteps;
+    }
 
 }

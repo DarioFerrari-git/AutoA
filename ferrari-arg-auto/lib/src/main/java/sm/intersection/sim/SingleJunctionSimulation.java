@@ -86,18 +86,24 @@ public class SingleJunctionSimulation implements Simulation {
                     case APPROACHING: // in questo modo nel caso APPROACHING si esegue lo stesso codice del caso CROSSING ("fall-through"))
                     case CROSSING:
                         if (car.getCar().getCar().getSpeed() < Defaults.MAX_SPEED) {
-                            newSpeed = car.getCar().getCar().getSpeed() * Defaults.ACCELERATION;
-                            newSpeed = newSpeed > Defaults.MAX_SPEED ? Defaults.MAX_SPEED : newSpeed;
+                            if (car.getCar().getCar().getSpeed() == 0) {
+                                newSpeed = Defaults.MIN_SPEED;
+                            } else {
+                                newSpeed = car.getCar().getCar().getSpeed() * Defaults.ACCELERATION;
+                                newSpeed = newSpeed > Defaults.MAX_SPEED ? Defaults.MAX_SPEED : newSpeed;
+                            }
                             car.getCar().getCar().setSpeed(newSpeed); // TODO make acceleration configurable
                         }
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         break;
                     case WAITING:
                         if (car.getCar().getCar().getSpeed() >= Defaults.MAX_SPEED) { // TODO this way the car decelerates one single time
-                            car.getCar().getCar().setSpeed(car.getCar().getCar().getSpeed() * Defaults.DECELERATION_SOFT); // TODO make deceleration configurable
+                            car.getCar().getCar()
+                                    .setSpeed(car.getCar().getCar().getSpeed() * Defaults.DECELERATION_SOFT); // TODO make deceleration configurable
                         }
                         if (car.getDistance() < Defaults.SAFETY_DISTANCE_SOFT) {
-                            car.getCar().getCar().setSpeed(car.getCar().getCar().getSpeed() * Defaults.DECELERATION_HARD);
+                            car.getCar().getCar()
+                                    .setSpeed(car.getCar().getCar().getSpeed() * Defaults.DECELERATION_HARD);
                         }
                         if (car.getDistance() < Defaults.SAFETY_DISTANCE_HARD) {
                             car.getCar().getCar().setSpeed(0);
@@ -106,7 +112,8 @@ public class SingleJunctionSimulation implements Simulation {
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         break;
                     case SERVED:
-                        this.log.warn("<{}> will leave junction <{}> next step", car.getName(), this.junction.getName());
+                        this.log.warn("<{}> will leave junction <{}> next step", car.getName(),
+                                this.junction.getName());
                         break;
                     default:
                         throw new IllegalArgumentException("Unexpected value: " + car.getState());
@@ -275,7 +282,8 @@ public class SingleJunctionSimulation implements Simulation {
     @Override
     public long getMaxSteps() {
         this.log.warn("A SingleJunctionSimulation does not have a maximum number of steps (its Auto- version does)");
-        throw new UnsupportedOperationException("A SingleJunctionSimulation does not have a maximum number of steps (its Auto- version does)");
+        throw new UnsupportedOperationException(
+                "A SingleJunctionSimulation does not have a maximum number of steps (its Auto- version does)");
     }
 
 }
