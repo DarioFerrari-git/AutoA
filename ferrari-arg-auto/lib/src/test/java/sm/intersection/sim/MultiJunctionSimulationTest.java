@@ -36,7 +36,7 @@ public class MultiJunctionSimulationTest {
     public void setUp() throws Exception {
         UrgentCar car;
         int nCars = 0;
-        List<SingleJunctionSimulation> sims = new ArrayList<>();
+        List<Simulation> sims = new ArrayList<>();
         FourWaysJunctionConfig fourWays;
         SmartJunction[][] junctions = new SmartJunction[2][2];
         List<DIRECTION> route;

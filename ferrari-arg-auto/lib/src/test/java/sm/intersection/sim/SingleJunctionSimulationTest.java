@@ -27,7 +27,7 @@ import sm.intersection.WAY;
  */
 public class SingleJunctionSimulationTest {
 
-	private SingleJunctionSimulation simulation;
+	private Simulation simulation;
 
 	/**
 	 * @throws java.lang.Exception

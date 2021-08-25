@@ -5,6 +5,7 @@ package sm.intersection.sim;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ import sm.intersection.WAY;
  * @author sm
  *
  */
-public class SingleJunctionSimulation {
+public class SingleJunctionSimulation implements Simulation {
 
     private final Logger log = LoggerFactory.getLogger(SingleJunctionSimulation.class);
     private final SmartJunction junction;
@@ -52,6 +53,7 @@ public class SingleJunctionSimulation {
         this.going = false;
     }
 
+    @Override
     public List<CrossingCar> step(final Boolean log /* , final long steps */) {
         final List<CrossingCar> toRemove = new ArrayList<>();
         if (!this.going) {
@@ -174,6 +176,7 @@ public class SingleJunctionSimulation {
         this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
     }
 
+    @Override
     public void go(final Boolean log) {
         if (!this.going) {
             while (!this.cars.isEmpty()) {
@@ -182,9 +185,9 @@ public class SingleJunctionSimulation {
         } else {
             this.log.warn("SIMULATION ALREADY GOING");
         }
-
     }
 
+    @Override
     public void pause() {
         if (this.going) {
             this.going = false;
@@ -193,6 +196,7 @@ public class SingleJunctionSimulation {
         }
     }
 
+    @Override
     public void logSituation() {
         int nCars;
         this.log.info("Logging simulation situation -----START [step {}]----->", this.steps);
@@ -217,6 +221,7 @@ public class SingleJunctionSimulation {
         this.log.info("<-----[step {}] END----- Logging simulation situation", this.steps);
     }
 
+    @Override
     public boolean isGoing() {
         return this.going;
     }
@@ -224,18 +229,21 @@ public class SingleJunctionSimulation {
     /**
      * @return the junction
      */
-    public SmartJunction getJunction() {
-        return this.junction;
+    @Override
+    public List<SmartJunction> getJunctions() {
+        return Collections.singletonList(this.junction);
     }
 
     /**
      * @return the cars
      */
+    @Override
     public List<CrossingCar> getCars() {
         return this.cars;
     }
 
-    public SingleJunctionSimulation addCars(final List<CrossingCar> cars) {
+    @Override
+    public Simulation addCars(final List<CrossingCar> cars) {
         this.cars.addAll(cars);
         return this;
     }
@@ -243,6 +251,7 @@ public class SingleJunctionSimulation {
     /**
      * @return the step
      */
+    @Override
     public double getStep() {
         return this.step;
     }
@@ -250,6 +259,7 @@ public class SingleJunctionSimulation {
     /**
      * @return the steps
      */
+    @Override
     public long getSteps() {
         return this.steps;
     }
@@ -260,6 +270,12 @@ public class SingleJunctionSimulation {
             this.step(log/* , steps */);
             this.going = true;
         }
+    }
+
+    @Override
+    public long getMaxSteps() {
+        this.log.warn("A SingleJunctionSimulation does not have a maximum number of steps (its Auto- version does)");
+        throw new UnsupportedOperationException("A SingleJunctionSimulation does not have a maximum number of steps (its Auto- version does)");
     }
 
 }
