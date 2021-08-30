@@ -97,8 +97,9 @@ public class SingleJunctionSimulation implements Simulation {
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         break;
                     case WAITING:
+                    	
                         if (car.getCar().getCar().getSpeed() >= Defaults.MAX_SPEED) { // TODO this way the car decelerates one single time
-                            car.getCar().getCar()
+                        	car.getCar().getCar()
                                     .setSpeed(car.getCar().getCar().getSpeed() * Defaults.DECELERATION_SOFT); // TODO make deceleration configurable
                         }
                         if (car.getDistance() < Defaults.SAFETY_DISTANCE_SOFT) {

@@ -3,6 +3,7 @@
  */
 package sm.intersection.sim;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -37,9 +38,12 @@ public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
     private List<WAY> values;
     private int size;
     private Random random;
+    
     private long seed;
     private boolean seedSet;
-
+    
+    private List<DIRECTION> route;
+    
     private long nCars;
 
     @Override
@@ -60,9 +64,21 @@ public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
                 }
             }
             this.nCars++;
-            final UrgentCar car = new UrgentCar(new Car(String.format("%s_%d", way, this.nCars), Defaults.MAX_SPEED),
+            final UrgentCar car = new UrgentCar(new Car(String.format("%s_%d_%s", way, this.nCars,this.getJunction().getName()).replace("ways ", "W"), Defaults.MAX_SPEED),
                     Defaults.MAX_URGENCY);
-            car.getCar().addRoute(Collections.singletonList(DIRECTION.random()));
+           // List<DIRECTION> route = new ArrayList<>();
+            this.route=new ArrayList<>();
+            this.route.add(DIRECTION.random());
+            for(int i=1; i< Defaults.MAX_INTERSECTIONS;i++) {
+            	if (this.random.nextBoolean()) { // randomly generate second direction for some route
+                    route.add(DIRECTION.random());
+                    DIRECTION.setSeed(1);
+                }
+            }
+          
+            //car.getCar().addRoute(Collections.singletonList(DIRECTION.random()));
+            car.getCar().addRoute(route);
+            
             return Collections.singletonList(new CrossingCar(car, way, STATUS.APPROACHING, d));
         } else {
             this.log.warn("REFERENCE JUNCTION NOT YET CONFIGURED");
@@ -90,7 +106,7 @@ public class FlatRouteMaxStrategy implements VehiclesGenStrategy {
         DIRECTION.setSeed(this.seed);
         return this;
     }
-
+    
     /**
      * @return the junction
      */
