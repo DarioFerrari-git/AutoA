@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package sm.intersection.sim;
 
@@ -22,14 +22,10 @@ import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
 
 /**
- * Random ways and routes, fixed speed and urgency (MAX), multi-step route possible. -
- * WAY is random - speed is 50 - urgency is 1 - 1 route only, with random
- * DIRECTION depth
- *
  * @author sm
  *
  */
-public class DeepRouteMaxStrategy implements VehiclesGenStrategy {
+public final class FlatRouteMaxStrategy implements VehiclesGenStrategy {
 
     private final Logger log = LoggerFactory.getLogger(DeepRouteMaxStrategy.class);
     private SmartJunction junction;
@@ -67,11 +63,6 @@ public class DeepRouteMaxStrategy implements VehiclesGenStrategy {
                     Defaults.MAX_SPEED), Defaults.MAX_URGENCY);
             List<DIRECTION> route = new ArrayList<>();
             route.add(DIRECTION.random());
-            for (int i = 0; i < Defaults.MAX_ROUTE_DEPTH; i++) {
-                if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
-                    route.add(DIRECTION.random());
-                }
-            }
             car.getCar().addRoute(route);
             return Collections.singletonList(new CrossingCar(car, way, STATUS.APPROACHING, d));
         } else {
