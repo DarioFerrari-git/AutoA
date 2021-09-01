@@ -25,14 +25,14 @@ import sm.intersection.BaseRSU;
 public class FlatRouteMaxStrategyTest {
     
     private static final int ITER = 1000;
-    private FlatRouteMaxStrategy strat;
+    private DeepRouteMaxStrategy strat;
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        this.strat = new FlatRouteMaxStrategy();
+        this.strat = new DeepRouteMaxStrategy();
     }
 
     /**
@@ -44,7 +44,7 @@ public class FlatRouteMaxStrategyTest {
     }
 
     /**
-     * Test method for {@link sm.intersection.sim.FlatRouteMaxStrategy#newCars()}.
+     * Test method for {@link sm.intersection.sim.DeepRouteMaxStrategy#newCars()}.
      */
     @Test
     public final void testNewCars() {

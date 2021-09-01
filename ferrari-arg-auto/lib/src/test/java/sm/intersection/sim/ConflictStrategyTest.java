@@ -44,7 +44,7 @@ public class ConflictStrategyTest {
     }
 
     /**
-     * Test method for {@link sm.intersection.sim.FlatRouteMaxStrategy#newCars()}.
+     * Test method for {@link sm.intersection.sim.DeepRouteMaxStrategy#newCars()}.
      */
     @Test
     public final void testNewCars() {

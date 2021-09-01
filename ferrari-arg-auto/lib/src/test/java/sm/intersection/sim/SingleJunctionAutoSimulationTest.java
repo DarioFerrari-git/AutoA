@@ -32,7 +32,7 @@ public class SingleJunctionAutoSimulationTest {
 		FourWaysJunctionConfig config = new FourWaysJunctionConfig("junction1", new NumArgsPolicy("numArgsPolicy1"),
 				new DistanceRSU(new BaseRSU("distance1", 1), 100));
 		//VehiclesGenStrategy strat = new ConflictStrategy();
-		VehiclesGenStrategy strat = new FlatRouteMaxStrategy();
+		VehiclesGenStrategy strat = new DeepRouteMaxStrategy();
 		strat.configJunction(config.getJunction());
 		strat.setSeed(1); // same seed = same random numbers
 		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 20, strat, 1);
