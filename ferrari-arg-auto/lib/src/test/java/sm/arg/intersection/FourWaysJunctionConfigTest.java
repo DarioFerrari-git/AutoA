@@ -5,6 +5,7 @@ package sm.arg.intersection;
 
 import static org.junit.Assert.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,19 +79,28 @@ public class FourWaysJunctionConfigTest {
 	@Test
 	public final void testAddCar() {
 		assertTrue(fourWays.getCars().isEmpty());
-		fourWays.addCar(new UrgentCar(new Car("car1", 50), 0.9), WAY.NORTH.toString());
+		Car car = new Car("car1", 50);
+		DIRECTION.setSeed(1);
+		car.addRoute(Collections.singletonList(DIRECTION.random()));
+		fourWays.addCar(new UrgentCar(car, 0.9), WAY.NORTH.toString());
 		assertEquals(1, fourWays.getCars().size());
 		assertEquals(WAY.NORTH, fourWays.getCars().get(0).getWay());
 		assertEquals(50, fourWays.getCars().get(0).getDistance(), 0.1);
-		fourWays.addCar(new UrgentCar(new Car("car2", 50), 0.9), WAY.EAST.toString());
+		car = new Car("car2", 50);
+		car.addRoute(Collections.singletonList(DIRECTION.random()));
+		fourWays.addCar(new UrgentCar(car, 0.9), WAY.EAST.toString());
 		assertEquals(2, fourWays.getCars().size());
 		assertEquals(WAY.EAST, fourWays.getCars().get(1).getWay());
 		assertEquals(50, fourWays.getCars().get(1).getDistance(), 0.1);
-		fourWays.addCar(new UrgentCar(new Car("car3", 50), 0.9), WAY.WEST.toString());
+		car = new Car("car3", 50);
+		car.addRoute(Collections.singletonList(DIRECTION.random()));
+		fourWays.addCar(new UrgentCar(car, 0.9), WAY.WEST.toString());
 		assertEquals(3, fourWays.getCars().size());
 		assertEquals(WAY.WEST, fourWays.getCars().get(2).getWay());
 		assertEquals(50, fourWays.getCars().get(2).getDistance(), 0.1);
-		fourWays.addCar(new UrgentCar(new Car("car4", 50), 0.9), WAY.SOUTH.toString());
+		car = new Car("car4", 50);
+		car.addRoute(Collections.singletonList(DIRECTION.random()));
+		fourWays.addCar(new UrgentCar(car, 0.9), WAY.SOUTH.toString());
 		assertEquals(4, fourWays.getCars().size());
 		assertEquals(WAY.SOUTH, fourWays.getCars().get(3).getWay());
 		assertEquals(50, fourWays.getCars().get(3).getDistance(), 0.1);

@@ -5,11 +5,14 @@ package sm.arg.intersection;
 
 import static org.junit.Assert.*;
 
+import java.util.Collections;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import sm.intersection.Car;
+import sm.intersection.DIRECTION;
 import sm.intersection.STATUS;
 import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
@@ -27,9 +30,12 @@ public class CrossingCarTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+	    final Car car = new Car("car", 50);
+	    DIRECTION.setSeed(1);
+	    car.addRoute(Collections.singletonList(DIRECTION.random()));
 		this.car = new CrossingCar(
 				new UrgentCar(
-						new Car("car", 50), 
+						car, 
 						1), 
 				WAY.WEST, 
 				STATUS.APPROACHING, 
