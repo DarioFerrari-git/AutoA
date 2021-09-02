@@ -92,7 +92,7 @@ public final class DeepRouteRandomStrategy implements VehiclesGenStrategy {
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
             List<DIRECTION> route = new ArrayList<>();
             route.add(DIRECTION.random());
-            for (int i = 0; i < Defaults.MAX_ROUTE_DEPTH; i++) {
+            for (int i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
                 if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
                     route.add(DIRECTION.random());
                 }
