@@ -27,7 +27,7 @@ import sm.intersection.WAY;
  */
 public final class FlatRouteMaxStrategy implements VehiclesGenStrategy {
 
-    private final Logger log = LoggerFactory.getLogger(DeepRouteMaxStrategy.class);
+    private final Logger log = LoggerFactory.getLogger(FlatRouteMaxStrategy.class);
     private SmartJunction junction;
     private boolean setup = false;
 

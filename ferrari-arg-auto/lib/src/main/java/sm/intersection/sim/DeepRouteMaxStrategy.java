@@ -38,7 +38,6 @@ public class DeepRouteMaxStrategy implements VehiclesGenStrategy {
     private List<WAY> values;
     private int size;
     private Random random;
-
     private long seed;
     private boolean seedSet;
 
@@ -63,7 +62,7 @@ public class DeepRouteMaxStrategy implements VehiclesGenStrategy {
             }
             this.nCars++;
             final UrgentCar car = new UrgentCar(new Car(
-                    String.format("%s_%d_%s", way, this.nCars, this.getJunction().getName()).replace("ways ", "W"),
+                    String.format("%s_%d_%s", way, this.nCars, this.getJunction().getName()).replace("ways ", "W"), // TODO sono curioso: perche questo cambio di nome?
                     Defaults.MAX_SPEED), Defaults.MAX_URGENCY);
             List<DIRECTION> route = new ArrayList<>();
             route.add(DIRECTION.random());
