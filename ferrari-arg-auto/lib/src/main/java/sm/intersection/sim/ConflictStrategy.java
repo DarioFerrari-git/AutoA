@@ -94,7 +94,7 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
             final double alpha = Math.random();
-            if (car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.STRAIGHT.toString())) {
+            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.STRAIGHT.toString())) {
 
                 if (alpha <= 0.16) {
                     if (way1.intValue() + 1 <= 3) {
@@ -165,7 +165,7 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                     }
                 }
             }
-            if (car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.RIGHT.toString())) {
+            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.RIGHT.toString())) {
                 if (alpha < 0.5) {
                     if (way1.intValue() + 1 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 1);
@@ -187,7 +187,7 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                     }
                 }
             }
-            if (car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.LEFT.toString())) {
+            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.LEFT.toString())) {
                 if (alpha <= 0.2) {
 
                     if (way1.intValue() + 1 <= 3) {

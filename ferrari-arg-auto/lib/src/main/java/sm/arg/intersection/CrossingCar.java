@@ -45,7 +45,7 @@ public class CrossingCar implements Debatable {
         this.way = way;
         this.state = state;
         this.distance = distance;
-        this.lane = car.getCar().getRoutes().get(0).get(0);
+        this.lane = car.getCar().getRoutes().get(car.getCar().getCurrentRoute()).get(0);
     }
 
     /**
@@ -129,8 +129,8 @@ public class CrossingCar implements Debatable {
      * @return
      */
     public CrossingCar updateAfterCrossing(final SmartJunction nextJunction) { // TODO adapt to alternative routes
-        DIRECTION nextD = this.car.getCar().getRoutes().get(0).remove(0); // where car was going before this crossing // TODO could be useful to have both the original routes as well as the current routes
-        if (this.car.getCar().getRoutes().get(0).size() <= 0) { // trip concluded
+        DIRECTION nextD = this.getCurrentRoutePath().remove(0); // where car was going before this crossing // TODO could be useful to have both the original routes as well as the current routes
+        if (this.getCurrentRoutePath().size() <= 0) { // trip concluded
             this.way = null;
             this.state = STATUS.SERVED;
             this.distance = -1;
@@ -138,7 +138,7 @@ public class CrossingCar implements Debatable {
             return this;
         }
         this.state = STATUS.APPROACHING;
-        this.lane = this.car.getCar().getRoutes().get(0).get(0);
+        this.lane = this.getCurrentRoutePath().get(0);
         WAY nextW = null;
         switch (this.way) {
             case WEST:
