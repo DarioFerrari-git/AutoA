@@ -59,7 +59,7 @@ public class DeepRouteRandomStrategyTest {
             System.out.println(newCars);
             for (CrossingCar car : newCars) {
                 assertEquals(car.getRoutes().size(), 1);
-                assertTrue(car.getRoutes().get(0).size() <= Defaults.MAX_ROUTE_DEPTH);
+                assertTrue(car.getCurrentRoutePath().size() <= Defaults.MAX_ROUTE_DEPTH);
                 assertTrue(car.getCar().getCar().getSpeed() < Defaults.MAX_SPEED);
                 assertTrue(car.getCar().getCar().getSpeed() > Defaults.MIN_SPEED);
                 assertTrue(car.getCar().getUrgency() < Defaults.MAX_URGENCY);

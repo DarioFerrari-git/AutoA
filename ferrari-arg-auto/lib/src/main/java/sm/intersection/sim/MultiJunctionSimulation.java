@@ -63,10 +63,10 @@ public class MultiJunctionSimulation implements Simulation {
             String curJname;
             for (Simulation ssim : leaving.keySet()) {
                 for (CrossingCar car : leaving.get(ssim)) {
-                    if (car.getRoutes().get(0).size() > 1) { // TODO adapt to breadth (# alternatives) and depth (# of directions) of routes...HOW??
+                    if (car.getCurrentRoutePath().size() > 1) { // TODO adapt to breadth (# alternatives) and depth (# of directions) of routes...HOW??
                         curJname = ssim.getJunctions().get(0).getName();
                         next = this.network.next(this.network.getJunction(curJname).get(), car.getWay(),
-                                car.getRoutes().get(0).get(0)); // TODO adapt to breadth (# alternatives) and depth (# of directions) of routes...HOW??
+                                car.getCurrentRoutePath().get(0)); // TODO adapt to breadth (# alternatives) and depth (# of directions) of routes...HOW??
                         if (next.isPresent()) {
                             this.simXnames.get(next.get().getName())
                                     .addCars(Collections.singletonList(car.updateAfterCrossing(next.get())));

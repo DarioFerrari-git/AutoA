@@ -59,7 +59,7 @@ public class DeepRouteMaxStrategyTest {
             System.out.println(newCars);
             for (CrossingCar car : newCars) {
                 assertEquals(car.getRoutes().size(), 1);
-                assertTrue(car.getRoutes().get(0).size() <= Defaults.MAX_ROUTE_DEPTH);
+                assertTrue(car.getCurrentRoutePath().size() <= Defaults.MAX_ROUTE_DEPTH);
                 assertEquals(car.getCar().getCar().getSpeed(), Defaults.MAX_SPEED, 0.0001);
                 assertEquals(car.getCar().getUrgency(), Defaults.MAX_URGENCY, 0.0001);
                 assertTrue(this.strat.getJunction().getRoads().containsKey(car.getWay()));
