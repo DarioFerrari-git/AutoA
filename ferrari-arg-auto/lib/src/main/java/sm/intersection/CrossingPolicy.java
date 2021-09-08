@@ -3,6 +3,8 @@
  */
 package sm.intersection;
 
+import java.util.List;
+
 import sm.arg.intersection.CrossingCar;
 
 /**
@@ -11,7 +13,7 @@ import sm.arg.intersection.CrossingCar;
  */
 public interface CrossingPolicy {
 
-    CrossingCar rightOfWay(CrossingCar car1, CrossingCar car2);
+    List<CrossingCar> rightOfWay(CrossingCar car1, CrossingCar car2);
 
     String getName();
 }

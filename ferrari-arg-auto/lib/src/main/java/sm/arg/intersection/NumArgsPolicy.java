@@ -30,25 +30,25 @@ public final class NumArgsPolicy implements CrossingPolicy, Debatable {
      * In case of a tie car2 wins
      */
     @Override
-    public CrossingCar rightOfWay(final CrossingCar car1, final CrossingCar car2) {
+    public List<CrossingCar> rightOfWay(final CrossingCar car1, final CrossingCar car2) {
         int args1 = 0;
         int args2 = 0;
-        if (car1.getTimeToCross() < car2.getTimeToCross()) {
+        if (car1.getTimeToCross() < car2.getTimeToCross()) { // closer to junction (in time)
             args1++;
         } else {
             args2++;
         }
-        if (car1.getCar().getCar().getRoutes().size() > car2.getCar().getCar().getRoutes().size()) {
-            args2++;
-        } else {
-            args1++;
-        }
-        if (car1.getCar().getCar().getSpeed() > car2.getCar().getCar().getSpeed()) {
+        if (car1.getCar().getCar().getSpeed() > car2.getCar().getCar().getSpeed()) { // higher speed
             args1++;
         } else {
             args2++;
         }
-        return args1 > args2 ? car1 : car2;
+        if (car1.getCar().getCar().getRoutes().size() < car2.getCar().getCar().getRoutes().size()) { // less alternatives
+            args1++;
+        } else {
+            args2++;
+        }
+        return args1 > args2 ? Collections.singletonList(car1) : Collections.singletonList(car2);
     }
 
     @Override

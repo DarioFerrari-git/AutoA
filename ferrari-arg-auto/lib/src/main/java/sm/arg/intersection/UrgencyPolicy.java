@@ -26,9 +26,13 @@ public final class UrgencyPolicy implements CrossingPolicy, Debatable {
         this.policy = new BasePolicy(name);
     }
 
+    /**
+     * In case of a tie, car2 wins
+     */
     @Override
-    public CrossingCar rightOfWay(final CrossingCar car1, final CrossingCar car2) {
-        return car1.getCar().getUrgency() > car2.getCar().getUrgency() ? car1 : car2;
+    public List<CrossingCar> rightOfWay(final CrossingCar car1, final CrossingCar car2) {
+        return car1.getCar().getUrgency() > car2.getCar().getUrgency() ? Collections.singletonList(car1)
+                : Collections.singletonList(car2);
     }
 
     @Override
