@@ -211,5 +211,31 @@ public class CrossingCar implements Debatable {
     public DIRECTION getLane() {
         return this.lane;
     }
+    
+    /**
+     * 
+     * @param route
+     * @return
+     */
+    public CrossingCar setCurrentRoute(int route) {
+        this.car.getCar().setCurrentRoute(route);
+        return this;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public int getCurrentRouteRank() {
+        return this.car.getCar().getCurrentRoute();
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public List<DIRECTION> getCurrentRoutePath() {
+        return this.car.getCar().getRoute(this.getCurrentRouteRank());
+    }
 
 }

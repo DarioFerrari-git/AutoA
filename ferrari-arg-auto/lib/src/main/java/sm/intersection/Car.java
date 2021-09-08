@@ -15,6 +15,7 @@ public final class Car {
 
     private String name;
     private final Map<Integer, List<DIRECTION>> routes;
+    private int currentRoute;
     private double speed;
     private int next;
 
@@ -25,6 +26,7 @@ public final class Car {
     public Car(final String name, final double speed) {
         this.name = name;
         this.routes = new HashMap<>();
+        this.currentRoute = -1;
         this.speed = speed;
         this.next = 0;
     }
@@ -37,6 +39,7 @@ public final class Car {
     public Car(final String name, final Map<Integer, List<DIRECTION>> routes, final double speed) {
         this.name = name;
         this.routes = routes;
+        this.currentRoute = -1;
         this.speed = speed;
         this.next = 0;
     }
@@ -57,6 +60,9 @@ public final class Car {
 
     public Car addRoute(final List<DIRECTION> route) {
         this.routes.put(this.next, route);
+        if (this.next == 0) {
+            this.currentRoute = 0;
+        }
         this.next++;
         return this;
     }
@@ -82,4 +88,29 @@ public final class Car {
     public String toString() {
         return String.format("Car [name=%s, routes=%s, speed=%s]", this.name, this.routes, this.speed);
     }
+
+    /**
+     * 
+     * @param route
+     */
+    public void setCurrentRoute(int route) {
+        this.currentRoute = route;
+    }
+    
+    /**
+     * @return the currentRoute
+     */
+    public int getCurrentRoute() {
+        return currentRoute;
+    }
+    
+    /**
+     * 
+     * @param rank
+     * @return
+     */
+    public List<DIRECTION> getRoute(int rank) {
+        return this.routes.get(rank);
+    }
+    
 }
