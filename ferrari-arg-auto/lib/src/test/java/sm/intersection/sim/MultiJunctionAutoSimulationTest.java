@@ -51,7 +51,7 @@ public class MultiJunctionAutoSimulationTest {
                  * ...and ONLY FOR (0,0) JUNCTION, for each WAY - DIRECTION combination...
                  */
                 //                if (r == 0 && c == 0) {
-                VehiclesGenStrategy strat = new DeepRouteMaxStrategy();
+                VehiclesGenStrategy strat = new DeepRouteRandomStrategy();
                 strat.configJunction(fourWays.getJunction());
                 strat.setSeed(1); // same seed = same random numbers
                 //                }
