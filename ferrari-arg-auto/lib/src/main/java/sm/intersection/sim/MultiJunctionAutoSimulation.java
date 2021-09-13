@@ -63,10 +63,24 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
                 this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
             } else {
                 this.log.warn("ALL CARS SERVED");
-            }
+                }
         } else {
             this.log.warn("SIMULATION ALREADY GOING");
         }
+        int ContServ=0;
+        int ContArg=0;
+        for (int i = 0; i < this.network.nRows(); i++) {
+            for (int j = 0; j < this.network.nCols(); j++) {
+            	ContServ+=network.getJunction(i, j).getServed();
+            	ContArg+=network.getJunction(i, j).getArg();
+            }
+        }
+        this.log.warn("DATA:");
+        this.log.info("<{}> Cars have left the road network",this.leaveNet);
+        this.log.info("<{}> Cars have arrived at destination",this.destination);
+        this.log.info("<{}> Cars have crossed a junction in the road network",ContServ);
+        this.log.info("<{}> Network Argumentation Processes",ContArg);
+        
     }
     
     @Override

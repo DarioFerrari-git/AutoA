@@ -44,6 +44,7 @@ public class SingleJunctionSimulation implements Simulation {
     private final double step;
     private long steps;
     protected boolean going;
+    
 
     public SingleJunctionSimulation(final SmartJunction junction, final List<CrossingCar> cars, double step) {
         this.junction = junction;
@@ -69,6 +70,7 @@ public class SingleJunctionSimulation implements Simulation {
                     try {
                         this.assignRightOfWay(car, first); // TODO does not consider timing
                         first = false;
+                        
                     } catch (ParserException e) {
                         this.log.error("Malformed argumentation theory, see stack trace below:");
                         e.printStackTrace();
@@ -121,9 +123,12 @@ public class SingleJunctionSimulation implements Simulation {
                 }
                 if (car.getDistance() <= 0) { // junction approximated as point in space
                     car.setState(STATUS.SERVED);
+                    
                     this.log.info("<{}> {} in junction <{}>", car.getName(), car.getState(), this.junction.getName());
                     toRemove.add(car);
-                }
+                    this.junction.NumServed();
+                    
+                     }
             }
             if (log) {
                 this.logSituation();
@@ -181,6 +186,7 @@ public class SingleJunctionSimulation implements Simulation {
         if (first) {
             Agraph.graph2text(this.cars, this.junction.getPolicy());
         }
+        junction.NumArgProcess();
         this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
     }
 
@@ -226,6 +232,8 @@ public class SingleJunctionSimulation implements Simulation {
             }
             System.out.printf("\t\t ----- %d car(s) \n", nCars);
         }
+        this.log.info("<{} Cars> crossed junction <{}>",this.junction.getServed(), this.junction.getName());
+        
         this.log.info("<-----[step {}] END----- Logging simulation situation", this.steps);
     }
 

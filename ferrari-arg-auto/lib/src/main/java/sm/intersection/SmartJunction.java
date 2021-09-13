@@ -15,7 +15,8 @@ public final class SmartJunction {
     private final String name;
     private final Map<WAY, SmartRoad> roads;
     private final CrossingPolicy policy;
-
+    int NumCarsServed;
+    int NumArgProc;
     /**
      * @param name MUST BE UNIQUE
      * @param roads
@@ -24,6 +25,8 @@ public final class SmartJunction {
         this.name = name; // MUST BE UNIQUE
         this.roads = roads;
         this.policy = policy;
+        this.NumCarsServed=0;
+        this.NumArgProc=0;
     }
 
     /**
@@ -43,7 +46,20 @@ public final class SmartJunction {
     public int nRoads() {
         return this.roads.size();
     }
-
+    public int NumServed() {
+    	this.NumCarsServed=this.NumCarsServed+1;
+        return this.NumCarsServed;
+    }
+    public int NumArgProcess() {
+    	this.NumArgProc=this.NumArgProc+1;
+        return this.NumArgProc;
+    }
+    public int getServed() {
+    	return this.NumCarsServed;
+    }
+    public int getArg() {
+    	return this.NumArgProc;
+    }
     public Set<WAY> ways() {
         return this.roads.keySet();
     }

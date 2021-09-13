@@ -78,7 +78,12 @@ public final class Car {
         this.speed = speed;
         return this;
     }
-
+    
+    public Car setR(final List<DIRECTION> r ) {
+    	this.routes.put(this.currentRoute, r);
+        
+        return this;
+    }
     public Car setName(final String name) {
         this.name = name;
         return this;
