@@ -17,7 +17,7 @@ import sm.arg.intersection.FourWaysJunctionConfig;
 import sm.arg.intersection.NumArgsPolicy;
 import sm.intersection.BaseRSU;
 
-public class DeepRoutesConfStrategyTest {
+public class DeepRouteConfStrategyTest {
 
     
     private static final int ITER = 10;
@@ -50,7 +50,7 @@ public class DeepRoutesConfStrategyTest {
         this.strat.setSeed(1); // if needed, otherwise can skip
         List<CrossingCar> newCars = new ArrayList<>();
         List<CrossingCar> cars = new ArrayList<>();
-        for (int i = 0; i < DeepRoutesConfStrategyTest.ITER; i++) {
+        for (int i = 0; i < DeepRouteConfStrategyTest.ITER; i++) {
             newCars.addAll(this.strat.newCars());
            // System.out.println(newCars.size());
             

@@ -183,9 +183,9 @@ public class SingleJunctionSimulation implements Simulation {
             Car.setState(STATUS.WAITING);
         }
         final ArgumentationGraph Agraph = new ArgumentationGraph(t);
-        if (first) {
-            Agraph.graph2text(this.cars, this.junction.getPolicy());
-        }
+    //    if (first) {
+    //        Agraph.graph2text(this.cars, this.junction.getPolicy());
+    //    }
         junction.NumArgProcess();
         this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
     }
