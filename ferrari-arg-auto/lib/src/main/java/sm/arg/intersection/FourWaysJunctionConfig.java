@@ -416,43 +416,8 @@ public final class FourWaysJunctionConfig implements Debatable {
         return Arrays.asList(a, b, c, d, f);
     }
 
-    private boolean noConflicts(final int i, final int j) { // pare non poter essere semplificato
-        return (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.RIGHT)
-                && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.RIGHT))
-
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.RIGHT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.STRAIGHT))
-
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.LEFT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.STRAIGHT)
-                        && this.cars.get(j).getWay().equals(WAY.SOUTH) && this.cars.get(i).getWay().equals(WAY.WEST))
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.LEFT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.STRAIGHT)
-                        && this.cars.get(j).getWay().equals(WAY.WEST) && this.cars.get(i).getWay().equals(WAY.NORTH))
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.LEFT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.STRAIGHT)
-                        && this.cars.get(j).getWay().equals(WAY.NORTH) && this.cars.get(i).getWay().equals(WAY.EAST))
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.LEFT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.STRAIGHT)
-                        && this.cars.get(j).getWay().equals(WAY.EAST) && this.cars.get(i).getWay().equals(WAY.SOUTH))
-
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.RIGHT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.LEFT))
-
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.LEFT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.LEFT)
-                        && this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.WEST))
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.LEFT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.LEFT)
-                        && this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.SOUTH))
-
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.STRAIGHT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.STRAIGHT)
-                        && this.cars.get(i).getWay().equals(WAY.EAST) && this.cars.get(j).getWay().equals(WAY.WEST))
-                || (this.cars.get(i).getCurrentRoutePath().get(0).equals(DIRECTION.STRAIGHT)
-                        && this.cars.get(j).getCurrentRoutePath().get(0).equals(DIRECTION.STRAIGHT)
-                        && this.cars.get(i).getWay().equals(WAY.NORTH) && this.cars.get(j).getWay().equals(WAY.SOUTH))
-                || (this.cars.get(i).getWay().equals(this.cars.get(j).getWay()));
+    private boolean noConflicts(final int i, final int j) {
+        return Conflicts.noConflicts(this.cars.get(i), this.cars.get(j));
 
     }
 
