@@ -30,22 +30,58 @@ public final class AltRoutesPolicy implements CrossingPolicy, Debatable {
     @Override
     public List<CrossingCar> rightOfWay(CrossingCar car1, CrossingCar car2) {
         List<CrossingCar> cars = new ArrayList<>();
-        final List<Integer> routes1 = new ArrayList<>();
-        routes1.addAll(car1.getRoutes().keySet());
-        final List<Integer> routes2 = new ArrayList<>();
-        routes2.addAll(car2.getRoutes().keySet());
-        int ref1 = car1.getCurrentRouteRank();
-        int ref2 = car2.getCurrentRouteRank();
-        Collections.sort(routes1);
-        for (int p1 : routes1) {
-            for (int p2 : routes2) {
-                if (Conflicts.noConflicts(car1, car2)) {
-                    cars.add(car1);
-                    cars.add(car2);
+        final List<Integer> routes = new ArrayList<>();
+        routes.addAll(car2.getRoutes().keySet());
+        int ref = car2.getCurrentRouteRank();
+        Collections.sort(routes);
+        boolean altFound = false;
+        altFound = loopRoutes(car1, car2, cars, routes, altFound);
+        if (!altFound) {
+            car2.setCurrentRoute(ref);
+            routes.addAll(car1.getRoutes().keySet());
+            ref = car1.getCurrentRouteRank();
+            Collections.sort(routes);
+            altFound = loopRoutes(car2, car1, cars, routes, altFound);
+        }
+        if (!altFound) {
+            car1.setCurrentRoute(ref);
+            final List<Integer> routes2 = new ArrayList<>();
+            routes2.addAll(car2.getRoutes().keySet());
+            int ref2 = car2.getCurrentRouteRank();
+            Collections.sort(routes2);
+            for (int p1 : routes) {
+                car1.setCurrentRoute(p1);
+                for (int p2 : routes2) {
+                    car2.setCurrentRoute(p2);
+                    if (Conflicts.noConflicts(car1, car2)) {
+                        cars.add(car1);
+                        cars.add(car2);
+                        altFound = true;
+                        break;
+                    }
                 }
+            }
+            if (!altFound) {
+                car1.setCurrentRoute(ref);
+                car2.setCurrentRoute(ref2);
+                cars.add(car2);
             }
         }
         return cars;
+    }
+
+    private boolean loopRoutes(CrossingCar refCar, CrossingCar routingCar, List<CrossingCar> cars, final List<Integer> routes,
+            boolean altFound) {
+        for (int p : routes) {
+            routingCar.setCurrentRoute(p);
+            if (Conflicts.noConflicts(refCar, routingCar)) {
+                cars.add(refCar);
+                cars.add(routingCar);
+                altFound = true;
+                break;
+            }
+        }
+        return altFound;
     }
 
     @Override
