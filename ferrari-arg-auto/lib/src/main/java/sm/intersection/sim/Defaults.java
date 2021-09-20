@@ -20,5 +20,7 @@ public final class Defaults {
     public static final double DECELERATION_HARD = 0.5;
     public static final int MAX_ROUTE_DEPTH = 4;
     public static final double P_ADD_DEPTH = 0.3;
+    public static final int MAX_ALTERNATIVE_ROUTES = 4;
+    public static final double P_ADD_NEW_ROUTE = 0.4;
     
 }

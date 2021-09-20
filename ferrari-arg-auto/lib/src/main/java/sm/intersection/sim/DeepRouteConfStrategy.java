@@ -1,7 +1,6 @@
 package sm.intersection.sim;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +17,7 @@ import sm.intersection.SmartJunction;
 import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
 
-public class ConflictStrategy implements VehiclesGenStrategy {
+public class DeepRouteConfStrategy implements VehiclesGenStrategy {
     private final Logger log = LoggerFactory.getLogger(FlatRouteRandomStrategy.class);
     private SmartJunction junction;
     private boolean setup = false;
@@ -83,15 +82,18 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                 }
             }
             this.nCars++;
+            List<DIRECTION> route1 = new ArrayList<>();
+            List<DIRECTION> route2 = new ArrayList<>();
              final UrgentCar car1 = new UrgentCar(
                     new Car(String.format("%s_%d", way1, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
-            car1.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
+            route1.add(DIRECTION.random());
             int i=0;
             while(i<1) {
-            if(car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.RIGHT.toString())) {
-            car1.getCar().setR(Collections.singletonList(DIRECTION.random()));
+            if(route1.get(0).toString().equals(DIRECTION.RIGHT.toString())) {
+            route1.clear();
+            route1.add(DIRECTION.random());
             }
             	else {i++;}
            
@@ -102,97 +104,122 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
             final double alpha = Math.random();
+            car1.getCar().addRoute(DeepRoute(route1));
             if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.STRAIGHT.toString())) {
-
+            	
                 if (alpha <= 0.25) {
                     if (way1.intValue() + 1 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 1);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
+                        route2.add(DIRECTION.STRAIGHT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 1 - 4;
 
                         way2 = WAY.VALUES.get(v);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
-
+                        route2.add(DIRECTION.STRAIGHT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     }
                 }
                 
                 if (alpha <= 0.50 && alpha > 0.25) {
                     if (way1.intValue() + 2 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 2);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
+                        route2.add(DIRECTION.LEFT);
+                        car2.getCar().addRoute(DeepRoute(route2));
+     
                     } else {
                         final int v = way1.intValue() + 2 - 4;
 
                         way2 = WAY.VALUES.get(v);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
+                        route2.add(DIRECTION.LEFT);
+                        car2.getCar().addRoute(DeepRoute(route2));
+
                     }
+                    
                 }
                 
                 if (alpha <= 0.75 && alpha > 0.50) {
                     if (way1.intValue() + 3 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 3);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
+                        route2.add(DIRECTION.LEFT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 3 - 4;
 
                         way2 = WAY.VALUES.get(v);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
+                        route2.add(DIRECTION.LEFT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     }
                 }
                 if ( alpha > 0.75) {
                     if (way1.intValue() + 3 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 3);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
+                        route2.add(DIRECTION.STRAIGHT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 3 - 4;
 
                         way2 = WAY.VALUES.get(v);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
+                        route2.add(DIRECTION.STRAIGHT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     }
                 }
             }
             
-//            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.RIGHT.toString())) {
-//            	way2 = values.get(random.nextInt(size));
-//            	car2.getCar().addRoute(Collections.singletonList(DIRECTION.random()));
-//            }
-            
             if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.LEFT.toString())) {
-                if (alpha <= 0.33) {
+            
+            	if (alpha <= 0.33) {
 
                     if (way1.intValue() + 1 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 1);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
+                        route2.add(DIRECTION.STRAIGHT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 1 - 4;
                         way2 = WAY.VALUES.get(v);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
+                        route2.add(DIRECTION.STRAIGHT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     }
                 }
                 if (alpha <= 0.66 && alpha > 0.33) {
 
                     if (way1.intValue() + 1 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 1);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
+                        route2.add(DIRECTION.LEFT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 1 - 4;
                         way2 = WAY.VALUES.get(v);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
+                        route2.add(DIRECTION.LEFT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     }
                 }
                 if (alpha > 0.66) {
 
                     if (way1.intValue() + 2 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 2);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
+                        route2.add(DIRECTION.STRAIGHT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 2 - 4;
                         way2 = WAY.VALUES.get(v);
-                        car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
+                        route2.add(DIRECTION.STRAIGHT);
+                        car2.getCar().addRoute(DeepRoute(route2));
                     }
                 }
 
+            }
+            for (int j = 1; j < Defaults.MAX_ALTERNATIVE_ROUTES-1; j++) {
+            	List<DIRECTION> route = new ArrayList<>();
+                if (this.random.nextDouble() < Defaults.P_ADD_NEW_ROUTE) { // randomly generate alternative routes for some vehicles
+                	route.add(DIRECTION.random());
+                	for ( i= 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
+                        if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
+                            route.add(DIRECTION.random());
+                        }
+                }
+                	car2.getCar().addRoute(route);
+                }
             }
             car2.getCar().setName(String.format("%s_%d", way2, this.nCars));
             lc.add(new CrossingCar(car1, way1, STATUS.APPROACHING, d));
@@ -204,7 +231,20 @@ public class ConflictStrategy implements VehiclesGenStrategy {
         }
 
     }
-
+    
+    /**
+     * @return a deep route
+     */
+    public List<DIRECTION> DeepRoute(List<DIRECTION> route) {
+    	
+    	for (int i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
+            if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
+                route.add(DIRECTION.random());
+            }
+        }
+		return route;
+    }  
+   
     /**
      * @return the junction
      */
