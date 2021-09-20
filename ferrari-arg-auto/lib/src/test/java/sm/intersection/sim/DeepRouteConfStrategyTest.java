@@ -62,7 +62,6 @@ public class DeepRouteConfStrategyTest {
                 assertTrue(this.strat.getJunction().getRoads().containsKey(car.getWay()));
                 assertTrue(this.strat.getJunction().getRoads().get(car.getWay()) != null);
                 for (CrossingCar otherCar : cars) {
-                	
                     assertNotEquals(car, otherCar);
                 }
                 cars.add(car);
