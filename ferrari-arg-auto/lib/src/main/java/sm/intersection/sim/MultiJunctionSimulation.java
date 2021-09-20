@@ -29,8 +29,8 @@ public class MultiJunctionSimulation implements Simulation {
     private final double step;
     private long steps;
     protected boolean going;
-    protected int leaveNet=0;
-    protected int destination=0;
+    protected int nLeftNet=0;
+    protected int nArrived=0;
     /**
      * @param network
      * @param simulations MUST HAVE SAME STEP
@@ -77,13 +77,13 @@ public class MultiJunctionSimulation implements Simulation {
                         } else {
                             this.log.info("<{}> leaving network ({}, {})", car.getName(), car.getState(),
                                     car.getDistance());
-                            leaveNet++;
+                            nLeftNet++;
                             outOfSim.add(car);
                         }
                     } else {
                         this.log.info("<{}> finished its route ({}, {})", car.getName(), car.getState(),
                                 car.getDistance());
-                        destination++;
+                        nArrived++;
                         outOfSim.add(car);
                     }
                 }

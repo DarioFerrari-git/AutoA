@@ -44,7 +44,6 @@ public class SingleJunctionSimulation implements Simulation {
     private final double step;
     private long steps;
     protected boolean going;
-    
 
     public SingleJunctionSimulation(final SmartJunction junction, final List<CrossingCar> cars, double step) {
         this.junction = junction;
@@ -70,7 +69,7 @@ public class SingleJunctionSimulation implements Simulation {
                     try {
                         this.assignRightOfWay(car, first); // TODO does not consider timing
                         first = false;
-                        
+
                     } catch (ParserException e) {
                         this.log.error("Malformed argumentation theory, see stack trace below:");
                         e.printStackTrace();
@@ -99,9 +98,9 @@ public class SingleJunctionSimulation implements Simulation {
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         break;
                     case WAITING:
-                    	
+
                         if (car.getCar().getCar().getSpeed() >= Defaults.MAX_SPEED) { // TODO this way the car decelerates one single time
-                        	car.getCar().getCar()
+                            car.getCar().getCar()
                                     .setSpeed(car.getCar().getCar().getSpeed() * Defaults.DECELERATION_SOFT); // TODO make deceleration configurable
                         }
                         if (car.getDistance() < Defaults.SAFETY_DISTANCE_SOFT) {
@@ -123,12 +122,12 @@ public class SingleJunctionSimulation implements Simulation {
                 }
                 if (car.getDistance() <= 0) { // junction approximated as point in space
                     car.setState(STATUS.SERVED);
-                    
+
                     this.log.info("<{}> {} in junction <{}>", car.getName(), car.getState(), this.junction.getName());
                     toRemove.add(car);
-                    this.junction.NumServed();
-                    
-                     }
+                    this.junction.incServed();
+
+                }
             }
             if (log) {
                 this.logSituation();
@@ -183,10 +182,10 @@ public class SingleJunctionSimulation implements Simulation {
             Car.setState(STATUS.WAITING);
         }
         final ArgumentationGraph Agraph = new ArgumentationGraph(t);
-    //    if (first) {
-    //        Agraph.graph2text(this.cars, this.junction.getPolicy());
-    //    }
-        junction.NumArgProcess();
+        //    if (first) {
+        //        Agraph.graph2text(this.cars, this.junction.getPolicy());
+        //    }
+        junction.incArgProc();
         this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
     }
 
@@ -232,8 +231,8 @@ public class SingleJunctionSimulation implements Simulation {
             }
             System.out.printf("\t\t ----- %d car(s) \n", nCars);
         }
-        this.log.info("<{} Cars> crossed junction <{}>",this.junction.getServed(), this.junction.getName());
-        
+        this.log.info("{} cars crossed junction <{}>", this.junction.getServed(), this.junction.getName());
+
         this.log.info("<-----[step {}] END----- Logging simulation situation", this.steps);
     }
 

@@ -80,10 +80,10 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
         } else {
             this.log.warn("SIMULATION ALREADY GOING");
         }
-        int ContArg= super.getJunctions().get(0).NumArgProcess();
-        this.log.info("<{}> Network Argumentation Processes",ContArg);
+        int ContArg = super.getJunctions().get(0).incArgProc();
+        this.log.info("{} argumentation processes done", ContArg);
     }
-    
+
     @Override
     public long getMaxSteps() {
         return this.maxSteps;

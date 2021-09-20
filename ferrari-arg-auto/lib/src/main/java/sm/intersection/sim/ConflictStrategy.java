@@ -83,26 +83,27 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                 }
             }
             this.nCars++;
-             final UrgentCar car1 = new UrgentCar(
+            final UrgentCar car1 = new UrgentCar(
                     new Car(String.format("%s_%d", way1, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
             car1.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
-            int i=0;
-            while(i<1) {
-            if(car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.RIGHT.toString())) {
-            car1.getCar().setR(Collections.singletonList(DIRECTION.random()));
+            int i = 0;
+            while (i < 1) { // TODO per avere qualunque cosa TRANNE destra?
+                if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).equals(DIRECTION.RIGHT)) {
+                    car1.getCar().setR(Collections.singletonList(DIRECTION.random()));
+                } else {
+                    i++;
+                }
+
             }
-            	else {i++;}
-           
-            }
-           this.nCars++;
+            this.nCars++;
             final UrgentCar car2 = new UrgentCar(
                     new Car(String.format("%s_%d", way2, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
-            final double alpha = Math.random();
-            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.STRAIGHT.toString())) {
+            final double alpha = Math.random(); // TODO ATTENZIONE: il valore di alpha non è riproducibile così! Devi usare this.random (come altrove) e ricordarti di chiamare setSeed() prima di usare questa strategia!
+            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).equals(DIRECTION.STRAIGHT)) {
 
                 if (alpha <= 0.25) {
                     if (way1.intValue() + 1 <= 3) {
@@ -116,7 +117,7 @@ public class ConflictStrategy implements VehiclesGenStrategy {
 
                     }
                 }
-                
+
                 if (alpha <= 0.50 && alpha > 0.25) {
                     if (way1.intValue() + 2 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 2);
@@ -128,7 +129,7 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                         car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
                     }
                 }
-                
+
                 if (alpha <= 0.75 && alpha > 0.50) {
                     if (way1.intValue() + 3 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 3);
@@ -140,7 +141,7 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                         car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
                     }
                 }
-                if ( alpha > 0.75) {
+                if (alpha > 0.75) {
                     if (way1.intValue() + 3 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 3);
                         car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
@@ -152,13 +153,13 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                     }
                 }
             }
-            
-//            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.RIGHT.toString())) {
-//            	way2 = values.get(random.nextInt(size));
-//            	car2.getCar().addRoute(Collections.singletonList(DIRECTION.random()));
-//            }
-            
-            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.LEFT.toString())) {
+
+            //            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).toString().equals(DIRECTION.RIGHT.toString())) {
+            //            	way2 = values.get(random.nextInt(size));
+            //            	car2.getCar().addRoute(Collections.singletonList(DIRECTION.random()));
+            //            }
+
+            if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).equals(DIRECTION.LEFT)) {
                 if (alpha <= 0.33) {
 
                     if (way1.intValue() + 1 <= 3) {

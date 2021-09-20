@@ -78,12 +78,12 @@ public final class Car {
         this.speed = speed;
         return this;
     }
-    
-    public Car setR(final List<DIRECTION> r ) {
-    	this.routes.put(this.currentRoute, r);
-        
+
+    public Car setR(final List<DIRECTION> r) {
+        this.routes.put(this.currentRoute, r);
         return this;
     }
+
     public Car setName(final String name) {
         this.name = name;
         return this;
@@ -101,14 +101,14 @@ public final class Car {
     public void setCurrentRoute(int route) {
         this.currentRoute = route;
     }
-    
+
     /**
      * @return the currentRoute
      */
     public int getCurrentRoute() {
         return currentRoute;
     }
-    
+
     /**
      * 
      * @param rank
@@ -117,5 +117,5 @@ public final class Car {
     public List<DIRECTION> getRoute(int rank) {
         return this.routes.get(rank);
     }
-    
+
 }

@@ -19,7 +19,7 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
 
     private final Logger log = LoggerFactory.getLogger(MultiJunctionAutoSimulation.class);
     private final long maxSteps;
-    
+
     /**
      * 
      * @param network
@@ -29,7 +29,7 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
         super(network, simulations);
         this.maxSteps = simulations.get(0).getMaxSteps();
     }
-    
+
     @Override
     public List<CrossingCar> step(Boolean log) {
         if (!this.going) {
@@ -48,7 +48,7 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
         }
         return null;
     }
-    
+
     @Override
     public void go(Boolean log) {
         if (!this.going) {
@@ -63,26 +63,26 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
                 this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
             } else {
                 this.log.warn("ALL CARS SERVED");
-                }
+            }
         } else {
             this.log.warn("SIMULATION ALREADY GOING");
         }
-        int ContServ=0;
-        int ContArg=0;
+        int nServed = 0;
+        int nArgProc = 0;
         for (int i = 0; i < this.network.nRows(); i++) {
             for (int j = 0; j < this.network.nCols(); j++) {
-            	ContServ+=network.getJunction(i, j).getServed();
-            	ContArg+=network.getJunction(i, j).getArg();
+                nServed += network.getJunction(i, j).getServed();
+                nArgProc += network.getJunction(i, j).getArgProc();
             }
         }
-        this.log.warn("DATA:");
-        this.log.info("<{}> Cars have left the road network",this.leaveNet);
-        this.log.info("<{}> Cars have arrived at destination",this.destination);
-        this.log.info("<{}> Cars have crossed a junction in the road network",ContServ);
-        this.log.info("<{}> Network Argumentation Processes",ContArg);
-        
+        this.log.info("PERFORMANCE:");
+        this.log.info("{} cars left the network", this.nLeftNet);
+        this.log.info("{} cars arrived at destination", this.nArrived);
+        this.log.info("{} cars crossed a junction", nServed);
+        this.log.info("{} argumentation processes done", nArgProc);
+
     }
-    
+
     @Override
     public long getMaxSteps() {
         return this.maxSteps;
