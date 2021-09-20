@@ -296,7 +296,7 @@ public final class FourWaysJunctionConfig implements Debatable {
                                             alreadyConsidered
                                                     .add(this.cars.get(j).getName() + "x" + this.cars.get(i).getName());
                                         }
-                                    } else { // canCross.size() > 1
+                                    } else { // canCross.size() > 1 (that is, == 2)
                                         /*
                                          * TODO caso in cui entrambe le auto possono attraversare (e.g. perchè una ha strada alternativa)
                                          * direi che è qui che si deve
