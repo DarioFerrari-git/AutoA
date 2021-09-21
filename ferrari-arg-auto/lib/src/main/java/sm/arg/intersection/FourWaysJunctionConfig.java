@@ -298,8 +298,8 @@ public final class FourWaysJunctionConfig implements Debatable {
                                         }
                                     } else { // canCross.size() > 1 (that is, == 2)
                                         /*
-                                         * TODO la lista canCross contiene le auto che possono attraversare, 1 o 2 a seconda,
-                                         * con già la route alternative corretta settata
+                                         * TODO la lista canCross contiene entrambe le auto, che possono attraversare inseme,
+                                         * con già la route alternative corretta settata (per una delle due o per entrambe a seconda del caso)
                                          * 
                                          */
                                     }
