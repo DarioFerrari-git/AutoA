@@ -83,7 +83,7 @@ public final class AltRoutesPolicy implements CrossingPolicy, Debatable {
         for (int p : routes) {
             routingCar.setCurrentRoute(p);
             this.log.debug("{} current route: {} (against {})", routingCar.getName(), routingCar.getCurrentRoutePath(), refCar.getCurrentRoutePath());
-            if (Conflicts.noConflicts(refCar, routingCar)) {
+            if (Conflicts.noConflicts(refCar, routingCar) || Conflicts.noConflicts(routingCar, refCar)) {
                 this.log.debug("YEEE");
                 cars.add(refCar);
                 cars.add(routingCar);
