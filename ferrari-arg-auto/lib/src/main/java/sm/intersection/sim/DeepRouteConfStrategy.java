@@ -104,7 +104,7 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
                     new Car(String.format("%s_%d", way2, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
-            final double alpha = Math.random();
+            final double alpha = this.random.nextDouble();
             car1.getCar().addRoute(deepRoute(route1));
             if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).equals(DIRECTION.STRAIGHT)) {
 

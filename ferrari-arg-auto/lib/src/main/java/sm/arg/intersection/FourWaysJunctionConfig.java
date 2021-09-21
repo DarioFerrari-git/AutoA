@@ -302,6 +302,25 @@ public final class FourWaysJunctionConfig implements Debatable {
                                          * con già la route alternative corretta settata (per una delle due o per entrambe a seconda del caso)
                                          * 
                                          */
+                                    	
+                                    	
+                                    	c = new Proposition(ArgKeys.CanTransitSimultaneously + "_" + this.cars.get(i).getName()
+                                                + this.cars.get(j).getName());
+                                        r1 = new DefeasibleInferenceRule<>();
+                                        r1.setConclusion(c);
+                                        r1.addPremise(a);
+                                        r1.addPremise(f);
+                                        t.addRule(r1);
+
+                                        r2 = new StrictInferenceRule<>();
+                                        r2.setConclusion(new Negation(b));
+                                        r2.addPremise(c);
+                                        alreadyConsidered.add(this.cars.get(j).getName() + "V" + this.cars.get(i).getName());
+    	
+
+
+                                    	
+                                    	
                                     }
                                 }
                             }
