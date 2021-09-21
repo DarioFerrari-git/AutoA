@@ -91,7 +91,7 @@ public final class Car {
 
     @Override
     public String toString() {
-        return String.format("Car [name=%s, routes=%s, speed=%s]", this.name, this.routes, this.speed);
+        return String.format("Car [name=%s, routes=%s, currentRoute=%d, speed=%s]", this.name, this.routes, this.currentRoute, this.speed);
     }
 
     /**

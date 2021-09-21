@@ -298,19 +298,9 @@ public final class FourWaysJunctionConfig implements Debatable {
                                         }
                                     } else { // canCross.size() > 1 (that is, == 2)
                                         /*
-                                         * TODO caso in cui entrambe le auto possono attraversare (e.g. perchè una ha strada alternativa)
-                                         * direi che è qui che si deve
-                                         *   1. controllare se la route alternativa presenta altri conflitti
-                                         *   2. se no, settare quella route come attualmente perseguita dal veicolo
-                                         *   3. se sì, cercare un'altra alternativa o controllare gli altri conflitti per altre alternative
+                                         * TODO la lista canCross contiene le auto che possono attraversare, 1 o 2 a seconda,
+                                         * con già la route alternative corretta settata
                                          * 
-                                         * Se ho ben capito noi controlliamo 1 in questo stesso metodo, dunque per non duplicare codice 
-                                         * questo metodo andrebbe spezzato in sotto-metodi (privati) che incapsulano singole funzionalità 
-                                         * (e responsabilità), che possono essere cosi richiamati più volte.
-                                         * 
-                                         * Il punto 3 tenderei a escluderlo perchè impossibile o quasi con la struttura del codice attuale
-                                         * (i conflitti formano un grafo arbitrario potenzialmente con cili, che richiede navigazione ricorsiva
-                                         * e di riconoscere i loop per fermarsi, troppo complicato)
                                          */
                                     }
                                 }

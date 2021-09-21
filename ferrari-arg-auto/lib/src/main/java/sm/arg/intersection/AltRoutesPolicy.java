@@ -75,6 +75,9 @@ public final class AltRoutesPolicy implements CrossingPolicy, Debatable {
                 cars.add(car2);
             }
         }
+        for (CrossingCar car : cars) {
+            this.log.debug("<{}> is pursuing route {}: {}", car.getName(), car.getCurrentRouteRank(), car.getCurrentRoutePath());
+        }
         return cars;
     }
 
