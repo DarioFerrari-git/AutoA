@@ -298,12 +298,10 @@ public final class FourWaysJunctionConfig implements Debatable {
                                         }
                                     } else { // canCross.size() > 1 (that is, == 2)
                                         /*
-                                         * TODO la lista canCross contiene entrambe le auto, che possono attraversare inseme,
+                                         * la lista canCross contiene entrambe le auto, che possono attraversare inseme,
                                          * con già la route alternative corretta settata (per una delle due o per entrambe a seconda del caso)
                                          * 
                                          */
-                                    	
-                                    	
                                     	c = new Proposition(ArgKeys.CanTransitSimultaneously + "_" + this.cars.get(i).getName()
                                                 + this.cars.get(j).getName());
                                         r1 = new DefeasibleInferenceRule<>();
@@ -316,11 +314,6 @@ public final class FourWaysJunctionConfig implements Debatable {
                                         r2.setConclusion(new Negation(b));
                                         r2.addPremise(c);
                                         alreadyConsidered.add(this.cars.get(j).getName() + "V" + this.cars.get(i).getName());
-    	
-
-
-                                    	
-                                    	
                                     }
                                 }
                             }
