@@ -102,7 +102,7 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                     new Car(String.format("%s_%d", way2, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
-            final double alpha = Math.random(); // TODO ATTENZIONE: il valore di alpha non è riproducibile così! Devi usare this.random (come altrove) e ricordarti di chiamare setSeed() prima di usare questa strategia!
+            final double alpha = this.random.nextDouble(); // TODO ATTENZIONE: il valore di alpha non è riproducibile così! Devi usare this.random (come altrove) e ricordarti di chiamare setSeed() prima di usare questa strategia!
             if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).equals(DIRECTION.STRAIGHT)) {
 
                 if (alpha <= 0.25) {

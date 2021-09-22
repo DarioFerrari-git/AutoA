@@ -88,8 +88,8 @@ public class NoConflictStrategy implements VehiclesGenStrategy {
             final UrgentCar car2 = new UrgentCar(
                     new Car(String.format("%s_%d", way2, this.nCars), this.random.nextDouble() * 50),
                     this.random.nextDouble());
-            final double alpha = Math.random();
-            final double beta= Math.random();
+            final double alpha = this.random.nextDouble();
+            final double beta= this.random.nextDouble();
             if (car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.STRAIGHT.toString())) {
 
                 if (alpha <= 0.33) {
