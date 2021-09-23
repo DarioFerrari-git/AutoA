@@ -224,7 +224,7 @@ public class CrossingCar implements Debatable {
         if (!this.frozen) {
             this.car.getCar().setCurrentRoute(route);
         } else {
-            this.log.warn("I AM FROZEN, I CAN'T CHANGE ROUTE");
+//            this.log.warn("I AM FROZEN, I CAN'T CHANGE ROUTE");
         }
         return this;
     }

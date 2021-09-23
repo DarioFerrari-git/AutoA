@@ -44,7 +44,7 @@ public class MultiJunctionAutoSimulationWithAltRoutesTest {
                 junctions[r][c] = fourWays.getJunction();
  
                 strat.configJunction(junctions[r][c]);
-                strat.setSeed(2); // same seed = same random numbers
+                strat.setSeed(3); // same seed = same random numbers
                if(r==0&&c==0)
                 sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 1, 3, 20, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
                else 

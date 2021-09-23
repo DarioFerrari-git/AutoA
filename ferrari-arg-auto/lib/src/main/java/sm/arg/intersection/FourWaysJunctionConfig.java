@@ -314,6 +314,12 @@ public final class FourWaysJunctionConfig implements Debatable {
                                         r2.setConclusion(new Negation(b));
                                         r2.addPremise(c);
                                         alreadyConsidered.add(this.cars.get(j).getName() + "V" + this.cars.get(i).getName());
+                                        if(!this.cars.get(j).isFrozen()) {
+                                        	this.cars.get(j).freeze();
+                                        }
+                                        if(!this.cars.get(i).isFrozen()) {
+                                        	this.cars.get(i).freeze();
+                                        }
                                     }
                                 }
                             }

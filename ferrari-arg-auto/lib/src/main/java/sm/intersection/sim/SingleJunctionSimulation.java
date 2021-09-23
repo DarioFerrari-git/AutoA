@@ -83,6 +83,7 @@ public class SingleJunctionSimulation implements Simulation {
              * (2) ...update cars' status then
              */
             for (final CrossingCar car : this.cars) {
+            	
                 switch (car.getState()) {
                     case APPROACHING: // in questo modo nel caso APPROACHING si esegue lo stesso codice del caso CROSSING ("fall-through"))
                     case CROSSING:
@@ -126,7 +127,7 @@ public class SingleJunctionSimulation implements Simulation {
                     this.log.info("<{}> {} in junction <{}>", car.getName(), car.getState(), this.junction.getName());
                     toRemove.add(car);
                     this.junction.incServed();
-
+if(car.isFrozen())car.unfreeze();
                 }
             }
             if (log) {
@@ -182,11 +183,12 @@ public class SingleJunctionSimulation implements Simulation {
             Car.setState(STATUS.WAITING);
         }
         final ArgumentationGraph Agraph = new ArgumentationGraph(t);
-        //    if (first) {
-        //        Agraph.graph2text(this.cars, this.junction.getPolicy());
-        //    }
+           if (first) {
+                Agraph.graph2text(this.cars, this.junction.getPolicy());
+            }
         junction.incArgProc();
         this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
+        
     }
 
     @Override
@@ -223,10 +225,10 @@ public class SingleJunctionSimulation implements Simulation {
                 if (car.getWay() != null && car.getWay().equals(way) && !car.getState().equals(STATUS.SERVED)) {
                     nCars++;
                     System.out.printf(
-                            "\t\t <%s> %s going %s in %.2f s (urgency: %.2f) at %.2f km/h (distance: %.2f m) \n",
+                            "\t\t <%s> %s going %s in %.2f s (urgency: %.2f) at %.2f km/h (distance: %.2f m). Different routes: %s \n",
                             car.getName(), car.getState(), car.getCurrentRoutePath(), car.getTimeToCross(),
                             // TODO code below only fetches first route
-                            car.getCar().getUrgency(), car.getCar().getCar().getSpeed(), car.getDistance());
+                            car.getCar().getUrgency(), car.getCar().getCar().getSpeed(), car.getDistance(), car.getRoutes().size());
                 }
             }
             System.out.printf("\t\t ----- %d car(s) \n", nCars);
