@@ -6,9 +6,11 @@ package sm.intersection.sim;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,7 @@ public class MultiJunctionSimulation implements Simulation {
     protected boolean going;
     protected int nLeftNet=0;
     protected int nArrived=0;
+    protected Set<CrossingCar> generated;
     /**
      * @param network
      * @param simulations MUST HAVE SAME STEP
@@ -44,6 +47,7 @@ public class MultiJunctionSimulation implements Simulation {
         this.step = simulations.get(0).getStep();
         this.steps = 0;
         this.going = false;
+        this.generated = new HashSet<>();
     }
 
     public List<CrossingCar> step(final Boolean log) {
@@ -64,6 +68,7 @@ public class MultiJunctionSimulation implements Simulation {
             String curJname;
             for (Simulation ssim : leaving.keySet()) {
                 for (CrossingCar car : leaving.get(ssim)) {
+                    this.generated.add(car);
                     if (car.getCurrentRoutePath().size() > 1) { // TODO adapt to breadth (# alternatives) and depth (# of directions) of routes...HOW??
                         curJname = ssim.getJunctions().get(0).getName();
                         next = this.network.next(this.network.getJunction(curJname).get(), car.getWay(),

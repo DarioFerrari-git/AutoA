@@ -16,7 +16,6 @@ import sm.intersection.SmartJunction;
 
 public class MultiJunctionAutoSimulationWithAltRoutesTest {
 
-
     private MultiJunctionAutoSimulation ms;
 
     /**
@@ -36,24 +35,23 @@ public class MultiJunctionAutoSimulationWithAltRoutesTest {
                 /*
                  * ...create 4 ways junction config...
                  */
-                fourWays = new FourWaysJunctionConfig(String.format("4ways %d,%d", r, c), new AltRoutesPolicy("altPolicy"),
-                        new DistanceRSU(new BaseRSU("rsu", 1), 50));
+                fourWays = new FourWaysJunctionConfig(String.format("4ways %d,%d", r, c),
+                        new AltRoutesPolicy("altPolicy"), new DistanceRSU(new BaseRSU("rsu", 1), 50));
                 /*
                  * ...and add it to the network...
                  */
                 junctions[r][c] = fourWays.getJunction();
- 
+
                 strat.configJunction(junctions[r][c]);
                 strat.setSeed(3); // same seed = same random numbers
-               if(r==0&&c==0)
-                sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 1, 3, 20, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
-               else 
-            	sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 0, 0, 20, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
-               
-               }
+                if (r == 0 && c == 0)
+                    sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 1, 10, 100, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
+                else
+                    sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 0, 0, 100, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
+
+            }
         }
-         
-        
+
         this.ms = new MultiJunctionAutoSimulation(new JunctionMatrix(junctions), sims);
     }
 
@@ -85,4 +83,3 @@ public class MultiJunctionAutoSimulationWithAltRoutesTest {
     }
 
 }
-

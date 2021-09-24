@@ -75,11 +75,14 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
                 nArgProc += network.getJunction(i, j).getArgProc();
             }
         }
-        this.log.info("PERFORMANCE:");
-        this.log.info("{} cars left the network", this.nLeftNet);
-        this.log.info("{} cars arrived at destination", this.nArrived);
-        this.log.info("{} cars crossed a junction", nServed);
+        this.log.info("##### PERFORMANCE SUMMARY #####");
+        this.log.info("{} cars generated", this.generated.size());
+        this.log.info("\t{} cars left the network", this.nLeftNet);
+        this.log.info("\t{} cars arrived at destination", this.nArrived);
+//        this.log.info("{} cars crossed a junction", nServed);
+        this.log.info("{} crossings happened", nServed);
         this.log.info("{} argumentation processes done", nArgProc);
+        this.log.info("##### #####");
 
     }
 
