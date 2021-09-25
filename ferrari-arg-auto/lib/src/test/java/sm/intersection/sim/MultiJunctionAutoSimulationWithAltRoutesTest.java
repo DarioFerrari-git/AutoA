@@ -45,9 +45,9 @@ public class MultiJunctionAutoSimulationWithAltRoutesTest {
                 strat.configJunction(junctions[r][c]);
                 strat.setSeed(3); // same seed = same random numbers
                 if (r == 0 && c == 0)
-                    sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 1, 10, 100, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
+                    sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 1, 3, 20, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
                 else
-                    sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 0, 0, 100, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
+                    sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 0, 0, 20, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
 
             }
         }

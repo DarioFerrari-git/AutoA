@@ -21,7 +21,7 @@ import sm.intersection.BaseRSU;
  */
 public class SingleJunctionAutoSimulationTest {
 	
-	private SingleJunctionAutoSimulation sim1;
+//	private SingleJunctionAutoSimulation sim1;
 	private SingleJunctionAutoSimulation sim2;
 
 	/**
@@ -35,7 +35,7 @@ public class SingleJunctionAutoSimulationTest {
 		VehiclesGenStrategy strat = new DeepRouteRandomStrategy();
 		strat.configJunction(config.getJunction());
 		strat.setSeed(1); // same seed = same random numbers
-		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 20, strat, 1);
+//		this.sim1 = new SingleJunctionAutoSimulation(config.getJunction(), 1, 10, 20, strat, 1);
 		this.sim2 = new SingleJunctionAutoSimulation(config.getJunction(), 3, 3, 30, strat, 1);
 	}
 
@@ -44,7 +44,7 @@ public class SingleJunctionAutoSimulationTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		this.sim1 = null;
+//		this.sim1 = null;
 		this.sim2 = null;
 	}
 
@@ -53,7 +53,7 @@ public class SingleJunctionAutoSimulationTest {
 	 */
 	@Test
 	public final void testStep() {
-		this.sim1.step(true);
+//		this.sim1.step(true);
 		this.sim2.step(true);
 	}
 
@@ -62,37 +62,37 @@ public class SingleJunctionAutoSimulationTest {
 	 */
 	@Test
 	public final void testGo() {
-		this.sim1.go(true);
-//		this.sim2.go(true);
+//		this.sim1.go(true);
+		this.sim2.go(true);
 	}
 	
 	/**
 	 * Test method for {@link sm.intersection.sim.SingleJunctionAutoSimulation#pause()}.
 	 */
-	@Test
-	public final void testPause() {
-		assertFalse(this.sim2.isGoing());
-		this.sim2.pause();
-		assertFalse(this.sim2.isGoing());
-		this.sim2.step(true/*, 1*/);
-		assertFalse(this.sim2.isGoing());
-		this.sim2.pause();
-		assertFalse(this.sim2.isGoing());
-		this.sim2.step(true/*, 2*/);
-		assertFalse(this.sim2.isGoing());
-		this.sim2.pause();
-		assertFalse(this.sim2.isGoing());
-		this.sim2.go(true);
-		assertTrue(this.sim2.isGoing());
-		this.sim2.go(true);
-		assertTrue(this.sim2.isGoing());
-		this.sim2.step(true/*, 1*/);
-		assertTrue(this.sim2.isGoing());
-		this.sim2.pause();
-		assertFalse(this.sim2.isGoing());
-		this.sim2.step(true/*, 1*/);
-		assertFalse(this.sim2.isGoing());
-		this.sim2.step(true/*, 0*/);
-	}
+//	@Test
+//	public final void testPause() {
+//		assertFalse(this.sim2.isGoing());
+//		this.sim2.pause();
+//		assertFalse(this.sim2.isGoing());
+//		this.sim2.step(true/*, 1*/);
+//		assertFalse(this.sim2.isGoing());
+//		this.sim2.pause();
+//		assertFalse(this.sim2.isGoing());
+//		this.sim2.step(true/*, 2*/);
+//		assertFalse(this.sim2.isGoing());
+//		this.sim2.pause();
+//		assertFalse(this.sim2.isGoing());
+//		this.sim2.go(true);
+//		assertTrue(this.sim2.isGoing());
+//		this.sim2.go(true);
+//		assertTrue(this.sim2.isGoing());
+//		this.sim2.step(true/*, 1*/);
+//		assertTrue(this.sim2.isGoing());
+//		this.sim2.pause();
+//		assertFalse(this.sim2.isGoing());
+//		this.sim2.step(true/*, 1*/);
+//		assertFalse(this.sim2.isGoing());
+//		this.sim2.step(true/*, 0*/);
+//	}
 
 }

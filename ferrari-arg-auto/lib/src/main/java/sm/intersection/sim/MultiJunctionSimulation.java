@@ -34,6 +34,7 @@ public class MultiJunctionSimulation implements Simulation {
     protected int nLeftNet=0;
     protected int nArrived=0;
     protected Set<CrossingCar> generated;
+	protected long start;
     /**
      * @param network
      * @param simulations MUST HAVE SAME STEP
@@ -52,6 +53,8 @@ public class MultiJunctionSimulation implements Simulation {
 
     public List<CrossingCar> step(final Boolean log) {
         List<CrossingCar> outOfSim = new ArrayList<>();
+        if(this.steps==0) start= System.currentTimeMillis();
+        
         if (!this.going) {
             this.steps++;
             Map<Simulation, List<CrossingCar>> leaving = new HashMap<>();
@@ -96,6 +99,8 @@ public class MultiJunctionSimulation implements Simulation {
         } else {
             this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
         }
+        this.log.info("simulation time after Step {}: {} millis",this.steps,System.currentTimeMillis()-this.start);
+        
         return outOfSim;
     }
 

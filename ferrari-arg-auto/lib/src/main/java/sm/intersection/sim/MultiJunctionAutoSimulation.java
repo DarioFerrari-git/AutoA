@@ -82,6 +82,9 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
 //        this.log.info("{} cars crossed a junction", nServed);
         this.log.info("{} crossings happened", nServed);
         this.log.info("{} argumentation processes done", nArgProc);
+        this.log.info("simulation time: {} millis",System.currentTimeMillis()-super.start);
+        this.log.info("argumentation processes in one second: {}",(double)nArgProc*1000/(System.currentTimeMillis()-super.start));
+        
         this.log.info("##### #####");
 
     }

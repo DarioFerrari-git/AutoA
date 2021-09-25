@@ -44,6 +44,8 @@ public class SingleJunctionSimulation implements Simulation {
     private final double step;
     private long steps;
     protected boolean going;
+    protected boolean none;
+    protected long start;
 
     public SingleJunctionSimulation(final SmartJunction junction, final List<CrossingCar> cars, double step) {
         this.junction = junction;
@@ -56,6 +58,8 @@ public class SingleJunctionSimulation implements Simulation {
     @Override
     public List<CrossingCar> step(final Boolean log /* , final long steps */) {
         final List<CrossingCar> toRemove = new ArrayList<>();
+        if(this.steps==0) start= System.currentTimeMillis();
+        
         if (!this.going) {
             //			for (int s = 0; s < steps; s++) {
             this.steps++;
@@ -121,16 +125,19 @@ public class SingleJunctionSimulation implements Simulation {
                     default:
                         throw new IllegalArgumentException("Unexpected value: " + car.getState());
                 }
+                
                 if (car.getDistance() <= 0) { // junction approximated as point in space
                     car.setState(STATUS.SERVED);
 
                     this.log.info("<{}> {} in junction <{}>", car.getName(), car.getState(), this.junction.getName());
+              
                     toRemove.add(car);
                     this.junction.incServed();
-                    if (car.isFrozen())
-                        car.unfreeze();
+                    
                 }
+                if (car.isFrozen())car.unfreeze();
             }
+            
             if (log) {
                 this.logSituation();
             }
@@ -139,7 +146,10 @@ public class SingleJunctionSimulation implements Simulation {
         } else {
             this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
         }
+
+        this.log.info("simulation time of junction <{}>: {} millis",this.junction.getName(),System.currentTimeMillis()-start);        
         return toRemove;
+        
     }
 
     private void assignRightOfWay(final CrossingCar Car, final boolean first) throws ParserException, IOException {
@@ -189,7 +199,7 @@ public class SingleJunctionSimulation implements Simulation {
         }
         junction.incArgProc();
         this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
-
+        
     }
 
     @Override
@@ -234,8 +244,7 @@ public class SingleJunctionSimulation implements Simulation {
             }
             System.out.printf("\t\t ----- %d car(s) \n", nCars);
         }
-        this.log.info("{} cars crossed junction <{}>", this.junction.getServed(), this.junction.getName());
-
+        
         this.log.info("<-----[step {}] END----- Logging simulation situation", this.steps);
     }
 

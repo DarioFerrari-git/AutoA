@@ -45,7 +45,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 
     @Override
     public List<CrossingCar> step(final Boolean log) {
-        if (!this.going) {
+    	if (!this.going) {
             if (super.getSteps() >= this.maxSteps) {
                 this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
             } else {
@@ -71,6 +71,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
                 this.step(log);
                 this.going = true;
                 //			super.go(log); // check which step() is called therein: this, or superclass
+            
             }
             if (super.getSteps() >= this.maxSteps) {
                 this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
@@ -80,8 +81,12 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
         } else {
             this.log.warn("SIMULATION ALREADY GOING");
         }
+        this.log.info("##### PERFORMANCE SUMMARY #####");
         int ContArg = super.getJunctions().get(0).incArgProc();
         this.log.info("{} argumentation processes done", ContArg);
+        this.log.info("simulation time: {} millis",System.currentTimeMillis()-super.start);
+        this.log.info("argumentation processes in one second: {}",(double)ContArg*1000/(System.currentTimeMillis()-super.start));
+        this.log.info("##### #####");
     }
 
     @Override
