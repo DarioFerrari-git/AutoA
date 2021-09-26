@@ -148,6 +148,8 @@ public class SingleJunctionSimulation implements Simulation {
         }
 
         this.log.info("simulation time of junction <{}>: {} millis",this.junction.getName(),System.currentTimeMillis()-start);        
+        this.log.info("{} argumentation processes done",this.junction.getArgProc());
+         
         return toRemove;
         
     }

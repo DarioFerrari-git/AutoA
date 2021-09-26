@@ -82,7 +82,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
             this.log.warn("SIMULATION ALREADY GOING");
         }
         this.log.info("##### PERFORMANCE SUMMARY #####");
-        int ContArg = super.getJunctions().get(0).incArgProc();
+        int ContArg = super.getJunctions().get(0).getArgProc();
         this.log.info("{} argumentation processes done", ContArg);
         this.log.info("simulation time: {} millis",System.currentTimeMillis()-super.start);
         this.log.info("argumentation processes in one second: {}",(double)ContArg*1000/(System.currentTimeMillis()-super.start));

@@ -99,8 +99,18 @@ public class MultiJunctionSimulation implements Simulation {
         } else {
             this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
         }
+        this.log.info("##### PERFORMANCE ({})#####",this.steps );
+        
         this.log.info("simulation time after Step {}: {} millis",this.steps,System.currentTimeMillis()-this.start);
         
+        int nArgProc = 0;
+        for (int i = 0; i < this.network.nRows(); i++) {
+            for (int j = 0; j < this.network.nCols(); j++) {
+                nArgProc += network.getJunction(i, j).getArgProc();
+            }
+        }
+        this.log.info("{} argumentation processes done", nArgProc);
+        this.log.info("##### #####");
         return outOfSim;
     }
 
