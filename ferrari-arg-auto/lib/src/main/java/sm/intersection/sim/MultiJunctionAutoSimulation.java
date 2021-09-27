@@ -69,10 +69,12 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
         }
         int nServed = 0;
         int nArgProc = 0;
+        int nARused = 0;
         for (int i = 0; i < this.network.nRows(); i++) {
             for (int j = 0; j < this.network.nCols(); j++) {
                 nServed += network.getJunction(i, j).getServed();
                 nArgProc += network.getJunction(i, j).getArgProc();
+                nARused+=network.getJunction(i, j).getARused();
             }
         }
         this.log.info("##### PERFORMANCE SUMMARY #####");
@@ -84,7 +86,7 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
         this.log.info("{} argumentation processes done", nArgProc);
         this.log.info("simulation time: {} millis",System.currentTimeMillis()-super.start);
         this.log.info("argumentation processes in one second: {}",(double)nArgProc*1000/(System.currentTimeMillis()-super.start));
-        
+        this.log.info("changes to the itinerary: {}",nARused);
         this.log.info("##### #####");
 
     }

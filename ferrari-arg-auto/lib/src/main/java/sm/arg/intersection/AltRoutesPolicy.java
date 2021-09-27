@@ -32,7 +32,8 @@ public final class AltRoutesPolicy implements CrossingPolicy, Debatable {
 
     @Override
     public List<CrossingCar> rightOfWay(CrossingCar car1, CrossingCar car2) {
-        List<CrossingCar> cars = new ArrayList<>();
+       
+    	List<CrossingCar> cars = new ArrayList<>();
         final List<Integer> routes = new ArrayList<>();
         routes.addAll(car2.getRoutes().keySet());
         int ref = car2.getCurrentRouteRank();
@@ -92,6 +93,7 @@ public final class AltRoutesPolicy implements CrossingPolicy, Debatable {
                 cars.add(refCar);
                 cars.add(routingCar);
                 altFound = true;
+                
                 break;
             }
         }
