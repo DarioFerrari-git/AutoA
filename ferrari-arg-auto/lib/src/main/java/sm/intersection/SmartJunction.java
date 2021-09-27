@@ -17,7 +17,7 @@ public final class SmartJunction {
     private final CrossingPolicy policy;
     int nServed;
     int nArgProc;
-    int nARused;
+    int nAltRoutesUsed;
 
     /**
      * @param name  MUST BE UNIQUE
@@ -29,7 +29,7 @@ public final class SmartJunction {
         this.policy = policy;
         this.nServed = 0;
         this.nArgProc = 0;
-        this.nARused = 0;
+        this.nAltRoutesUsed = 0;
     }
 
     /**
@@ -60,15 +60,15 @@ public final class SmartJunction {
         return this.nArgProc;
     }
     
-    public int incARused(int m) {
-        this.nARused = this.nARused + m;
-        return this.nARused;
+    public int incAltRoutesUsed(int nAltRoutes) {
+        this.nAltRoutesUsed = this.nAltRoutesUsed + nAltRoutes;
+        return this.nAltRoutesUsed;
     }
 
     public int getServed() {
         return this.nServed;
     }
-    public int getARused() {
+    public int getAltRoutesUsed() {
         return this.nServed;
     }
 

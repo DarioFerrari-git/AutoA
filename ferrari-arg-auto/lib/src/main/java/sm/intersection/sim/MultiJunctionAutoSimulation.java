@@ -69,24 +69,25 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
         }
         int nServed = 0;
         int nArgProc = 0;
-        int nARused = 0;
+        int nAltRoutesUsed = 0;
         for (int i = 0; i < this.network.nRows(); i++) {
             for (int j = 0; j < this.network.nCols(); j++) {
                 nServed += network.getJunction(i, j).getServed();
                 nArgProc += network.getJunction(i, j).getArgProc();
-                nARused+=network.getJunction(i, j).getARused();
+                nAltRoutesUsed += network.getJunction(i, j).getAltRoutesUsed();
             }
         }
         this.log.info("##### PERFORMANCE SUMMARY #####");
         this.log.info("{} cars generated", this.generated.size());
         this.log.info("\t{} cars left the network", this.nLeftNet);
         this.log.info("\t{} cars arrived at destination", this.nArrived);
-//        this.log.info("{} cars crossed a junction", nServed);
+        //        this.log.info("{} cars crossed a junction", nServed);
         this.log.info("{} crossings happened", nServed);
         this.log.info("{} argumentation processes done", nArgProc);
-        this.log.info("simulation time: {} millis",System.currentTimeMillis()-super.start);
-        this.log.info("argumentation processes in one second: {}",(double)nArgProc*1000/(System.currentTimeMillis()-super.start));
-        this.log.info("changes to the itinerary: {}",nARused);
+        this.log.info("simulation time: {} millis", System.currentTimeMillis() - super.start);
+        this.log.info("argumentation processes in one second: {}",
+                (double) nArgProc * 1000 / (System.currentTimeMillis() - super.start));
+        this.log.info("Alternative routes adopted: {}", nAltRoutesUsed);
         this.log.info("##### #####");
 
     }

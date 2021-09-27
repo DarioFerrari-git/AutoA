@@ -158,7 +158,7 @@ public final class FourWaysJunctionConfig implements Debatable {
         final ArrayList<String> FirstPassList = new ArrayList<>();
         final ArrayList<String> WaitListEFF = new ArrayList<>();
         final ArrayList<String> CarsInvolvedinCrush = new ArrayList<>();
-        int n_ARused=0;
+        int nAltRoutesUsed=0;
         DefeasibleInferenceRule<PlFormula> r1 = new DefeasibleInferenceRule<>();
         StrictInferenceRule<PlFormula> r2 = new StrictInferenceRule<>();
         for (int i = 0; i < this.cars.size(); i++) {
@@ -303,7 +303,7 @@ public final class FourWaysJunctionConfig implements Debatable {
                                          * con già la route alternative corretta settata (per una delle due o per entrambe a seconda del caso)
                                          * 
                                          */
-                                    	n_ARused+=n_ARused+1;
+                                    	nAltRoutesUsed+=nAltRoutesUsed+1;
                                     	c = new Proposition(ArgKeys.CanTransitSimultaneously + "_" + this.cars.get(i).getName()
                                                 + this.cars.get(j).getName());
                                         r1 = new DefeasibleInferenceRule<>();
@@ -422,7 +422,7 @@ public final class FourWaysJunctionConfig implements Debatable {
         }
 
         //   System.out.println(FirstPassList);
-this.junction.incARused(n_ARused);
+this.junction.incAltRoutesUsed(nAltRoutesUsed);
         return Arrays.asList(a, b, c, d, f);
     }
 
