@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection.sim;
 
@@ -61,7 +61,7 @@ public final class FlatRouteMaxStrategy implements VehiclesGenStrategy {
             final UrgentCar car = new UrgentCar(new Car(
                     String.format("%s_%d_%s", way, this.nCars, this.getJunction().getName()).replace("ways ", "W"),
                     Defaults.MAX_SPEED), Defaults.MAX_URGENCY);
-            List<DIRECTION> route = new ArrayList<>();
+            final List<DIRECTION> route = new ArrayList<>();
             route.add(DIRECTION.random());
             car.getCar().addRoute(route);
             return Collections.singletonList(new CrossingCar(car, way, STATUS.APPROACHING, d));
@@ -114,13 +114,13 @@ public final class FlatRouteMaxStrategy implements VehiclesGenStrategy {
     }
 
     @Override
-    public VehiclesGenStrategy setSpeedRange(int min, int max) {
+    public VehiclesGenStrategy setSpeedRange(final int min, final int max) {
         throw new UnsupportedOperationException(
                 "This strategy always generates max speed and max urgency. To get random values, use, e.g., FlatRouteRandomStrategy");
     }
 
     @Override
-    public VehiclesGenStrategy setUrgencyRange(int min, int max) {
+    public VehiclesGenStrategy setUrgencyRange(final int min, final int max) {
         throw new UnsupportedOperationException(
                 "This strategy always generates max speed and max urgency. To get random values, use, e.g., FlatRouteRandomStrategy");
     }

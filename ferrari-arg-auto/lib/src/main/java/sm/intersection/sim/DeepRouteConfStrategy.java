@@ -82,8 +82,8 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
                 }
             }
             this.nCars++;
-            List<DIRECTION> route1 = new ArrayList<>();
-            List<DIRECTION> route2 = new ArrayList<>();
+            final List<DIRECTION> route1 = new ArrayList<>();
+            final List<DIRECTION> route2 = new ArrayList<>();
             final UrgentCar car1 = new UrgentCar(
                     new Car(String.format("%s_%d", way1, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
@@ -105,20 +105,20 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
             final double alpha = this.random.nextDouble();
-            car1.getCar().addRoute(deepRoute(route1));
+            car1.getCar().addRoute(this.deepRoute(route1));
             if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).equals(DIRECTION.STRAIGHT)) {
 
                 if (alpha <= 0.25) {
                     if (way1.intValue() + 1 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 1);
                         route2.add(DIRECTION.STRAIGHT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 1 - 4;
 
                         way2 = WAY.VALUES.get(v);
                         route2.add(DIRECTION.STRAIGHT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     }
                 }
 
@@ -126,14 +126,14 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
                     if (way1.intValue() + 2 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 2);
                         route2.add(DIRECTION.LEFT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
 
                     } else {
                         final int v = way1.intValue() + 2 - 4;
 
                         way2 = WAY.VALUES.get(v);
                         route2.add(DIRECTION.LEFT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
 
                     }
 
@@ -143,26 +143,26 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
                     if (way1.intValue() + 3 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 3);
                         route2.add(DIRECTION.LEFT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 3 - 4;
 
                         way2 = WAY.VALUES.get(v);
                         route2.add(DIRECTION.LEFT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     }
                 }
                 if (alpha > 0.75) {
                     if (way1.intValue() + 3 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 3);
                         route2.add(DIRECTION.STRAIGHT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 3 - 4;
 
                         way2 = WAY.VALUES.get(v);
                         route2.add(DIRECTION.STRAIGHT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     }
                 }
             }
@@ -174,12 +174,12 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
                     if (way1.intValue() + 1 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 1);
                         route2.add(DIRECTION.STRAIGHT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 1 - 4;
                         way2 = WAY.VALUES.get(v);
                         route2.add(DIRECTION.STRAIGHT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     }
                 }
                 if (alpha <= 0.66 && alpha > 0.33) {
@@ -187,12 +187,12 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
                     if (way1.intValue() + 1 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 1);
                         route2.add(DIRECTION.LEFT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 1 - 4;
                         way2 = WAY.VALUES.get(v);
                         route2.add(DIRECTION.LEFT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     }
                 }
                 if (alpha > 0.66) {
@@ -200,18 +200,18 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
                     if (way1.intValue() + 2 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 2);
                         route2.add(DIRECTION.STRAIGHT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     } else {
                         final int v = way1.intValue() + 2 - 4;
                         way2 = WAY.VALUES.get(v);
                         route2.add(DIRECTION.STRAIGHT);
-                        car2.getCar().addRoute(deepRoute(route2));
+                        car2.getCar().addRoute(this.deepRoute(route2));
                     }
                 }
 
             }
             for (int j = 1; j < Defaults.MAX_ALTERNATIVE_ROUTES - 1; j++) {
-                List<DIRECTION> route = new ArrayList<>();
+                final List<DIRECTION> route = new ArrayList<>();
                 if (this.random.nextDouble() < Defaults.P_ADD_NEW_ROUTE) { // randomly generate alternative routes for some vehicles
                     route.add(DIRECTION.random());
                     for (i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
@@ -236,7 +236,7 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
     /**
      * @return a deep route
      */
-    public List<DIRECTION> deepRoute(List<DIRECTION> route) {
+    public List<DIRECTION> deepRoute(final List<DIRECTION> route) {
         for (int i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
             if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
                 route.add(DIRECTION.random());
@@ -267,14 +267,14 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
     }
 
     @Override
-    public VehiclesGenStrategy setSpeedRange(int min, int max) {
+    public VehiclesGenStrategy setSpeedRange(final int min, final int max) {
         this.minSpeed = min;
         this.maxSpeed = max;
         return this;
     }
 
     @Override
-    public VehiclesGenStrategy setUrgencyRange(int min, int max) {
+    public VehiclesGenStrategy setUrgencyRange(final int min, final int max) {
         this.minUrgency = min;
         this.maxUrgency = max;
         return this;

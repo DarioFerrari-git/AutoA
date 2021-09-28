@@ -33,7 +33,7 @@ import sm.intersection.UrgentCar;
  * cross. The RSU system is trustworthy so these two cars are correctly
  * detected. This scenario permit all cars to cross the junction simultaneously
  * due to no possible conflict has been detected.
- * 
+ *
  *
  */
 public class ExampleCorrectlyDetection2 {

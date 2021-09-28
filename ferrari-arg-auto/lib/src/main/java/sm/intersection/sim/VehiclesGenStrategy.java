@@ -19,9 +19,9 @@ public interface VehiclesGenStrategy {
     VehiclesGenStrategy configJunction(final SmartJunction junction);
 
     VehiclesGenStrategy setSeed(final long seed);
-    
+
     VehiclesGenStrategy setSpeedRange(final int min, final int max);
-    
+
     VehiclesGenStrategy setUrgencyRange(final int min, final int max);
 
 }

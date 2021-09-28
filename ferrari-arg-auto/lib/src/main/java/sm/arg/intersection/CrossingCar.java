@@ -126,12 +126,12 @@ public class CrossingCar implements Debatable {
     }
 
     /**
-     * 
+     *
      * @param smartJunction the next junction to be placed into
      * @return
      */
     public CrossingCar updateAfterCrossing(final SmartJunction nextJunction) { // TODO adapt to alternative routes
-        DIRECTION nextD = this.getCurrentRoutePath().remove(0); // where car was going before this crossing // TODO could be useful to have both the original routes as well as the current routes
+        final DIRECTION nextD = this.getCurrentRoutePath().remove(0); // where car was going before this crossing // TODO could be useful to have both the original routes as well as the current routes
         this.frozen = false;
         if (this.getCurrentRoutePath().size() <= 0) { // trip concluded
             this.way = null;
@@ -198,12 +198,12 @@ public class CrossingCar implements Debatable {
                 break;
         }
         this.way = nextW;
-        for (RSU<?> rsu : nextJunction.getRoads().get(nextW).getRsus()) {
+        for (final RSU<?> rsu : nextJunction.getRoads().get(nextW).getRsus()) {
             if (rsu instanceof DistanceRSU && rsu.getType().isAssignableFrom(Double.class)) {
                 this.distance = (double) rsu.getMeasurement();
             } else {
                 this.log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
-                        nextJunction.getRoads().get(way).getRsus());
+                        nextJunction.getRoads().get(this.way).getRsus());
                 this.distance = Double.NaN;
                 //                      throw new NoSuitableRSUException("No RSU instanceof DistanceRSU and assignable from Double found", this.junction.getRoads().get(way).getRsus());
             }
@@ -216,21 +216,21 @@ public class CrossingCar implements Debatable {
     }
 
     /**
-     * 
+     *
      * @param route
      * @return
      */
-    public CrossingCar setCurrentRoute(int route) {
+    public CrossingCar setCurrentRoute(final int route) {
         if (!this.frozen) {
             this.car.getCar().setCurrentRoute(route);
         } else {
-//            this.log.warn("I AM FROZEN, I CAN'T CHANGE ROUTE");
+            //            this.log.warn("I AM FROZEN, I CAN'T CHANGE ROUTE");
         }
         return this;
     }
 
     /**
-     * 
+     *
      * @return
      */
     public int getCurrentRouteRank() {
@@ -238,7 +238,7 @@ public class CrossingCar implements Debatable {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public List<DIRECTION> getCurrentRoutePath() {
@@ -249,7 +249,7 @@ public class CrossingCar implements Debatable {
      * @return the frozen
      */
     public boolean isFrozen() {
-        return frozen;
+        return this.frozen;
     }
 
     /**
@@ -258,7 +258,7 @@ public class CrossingCar implements Debatable {
     public void freeze() {
         this.frozen = true;
     }
-    
+
     /**
      * set frozen to true
      */

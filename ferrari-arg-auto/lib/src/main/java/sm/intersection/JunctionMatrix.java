@@ -29,13 +29,13 @@ public class JunctionMatrix {
     public SmartJunction getJunction(final int row, final int col) {
         return this.junctions[row][col]; // TODO handle not found
     }
-    
+
     public Optional<int[]> getJunction(final String name) {
         Optional<int[]> res = Optional.empty();
-        for (int r = 0; r < junctions.length; r++) {
-            for (int c = 0; c < junctions[r].length; c++) {
+        for (int r = 0; r < this.junctions.length; r++) {
+            for (int c = 0; c < this.junctions[r].length; c++) {
                 if (this.junctions[r][c].getName().equals(name)) {
-                    res = Optional.of(new int[] {r, c});
+                    res = Optional.of(new int[] { r, c });
                 }
             }
         }
@@ -105,9 +105,9 @@ public class JunctionMatrix {
                 break;
         }
         try {
-            SmartJunction sm = this.getJunction(next[0], next[1]);
+            final SmartJunction sm = this.getJunction(next[0], next[1]);
             res = Optional.of(sm);
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (final ArrayIndexOutOfBoundsException e) {
             this.log.warn("JUNCTION ({},{}) DOES NOT EXIST", next[0], next[1]);
             res = Optional.empty();
         }
@@ -116,7 +116,7 @@ public class JunctionMatrix {
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder("{");
+        final StringBuilder str = new StringBuilder("{");
         for (int i = 0; i < this.r; i++) {
             for (int j = 0; j < this.c; j++) {
                 str.append(String.format("\t(%d,%d) %s", i, j, this.junctions[i][j].getName()));

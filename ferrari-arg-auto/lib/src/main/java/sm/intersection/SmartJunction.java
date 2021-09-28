@@ -59,8 +59,8 @@ public final class SmartJunction {
         this.nArgProc = this.nArgProc + 1;
         return this.nArgProc;
     }
-    
-    public int incAltRoutesUsed(int nAltRoutes) {
+
+    public int incAltRoutesUsed(final int nAltRoutes) {
         this.nAltRoutesUsed = this.nAltRoutesUsed + nAltRoutes;
         return this.nAltRoutesUsed;
     }
@@ -68,6 +68,7 @@ public final class SmartJunction {
     public int getServed() {
         return this.nServed;
     }
+
     public int getAltRoutesUsed() {
         return this.nServed;
     }

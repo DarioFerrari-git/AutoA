@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection.sim;
 
@@ -21,17 +21,17 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
     private final long maxSteps;
 
     /**
-     * 
+     *
      * @param network
      * @param simulations MUST HAVE SAME STEP, SAME MAX STEPS
      */
-    public MultiJunctionAutoSimulation(JunctionMatrix network, List<Simulation> simulations) {
+    public MultiJunctionAutoSimulation(final JunctionMatrix network, final List<Simulation> simulations) {
         super(network, simulations);
         this.maxSteps = simulations.get(0).getMaxSteps();
     }
 
     @Override
-    public List<CrossingCar> step(Boolean log) {
+    public List<CrossingCar> step(final Boolean log) {
         if (!this.going) {
             if (super.getSteps() >= this.maxSteps) {
                 this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
@@ -50,7 +50,7 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
     }
 
     @Override
-    public void go(Boolean log) {
+    public void go(final Boolean log) {
         if (!this.going) {
             this.step(log); // to avoid premature termination of super.go() due to cars being empty
             while (super.getSteps() < this.maxSteps && !super.getCars().isEmpty()) {
@@ -72,9 +72,9 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
         int nAltRoutesUsed = 0;
         for (int i = 0; i < this.network.nRows(); i++) {
             for (int j = 0; j < this.network.nCols(); j++) {
-                nServed += network.getJunction(i, j).getServed();
-                nArgProc += network.getJunction(i, j).getArgProc();
-                nAltRoutesUsed += network.getJunction(i, j).getAltRoutesUsed();
+                nServed += this.network.getJunction(i, j).getServed();
+                nArgProc += this.network.getJunction(i, j).getArgProc();
+                nAltRoutesUsed += this.network.getJunction(i, j).getAltRoutesUsed();
             }
         }
         this.log.info("##### PERFORMANCE SUMMARY #####");
@@ -84,10 +84,10 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
         //        this.log.info("{} cars crossed a junction", nServed);
         this.log.info("{} crossings happened", nServed);
         this.log.info("{} argumentation processes done", nArgProc);
-        this.log.info("simulation time: {} millis", System.currentTimeMillis() - super.start);
-        this.log.info("argumentation processes in one second: {}",
+        this.log.info("Simulation time: {} millis", System.currentTimeMillis() - super.start);
+        this.log.info("{} argumentation processes per second",
                 (double) nArgProc * 1000 / (System.currentTimeMillis() - super.start));
-        this.log.info("Alternative routes adopted: {}", nAltRoutesUsed);
+        this.log.info("{} alternative routes adopted", nAltRoutesUsed);
         this.log.info("##### #####");
 
     }

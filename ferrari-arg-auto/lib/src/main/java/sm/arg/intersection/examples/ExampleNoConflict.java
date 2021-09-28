@@ -20,7 +20,6 @@ import org.tweetyproject.logics.pl.syntax.Proposition;
 import sm.arg.intersection.CrossingCar;
 import sm.arg.intersection.DistanceRSU;
 import sm.arg.intersection.FourWaysJunctionConfig;
-import sm.arg.intersection.NumArgsPolicy;
 import sm.arg.intersection.UrgencyPolicy;
 import sm.intersection.BaseRSU;
 import sm.intersection.Car;
@@ -29,14 +28,14 @@ import sm.intersection.UrgentCar;
 
 public class ExampleNoConflict {
 
-	 /*
-     * 
-     * An example where we can see a Four Ways Junction where three cars have to cross. 
-     * The RSU system is trustworthy so these three cars are correctly detected.
-     * This scenario impose that one car (B) has to decrease its speed due to the strategy implemented by the policy.
-     * 
-     * 
-     */
+    /*
+    * 
+    * An example where we can see a Four Ways Junction where three cars have to cross. 
+    * The RSU system is trustworthy so these three cars are correctly detected.
+    * This scenario impose that one car (B) has to decrease its speed due to the strategy implemented by the policy.
+    * 
+    * 
+    */
     private final static Logger log = LoggerFactory.getLogger(Example1.class);
 
     public static void main(final String[] args) throws ParserException, IOException {

@@ -91,14 +91,15 @@ public final class Car {
 
     @Override
     public String toString() {
-        return String.format("Car [name=%s, routes=%s, currentRoute=%d, speed=%s]", this.name, this.routes, this.currentRoute, this.speed);
+        return String.format("Car [name=%s, routes=%s, currentRoute=%d, speed=%s]", this.name, this.routes,
+                this.currentRoute, this.speed);
     }
 
     /**
-     * 
+     *
      * @param route
      */
-    public void setCurrentRoute(int route) {
+    public void setCurrentRoute(final int route) {
         this.currentRoute = route;
     }
 
@@ -106,15 +107,15 @@ public final class Car {
      * @return the currentRoute
      */
     public int getCurrentRoute() {
-        return currentRoute;
+        return this.currentRoute;
     }
 
     /**
-     * 
+     *
      * @param rank
      * @return
      */
-    public List<DIRECTION> getRoute(int rank) {
+    public List<DIRECTION> getRoute(final int rank) {
         return this.routes.get(rank);
     }
 

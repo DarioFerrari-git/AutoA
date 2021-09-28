@@ -34,7 +34,7 @@ public class NoConflictStrategy implements VehiclesGenStrategy {
     private int maxSpeed;
     private int minUrgency;
     private int maxUrgency;
-    
+
     @Override
     public VehiclesGenStrategy configJunction(final SmartJunction junction) {
         this.junction = junction;
@@ -89,27 +89,27 @@ public class NoConflictStrategy implements VehiclesGenStrategy {
                     new Car(String.format("%s_%d", way2, this.nCars), this.random.nextDouble() * 50),
                     this.random.nextDouble());
             final double alpha = this.random.nextDouble();
-            final double beta= this.random.nextDouble();
+            final double beta = this.random.nextDouble();
             if (car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.STRAIGHT.toString())) {
 
                 if (alpha <= 0.33) {
                     if (way1.intValue() + 2 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 2);
                         car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
-                        
+
                     } else {
                         final int v = way1.intValue() + 2 - 4;
 
                         way2 = WAY.VALUES.get(v);
                         car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
-                       
+
                     }
                 }
                 if (alpha <= 0.66 && alpha > 0.33) {
-                  way2= WAY.random();
-                  car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT)); 
+                    way2 = WAY.random();
+                    car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));
                 }
-                
+
                 if (alpha <= 1 && alpha > 0.66) {
                     if (way1.intValue() + 1 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 1);
@@ -121,26 +121,26 @@ public class NoConflictStrategy implements VehiclesGenStrategy {
                         car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
                     }
                 }
-               
+
             }
-            
+
             if (car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.RIGHT.toString())) {
-                
-            		way2 = WAY.random();
-                	car2.getCar().addRoute(Collections.singletonList(DIRECTION.random()));
-                	
+
+                way2 = WAY.random();
+                car2.getCar().addRoute(Collections.singletonList(DIRECTION.random()));
+
             }
-            
+
             if (car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.LEFT.toString())) {
                 if (alpha <= 0.33) {
 
-                	way2 = WAY.random();
-                    car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT)); 
-                  }
-                
+                    way2 = WAY.random();
+                    car2.getCar().addRoute(Collections.singletonList(DIRECTION.RIGHT));
+                }
+
                 if (alpha <= 0.66 && alpha > 0.33) {
 
-                    if (way1.intValue() +2 <= 3) {
+                    if (way1.intValue() + 2 <= 3) {
                         way2 = WAY.VALUES.get(way1.intValue() + 2);
                         car2.getCar().addRoute(Collections.singletonList(DIRECTION.LEFT));
                     } else {
@@ -151,8 +151,8 @@ public class NoConflictStrategy implements VehiclesGenStrategy {
                 }
                 if (alpha <= 1 && alpha > 0.66) {
 
-                    if (way1.intValue() -1 >=0) {
-                        way2 = WAY.VALUES.get(way1.intValue() -1);
+                    if (way1.intValue() - 1 >= 0) {
+                        way2 = WAY.VALUES.get(way1.intValue() - 1);
                         car2.getCar().addRoute(Collections.singletonList(DIRECTION.STRAIGHT));
                     } else {
                         final int v = way1.intValue() - 1 + 4;
@@ -161,12 +161,12 @@ public class NoConflictStrategy implements VehiclesGenStrategy {
                     }
                 }
             }
-    
+
             car2.getCar().setName(String.format("%s_%d", way2, this.nCars));
-            
+
             lc.add(new CrossingCar(car1, way1, STATUS.APPROACHING, d));
             lc.add(new CrossingCar(car2, way2, STATUS.APPROACHING, d));
-            
+
             //    System.out.println(lc.get(0).getWay().toString()+" "+lc.get(0).getWay().intWay(way1));
             //    System.out.println(lc.get(1).getWay().toString()+" "+lc.get(1).getWay().intWay(way2));
             //    System.out.println(lc);
@@ -198,17 +198,16 @@ public class NoConflictStrategy implements VehiclesGenStrategy {
     public long getnCars() {
         return this.nCars;
     }
-    
 
     @Override
-    public VehiclesGenStrategy setSpeedRange(int min, int max) {
+    public VehiclesGenStrategy setSpeedRange(final int min, final int max) {
         this.minSpeed = min;
         this.maxSpeed = max;
         return this;
     }
 
     @Override
-    public VehiclesGenStrategy setUrgencyRange(int min, int max) {
+    public VehiclesGenStrategy setUrgencyRange(final int min, final int max) {
         this.minUrgency = min;
         this.maxUrgency = max;
         return this;

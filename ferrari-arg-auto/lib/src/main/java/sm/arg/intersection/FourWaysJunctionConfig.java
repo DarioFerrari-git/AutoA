@@ -158,7 +158,7 @@ public final class FourWaysJunctionConfig implements Debatable {
         final ArrayList<String> FirstPassList = new ArrayList<>();
         final ArrayList<String> WaitListEFF = new ArrayList<>();
         final ArrayList<String> CarsInvolvedinCrush = new ArrayList<>();
-        int nAltRoutesUsed=0;
+        int nAltRoutesUsed = 0;
         DefeasibleInferenceRule<PlFormula> r1 = new DefeasibleInferenceRule<>();
         StrictInferenceRule<PlFormula> r2 = new StrictInferenceRule<>();
         for (int i = 0; i < this.cars.size(); i++) {
@@ -207,7 +207,7 @@ public final class FourWaysJunctionConfig implements Debatable {
                                 alreadyConsidered.add(this.cars.get(j).getName() + "V" + this.cars.get(i).getName());
                                 //						this.log.debug(alreadyConsidered.toString());
 
-                                //   System.out.println (this.cars.get(i).getName()+"/"+this.cars.get(j).getName()); 
+                                //   System.out.println (this.cars.get(i).getName()+"/"+this.cars.get(j).getName());
                             } else {
                                 c = new Proposition(this.junction.getPolicy().getName());
                                 r1 = new DefeasibleInferenceRule<>();
@@ -221,8 +221,8 @@ public final class FourWaysJunctionConfig implements Debatable {
                                                 this.cars.get(i).getName() + "x" + this.cars.get(j).getName())) {
                                     //	System.out.println(this.cars.get(i).getName()+"*"+this.cars.get(j).getName());
 
-                                    List<CrossingCar> canCross = this.junction.getPolicy().rightOfWay(this.cars.get(i),
-                                            this.cars.get(j));
+                                    final List<CrossingCar> canCross = this.junction.getPolicy()
+                                            .rightOfWay(this.cars.get(i), this.cars.get(j));
 
                                     if (Problems) {
                                         a = new Proposition(this.cars.get(i).getName() + "_" + ArgKeys.WronglyDetected);
@@ -301,11 +301,11 @@ public final class FourWaysJunctionConfig implements Debatable {
                                         /*
                                          * la lista canCross contiene entrambe le auto, che possono attraversare inseme,
                                          * con già la route alternative corretta settata (per una delle due o per entrambe a seconda del caso)
-                                         * 
+                                         *
                                          */
-                                    	nAltRoutesUsed+=nAltRoutesUsed+1;
-                                    	c = new Proposition(ArgKeys.CanTransitSimultaneously + "_" + this.cars.get(i).getName()
-                                                + this.cars.get(j).getName());
+                                        nAltRoutesUsed += nAltRoutesUsed + 1;
+                                        c = new Proposition(ArgKeys.CanTransitSimultaneously + "_"
+                                                + this.cars.get(i).getName() + this.cars.get(j).getName());
                                         r1 = new DefeasibleInferenceRule<>();
                                         r1.setConclusion(c);
                                         r1.addPremise(a);
@@ -315,12 +315,13 @@ public final class FourWaysJunctionConfig implements Debatable {
                                         r2 = new StrictInferenceRule<>();
                                         r2.setConclusion(new Negation(b));
                                         r2.addPremise(c);
-                                        alreadyConsidered.add(this.cars.get(j).getName() + "V" + this.cars.get(i).getName());
-                                        if(!this.cars.get(j).isFrozen()) {
-                                        	this.cars.get(j).freeze();
+                                        alreadyConsidered
+                                                .add(this.cars.get(j).getName() + "V" + this.cars.get(i).getName());
+                                        if (!this.cars.get(j).isFrozen()) {
+                                            this.cars.get(j).freeze();
                                         }
-                                        if(!this.cars.get(i).isFrozen()) {
-                                        	this.cars.get(i).freeze();
+                                        if (!this.cars.get(i).isFrozen()) {
+                                            this.cars.get(i).freeze();
                                         }
                                     }
                                 }
@@ -422,7 +423,7 @@ public final class FourWaysJunctionConfig implements Debatable {
         }
 
         //   System.out.println(FirstPassList);
-this.junction.incAltRoutesUsed(nAltRoutesUsed);
+        this.junction.incAltRoutesUsed(nAltRoutesUsed);
         return Arrays.asList(a, b, c, d, f);
     }
 

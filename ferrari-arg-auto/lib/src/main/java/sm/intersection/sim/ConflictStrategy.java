@@ -228,14 +228,14 @@ public class ConflictStrategy implements VehiclesGenStrategy {
     }
 
     @Override
-    public VehiclesGenStrategy setSpeedRange(int min, int max) {
+    public VehiclesGenStrategy setSpeedRange(final int min, final int max) {
         this.minSpeed = min;
         this.maxSpeed = max;
         return this;
     }
 
     @Override
-    public VehiclesGenStrategy setUrgencyRange(int min, int max) {
+    public VehiclesGenStrategy setUrgencyRange(final int min, final int max) {
         this.minUrgency = min;
         this.maxUrgency = max;
         return this;

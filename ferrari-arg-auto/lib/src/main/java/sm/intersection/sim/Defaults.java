@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection.sim;
 
@@ -8,7 +8,7 @@ package sm.intersection.sim;
  *
  */
 public final class Defaults {
-    
+
     public static final int MIN_SPEED = 10;
     public static final int MAX_SPEED = 50;
     public static final int MIN_URGENCY = 0;
@@ -22,5 +22,5 @@ public final class Defaults {
     public static final double P_ADD_DEPTH = 0.3;
     public static final int MAX_ALTERNATIVE_ROUTES = 4;
     public static final double P_ADD_NEW_ROUTE = 0.7;
-    
+
 }

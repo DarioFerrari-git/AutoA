@@ -98,7 +98,7 @@ public class Example1 {
         final PlFormula pf = plparser.parseFormula("A_" + ArgKeys.PassesFirst);
         Example1.log.info("{} --> {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
         System.out.println();
-        /*     
+        /*
         ConflictStrategy cf=new ConflictStrategy();
         cf.configJunction(fourWC.getJunction());
         cf.setSeed(1);

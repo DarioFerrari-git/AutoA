@@ -26,7 +26,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
     private final VehiclesGenStrategy gen;
 
     /**
-     * 
+     *
      * @param junction
      * @param genPerSecond
      * @param genSteps
@@ -35,7 +35,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
      * @param simStep
      */
     public SingleJunctionAutoSimulation(final SmartJunction junction, final int genPerSecond, final long genSteps,
-            final long maxSteps, final VehiclesGenStrategy strategy, double simStep) {
+            final long maxSteps, final VehiclesGenStrategy strategy, final double simStep) {
         super(junction, new ArrayList<>(), simStep);
         this.gXs = genPerSecond;
         this.genSteps = genSteps;
@@ -45,7 +45,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
 
     @Override
     public List<CrossingCar> step(final Boolean log) {
-    	if (!this.going) {
+        if (!this.going) {
             if (super.getSteps() >= this.maxSteps) {
                 this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
             } else {
@@ -71,7 +71,7 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
                 this.step(log);
                 this.going = true;
                 //			super.go(log); // check which step() is called therein: this, or superclass
-            
+
             }
             if (super.getSteps() >= this.maxSteps) {
                 this.log.warn("MAXIMUM STEPS REACHED: {}", this.maxSteps);
@@ -81,12 +81,12 @@ public final class SingleJunctionAutoSimulation extends SingleJunctionSimulation
         } else {
             this.log.warn("SIMULATION ALREADY GOING");
         }
-        this.log.info("##### PERFORMANCE SUMMARY #####");
-        int ContArg = super.getJunctions().get(0).getArgProc();
-        this.log.info("{} argumentation processes done", ContArg);
-        this.log.info("simulation time: {} millis",System.currentTimeMillis()-super.start);
-        this.log.info("argumentation processes in one second: {}",(double)ContArg*1000/(System.currentTimeMillis()-super.start));
-        this.log.info("##### #####");
+        //        this.log.info("##### PERFORMANCE SUMMARY #####");
+        //        int ContArg = super.getJunctions().get(0).getArgProc();
+        //        this.log.info("{} argumentation processes done", ContArg);
+        //        this.log.info("simulation time: {} millis",System.currentTimeMillis()-super.start);
+        //        this.log.info("argumentation processes in one second: {}",(double)ContArg*1000/(System.currentTimeMillis()-super.start));
+        //        this.log.info("##### #####");
     }
 
     @Override

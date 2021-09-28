@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.intersection.sim;
 
@@ -90,7 +90,7 @@ public final class DeepRouteRandomStrategy implements VehiclesGenStrategy {
                     new Car(String.format("%s_%d", way, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
-            List<DIRECTION> route = new ArrayList<>();
+            final List<DIRECTION> route = new ArrayList<>();
             route.add(DIRECTION.random());
             for (int i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
                 if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
@@ -127,14 +127,14 @@ public final class DeepRouteRandomStrategy implements VehiclesGenStrategy {
     }
 
     @Override
-    public VehiclesGenStrategy setSpeedRange(int min, int max) {
+    public VehiclesGenStrategy setSpeedRange(final int min, final int max) {
         this.minSpeed = min;
         this.maxSpeed = max;
         return this;
     }
 
     @Override
-    public VehiclesGenStrategy setUrgencyRange(int min, int max) {
+    public VehiclesGenStrategy setUrgencyRange(final int min, final int max) {
         this.minUrgency = min;
         this.maxUrgency = max;
         return this;

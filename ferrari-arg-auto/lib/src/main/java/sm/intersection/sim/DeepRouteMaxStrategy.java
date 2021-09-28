@@ -22,9 +22,9 @@ import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
 
 /**
- * Random ways and routes, fixed speed and urgency (MAX), multi-step route possible. -
- * WAY is random - speed is 50 - urgency is 1 - 1 route only, with random
- * DIRECTION depth
+ * Random ways and routes, fixed speed and urgency (MAX), multi-step route
+ * possible. - WAY is random - speed is 50 - urgency is 1 - 1 route only, with
+ * random DIRECTION depth
  *
  * @author sm
  *
@@ -64,7 +64,7 @@ public class DeepRouteMaxStrategy implements VehiclesGenStrategy {
             final UrgentCar car = new UrgentCar(new Car(
                     String.format("%s_%d_%s", way, this.nCars, this.getJunction().getName()).replace("ways ", "W"), // TODO sono curioso: perche questo cambio di nome?
                     Defaults.MAX_SPEED), Defaults.MAX_URGENCY);
-            List<DIRECTION> route = new ArrayList<>();
+            final List<DIRECTION> route = new ArrayList<>();
             route.add(DIRECTION.random());
             for (int i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
                 if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
@@ -122,13 +122,13 @@ public class DeepRouteMaxStrategy implements VehiclesGenStrategy {
     }
 
     @Override
-    public VehiclesGenStrategy setSpeedRange(int min, int max) {
+    public VehiclesGenStrategy setSpeedRange(final int min, final int max) {
         throw new UnsupportedOperationException(
                 "This strategy always generates max speed and max urgency. To get random values, use, e.g., FlatRouteRandomStrategy");
     }
 
     @Override
-    public VehiclesGenStrategy setUrgencyRange(int min, int max) {
+    public VehiclesGenStrategy setUrgencyRange(final int min, final int max) {
         throw new UnsupportedOperationException(
                 "This strategy always generates max speed and max urgency. To get random values, use, e.g., FlatRouteRandomStrategy");
     }

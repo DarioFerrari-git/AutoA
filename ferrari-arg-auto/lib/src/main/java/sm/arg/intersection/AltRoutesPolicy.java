@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sm.arg.intersection;
 
@@ -31,37 +31,37 @@ public final class AltRoutesPolicy implements CrossingPolicy, Debatable {
     }
 
     @Override
-    public List<CrossingCar> rightOfWay(CrossingCar car1, CrossingCar car2) {
-       
-    	List<CrossingCar> cars = new ArrayList<>();
+    public List<CrossingCar> rightOfWay(final CrossingCar car1, final CrossingCar car2) {
+
+        final List<CrossingCar> cars = new ArrayList<>();
         final List<Integer> routes = new ArrayList<>();
         routes.addAll(car2.getRoutes().keySet());
         int ref = car2.getCurrentRouteRank();
         Collections.sort(routes);
-//        this.log.debug("{} routes: {}", car2.getName(), routes);
+        //        this.log.debug("{} routes: {}", car2.getName(), routes);
         boolean altFound = false;
-        altFound = loopRoutes(car1, car2, cars, routes, altFound);
+        altFound = this.loopRoutes(car1, car2, cars, routes, altFound);
         if (!altFound) {
             car2.setCurrentRoute(ref);
             routes.clear();
             routes.addAll(car1.getRoutes().keySet());
             ref = car1.getCurrentRouteRank();
             Collections.sort(routes);
-//            this.log.debug("{} routes: {}", car1.getName(), routes);
-            altFound = loopRoutes(car2, car1, cars, routes, altFound);
+            //            this.log.debug("{} routes: {}", car1.getName(), routes);
+            altFound = this.loopRoutes(car2, car1, cars, routes, altFound);
         }
         if (!altFound) {
             car1.setCurrentRoute(ref);
             final List<Integer> routes2 = new ArrayList<>();
             routes2.addAll(car2.getRoutes().keySet());
-            int ref2 = car2.getCurrentRouteRank();
+            final int ref2 = car2.getCurrentRouteRank();
             Collections.sort(routes2);
-            for (int p1 : routes) {
+            for (final int p1 : routes) {
                 car1.setCurrentRoute(p1);
-                for (int p2 : routes2) {
+                for (final int p2 : routes2) {
                     car2.setCurrentRoute(p2);
-//                    this.log.debug("last effort, trying {} {} with {} {}", car1.getName(), car1.getCurrentRoutePath(),
-//                            car2.getName(), car2.getCurrentRoutePath());
+                    //                    this.log.debug("last effort, trying {} {} with {} {}", car1.getName(), car1.getCurrentRoutePath(),
+                    //                            car2.getName(), car2.getCurrentRoutePath());
                     if (Conflicts.noConflicts(car1, car2)) {
                         cars.add(car1);
                         cars.add(car2);
@@ -76,28 +76,28 @@ public final class AltRoutesPolicy implements CrossingPolicy, Debatable {
                 cars.add(car2);
             }
         }
-        for (CrossingCar car : cars) {
-//            this.log.debug("<{}> is pursuing route {}: {}", car.getName(), car.getCurrentRouteRank(), car.getCurrentRoutePath());
+        for (final CrossingCar car : cars) {
+            //            this.log.debug("<{}> is pursuing route {}: {}", car.getName(), car.getCurrentRouteRank(), car.getCurrentRoutePath());
         }
         return cars;
     }
 
-    private boolean loopRoutes(CrossingCar refCar, CrossingCar routingCar, List<CrossingCar> cars,
+    private boolean loopRoutes(final CrossingCar refCar, final CrossingCar routingCar, final List<CrossingCar> cars,
             final List<Integer> routes, boolean altFound) {
-    	if(!routingCar.isFrozen()) {
-        for (int p : routes) {
-            routingCar.setCurrentRoute(p);
-//            this.log.debug("{} current route: {} (against {})", routingCar.getName(), routingCar.getCurrentRoutePath(), refCar.getCurrentRoutePath());
-            if (Conflicts.noConflicts(refCar, routingCar) || Conflicts.noConflicts(routingCar, refCar)) {
-//                this.log.debug("YEEE");
-                cars.add(refCar);
-                cars.add(routingCar);
-                altFound = true;
-                
-                break;
+        if (!routingCar.isFrozen()) {
+            for (final int p : routes) {
+                routingCar.setCurrentRoute(p);
+                //            this.log.debug("{} current route: {} (against {})", routingCar.getName(), routingCar.getCurrentRoutePath(), refCar.getCurrentRoutePath());
+                if (Conflicts.noConflicts(refCar, routingCar) || Conflicts.noConflicts(routingCar, refCar)) {
+                    //                this.log.debug("YEEE");
+                    cars.add(refCar);
+                    cars.add(routingCar);
+                    altFound = true;
+
+                    break;
+                }
             }
         }
-    	}
         return altFound;
     }
 
@@ -107,7 +107,7 @@ public final class AltRoutesPolicy implements CrossingPolicy, Debatable {
     }
 
     @Override
-    public List<Proposition> addAsArgTheory(AspicArgumentationTheory<PlFormula> t) {
+    public List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t) {
         final Proposition a = new Proposition(this.getName());
         t.addAxiom(a);
         return Collections.singletonList(a);
@@ -115,7 +115,7 @@ public final class AltRoutesPolicy implements CrossingPolicy, Debatable {
 
     @Override
     public String toString() {
-        return String.format("AltRoutesPolicy [policy=%s]", policy);
+        return String.format("AltRoutesPolicy [policy=%s]", this.policy);
     }
 
 }

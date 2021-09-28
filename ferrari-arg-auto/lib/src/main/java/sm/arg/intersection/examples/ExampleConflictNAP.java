@@ -28,56 +28,56 @@ import sm.intersection.UrgentCar;
 
 public class ExampleConflictNAP {
 
-	 private final static Logger log = LoggerFactory.getLogger(Example1.class);
+    private final static Logger log = LoggerFactory.getLogger(Example1.class);
 
-	    public static void main(final String[] args) throws ParserException, IOException {
-	        final List<Proposition> p = new ArrayList<>();
+    public static void main(final String[] args) throws ParserException, IOException {
+        final List<Proposition> p = new ArrayList<>();
 
-	        List<DIRECTION> route = new ArrayList<>();
-	        route.add(DIRECTION.LEFT);
-	        final Car A = new Car("A", 50);
-	        A.addRoute(route);
-	        final UrgentCar U_A = new UrgentCar(A, 0.7);
+        List<DIRECTION> route = new ArrayList<>();
+        route.add(DIRECTION.LEFT);
+        final Car A = new Car("A", 50);
+        A.addRoute(route);
+        final UrgentCar U_A = new UrgentCar(A, 0.7);
 
-	        route = new ArrayList<>();
-	        route.add(DIRECTION.LEFT);
-	        final Car B = new Car("B", 55);
-	        B.addRoute(route);
-	        final UrgentCar U_B = new UrgentCar(B, 0.5);
+        route = new ArrayList<>();
+        route.add(DIRECTION.LEFT);
+        final Car B = new Car("B", 55);
+        B.addRoute(route);
+        final UrgentCar U_B = new UrgentCar(B, 0.5);
 
-	        final NumArgsPolicy nap = new NumArgsPolicy("numArgs");
+        final NumArgsPolicy nap = new NumArgsPolicy("numArgs");
 
-	        final BaseRSU rsu = new BaseRSU("RSU", 0.7);
-	        final DistanceRSU drsu = new DistanceRSU(rsu, 20);
+        final BaseRSU rsu = new BaseRSU("RSU", 0.7);
+        final DistanceRSU drsu = new DistanceRSU(rsu, 20);
 
-	        final FourWaysJunctionConfig fourWC = new FourWaysJunctionConfig("1", nap, drsu);
-	        ExampleConflictNAP.log.info(fourWC.toString());
-	        fourWC.addCar(U_A, "EAST");
-	        fourWC.addCar(U_B, "NORTH");
-	        ExampleConflictNAP.log.info(fourWC.toString());
+        final FourWaysJunctionConfig fourWC = new FourWaysJunctionConfig("1", nap, drsu);
+        ExampleConflictNAP.log.info(fourWC.toString());
+        fourWC.addCar(U_A, "EAST");
+        fourWC.addCar(U_B, "NORTH");
+        ExampleConflictNAP.log.info(fourWC.toString());
 
-	        final AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
-	        t.setRuleFormulaGenerator(new PlFormulaGenerator());
-	        nap.addAsArgTheory(t);
-	        final Proposition b = drsu.addAsArgTheory(t).get(0);
-	        p.add(b);
-	        Proposition a = null;
-	        for (final CrossingCar element : fourWC.getCars()) {
-	            a = element.addAsArgTheory(t).get(0);
-	            p.add(a);
-	        }
-	        fourWC.addAsArgTheory(t);
-	        ExampleConflictNAP.log.info(t.toString());
+        final AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
+        t.setRuleFormulaGenerator(new PlFormulaGenerator());
+        nap.addAsArgTheory(t);
+        final Proposition b = drsu.addAsArgTheory(t).get(0);
+        p.add(b);
+        Proposition a = null;
+        for (final CrossingCar element : fourWC.getCars()) {
+            a = element.addAsArgTheory(t).get(0);
+            p.add(a);
+        }
+        fourWC.addAsArgTheory(t);
+        ExampleConflictNAP.log.info(t.toString());
 
-	        final PlParser plparser = new PlParser();
-	        final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
-	                AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
-	        final PlFormula pf0 = plparser.parseFormula("A_PassesFirst");
-	        final PlFormula pf1 = plparser.parseFormula("B_PassesFirst");
-	        final PlFormula pf2 = plparser.parseFormula("Incident");
-	        ExampleConflictNAP.log.info("{} --> {}", pf0, ar.query(t, pf0, InferenceMode.CREDULOUS));
-	        ExampleConflictNAP.log.info("{} --> {}", pf1, ar.query(t, pf1, InferenceMode.CREDULOUS));
-	        ExampleConflictNAP.log.info("{} --> {}", pf2, ar.query(t, pf2, InferenceMode.CREDULOUS));
-	    }
+        final PlParser plparser = new PlParser();
+        final SimpleAspicReasoner<PlFormula> ar = new SimpleAspicReasoner<>(
+                AbstractExtensionReasoner.getSimpleReasonerForSemantics(Semantics.GROUNDED_SEMANTICS));
+        final PlFormula pf0 = plparser.parseFormula("A_PassesFirst");
+        final PlFormula pf1 = plparser.parseFormula("B_PassesFirst");
+        final PlFormula pf2 = plparser.parseFormula("Incident");
+        ExampleConflictNAP.log.info("{} --> {}", pf0, ar.query(t, pf0, InferenceMode.CREDULOUS));
+        ExampleConflictNAP.log.info("{} --> {}", pf1, ar.query(t, pf1, InferenceMode.CREDULOUS));
+        ExampleConflictNAP.log.info("{} --> {}", pf2, ar.query(t, pf2, InferenceMode.CREDULOUS));
+    }
 
-	}
+}
