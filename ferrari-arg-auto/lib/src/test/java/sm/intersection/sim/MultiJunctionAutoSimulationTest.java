@@ -1,6 +1,3 @@
-/**
- * 
- */
 package sm.intersection.sim;
 
 import java.util.ArrayList;
@@ -10,17 +7,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sm.arg.intersection.AltRoutesPolicy;
 import sm.arg.intersection.DistanceRSU;
 import sm.arg.intersection.FourWaysJunctionConfig;
-import sm.arg.intersection.NumArgsPolicy;
 import sm.intersection.BaseRSU;
 import sm.intersection.JunctionMatrix;
 import sm.intersection.SmartJunction;
 
-/**
- * @author sm
- *
- */
 public class MultiJunctionAutoSimulationTest {
 
     private MultiJunctionAutoSimulation ms;
@@ -33,6 +26,7 @@ public class MultiJunctionAutoSimulationTest {
         List<Simulation> sims = new ArrayList<>();
         FourWaysJunctionConfig fourWays;
         SmartJunction[][] junctions = new SmartJunction[2][2];
+        VehiclesGenStrategy strat = new DeepRouteConfStrategy();
         /*
          * For each junction in network...
          */
@@ -41,26 +35,23 @@ public class MultiJunctionAutoSimulationTest {
                 /*
                  * ...create 4 ways junction config...
                  */
-                fourWays = new FourWaysJunctionConfig(String.format("4ways %d,%d", r, c), new NumArgsPolicy("numArgs"),
-                        new DistanceRSU(new BaseRSU("rsu", 1), 50));
+                fourWays = new FourWaysJunctionConfig(String.format("4ways %d,%d", r, c),
+                        new AltRoutesPolicy("altPolicy"), new DistanceRSU(new BaseRSU("rsu", 1), 50));
                 /*
                  * ...and add it to the network...
                  */
                 junctions[r][c] = fourWays.getJunction();
-                /*
-                 * ...and ONLY FOR (0,0) JUNCTION, for each WAY - DIRECTION combination...
-                 */
-                //                if (r == 0 && c == 0) {
-                VehiclesGenStrategy strat = new DeepRouteRandomStrategy();
-                strat.configJunction(fourWays.getJunction());
-                strat.setSeed(1); // same seed = same random numbers
-                //                }
-                /*
-                 * ...finally create simulation!
-                 */
-                sims.add(new SingleJunctionAutoSimulation(fourWays.getJunction(), 1, 3, 20, strat, 1)); // vehicles generated during first 3 steps
+
+                strat.configJunction(junctions[r][c]);
+                strat.setSeed(3); // same seed = same random numbers
+                if (r == 0 && c == 0)
+                    sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 1, 3, 20, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
+                else
+                    sims.add(new SingleJunctionAutoSimulation(junctions[r][c], 0, 0, 20, strat, 1)); // vehicles generated during first 3 steps only junction[0][0]   
+
             }
         }
+
         this.ms = new MultiJunctionAutoSimulation(new JunctionMatrix(junctions), sims);
     }
 
