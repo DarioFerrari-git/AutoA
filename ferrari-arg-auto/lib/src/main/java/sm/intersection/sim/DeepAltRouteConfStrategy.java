@@ -17,8 +17,8 @@ import sm.intersection.SmartJunction;
 import sm.intersection.UrgentCar;
 import sm.intersection.WAY;
 
-public class DeepRouteConfStrategy implements VehiclesGenStrategy {
-    private final Logger log = LoggerFactory.getLogger(FlatRouteRandomStrategy.class);
+public class DeepAltRouteConfStrategy implements VehiclesGenStrategy {
+    private final Logger log = LoggerFactory.getLogger(DeepAltRouteConfStrategy.class);
     private SmartJunction junction;
     private boolean setup = false;
 
@@ -26,7 +26,7 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
     private int size;
     private Random random;
     private long seed;
-    private boolean seedSet;
+    private boolean seedSet = false;
 
     private long nCars;
     private int minSpeed;
@@ -40,8 +40,9 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
         this.values = List.copyOf(this.junction.getRoads().keySet());
         this.size = this.values.size();
         this.nCars = 0;
-        this.random = new Random();
-        this.seedSet = false;
+        if (!this.seedSet) {
+            this.random = new Random();
+        }
         this.minSpeed = Defaults.MIN_SPEED;
         this.maxSpeed = Defaults.MAX_SPEED;
         this.minUrgency = Defaults.MIN_URGENCY;
@@ -210,7 +211,7 @@ public class DeepRouteConfStrategy implements VehiclesGenStrategy {
                 }
 
             }
-            for (int j = 1; j < Defaults.MAX_ALTERNATIVE_ROUTES - 1; j++) {
+            for (int j = 1; j < Defaults.MAX_ROUTES - 1; j++) {
                 final List<DIRECTION> route = new ArrayList<>();
                 if (this.random.nextDouble() < Defaults.P_ADD_NEW_ROUTE) { // randomly generate alternative routes for some vehicles
                     route.add(DIRECTION.random());

@@ -26,7 +26,7 @@ public class MultiJunctionAutoSimulationTest {
         List<Simulation> sims = new ArrayList<>();
         FourWaysJunctionConfig fourWays;
         SmartJunction[][] junctions = new SmartJunction[2][2];
-        VehiclesGenStrategy strat = new DeepRouteConfStrategy();
+        VehiclesGenStrategy strat = new DeepAltRouteConfStrategy();
         /*
          * For each junction in network...
          */

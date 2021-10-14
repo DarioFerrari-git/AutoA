@@ -9,11 +9,21 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id 'application'
+}
+
+apply plugin : "java"
+ext {
+    javaMainClass = "h2o.medium.tutorial.ModelEndpoint"
+}
+
+application {
+    mainClassName = javaMainClass
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(12)
+        languageVersion = JavaLanguageVersion.of(11)
     }
 }
 
@@ -34,4 +44,7 @@ dependencies {
     implementation 'org.tweetyproject.arg:aspic:1.19'
     implementation 'org.jgrapht:jgrapht-core:1.5.1'
     implementation 'org.jgrapht:jgrapht-ext:1.5.1'
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+    implementation 'ch.qos.logback:logback-core:1.2.6'
+    implementation 'ch.qos.logback:logback-classic:1.2.6'
 }

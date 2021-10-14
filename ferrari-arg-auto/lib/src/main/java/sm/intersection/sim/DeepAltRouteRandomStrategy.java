@@ -25,9 +25,9 @@ import sm.intersection.WAY;
  * @author sm
  *
  */
-public final class DeepRouteRandomStrategy implements VehiclesGenStrategy {
+public final class DeepAltRouteRandomStrategy implements VehiclesGenStrategy {
 
-    private final Logger log = LoggerFactory.getLogger(DeepRouteRandomStrategy.class);
+    private final Logger log = LoggerFactory.getLogger(DeepAltRouteRandomStrategy.class);
     private SmartJunction junction;
     private boolean setup = false;
 
@@ -35,7 +35,7 @@ public final class DeepRouteRandomStrategy implements VehiclesGenStrategy {
     private int size;
     private Random random;
     private long seed;
-    private boolean seedSet;
+    private boolean seedSet = false;
 
     private long nCars;
     private int minSpeed;
@@ -49,8 +49,9 @@ public final class DeepRouteRandomStrategy implements VehiclesGenStrategy {
         this.values = List.copyOf(this.junction.getRoads().keySet());
         this.size = this.values.size();
         this.nCars = 0;
-        this.random = new Random();
-        this.seedSet = false;
+        if (!this.seedSet) {
+            this.random = new Random();
+        }
         this.minSpeed = Defaults.MIN_SPEED;
         this.maxSpeed = Defaults.MAX_SPEED;
         this.minUrgency = Defaults.MIN_URGENCY;
@@ -90,19 +91,34 @@ public final class DeepRouteRandomStrategy implements VehiclesGenStrategy {
                     new Car(String.format("%s_%d", way, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
-            final List<DIRECTION> route = new ArrayList<>();
+            List<DIRECTION> route = new ArrayList<>();
             route.add(DIRECTION.random());
-            for (int i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
-                if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
+            route = deepRoute(route);
+            car.getCar().addRoute(route);
+            for (int i = 1; i < Defaults.MAX_ROUTES - 1; i++) {
+                route = new ArrayList<>();
+                if (this.random.nextDouble() < Defaults.P_ADD_NEW_ROUTE) { // randomly generate alternative routes for some vehicles
                     route.add(DIRECTION.random());
+                    car.getCar().addRoute(deepRoute(route));
                 }
             }
-            car.getCar().addRoute(route);
             return Collections.singletonList(new CrossingCar(car, way, STATUS.APPROACHING, d));
         } else {
             this.log.warn("REFERENCE JUNCTION NOT YET CONFIGURED");
             return null;
         }
+    }
+    
+    /**
+     * @return a deep route
+     */
+    public List<DIRECTION> deepRoute(final List<DIRECTION> route) {
+        for (int i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
+            if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
+                route.add(DIRECTION.random());
+            }
+        }
+        return route;
     }
 
     /**

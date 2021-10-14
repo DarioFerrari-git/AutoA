@@ -51,17 +51,17 @@ public final class SmartJunction {
     }
 
     public int incServed() {
-        this.nServed = this.nServed + 1;
+        this.nServed += 1;
         return this.nServed;
     }
 
     public int incArgProc() {
-        this.nArgProc = this.nArgProc + 1;
+        this.nArgProc += 1;
         return this.nArgProc;
     }
 
     public int incAltRoutesUsed(final int nAltRoutes) {
-        this.nAltRoutesUsed = this.nAltRoutesUsed + nAltRoutes;
+        this.nAltRoutesUsed += nAltRoutes;
         return this.nAltRoutesUsed;
     }
 
@@ -70,7 +70,7 @@ public final class SmartJunction {
     }
 
     public int getAltRoutesUsed() {
-        return this.nServed;
+        return this.nAltRoutesUsed;
     }
 
     public int getArgProc() {

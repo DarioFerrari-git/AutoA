@@ -241,7 +241,7 @@ public class SingleJunctionSimulation implements Simulation {
                 if (car.getWay() != null && car.getWay().equals(way) && !car.getState().equals(STATUS.SERVED)) {
                     nCars++;
                     System.out.printf(
-                            "\t\t <%s> %s going %s (%d alt.) in %.2f s (urgency: %.2f) at %.2f km/h (distance: %.2f m)\n",
+                            "\t\t <%s> %s going %s (%d routes) in %.2f s (urgency: %.2f) at %.2f km/h (distance: %.2f m)\n",
                             car.getName(), car.getState(), car.getCurrentRoutePath(), car.getRoutes().size(),
                             car.getTimeToCross(), car.getCar().getUrgency(), car.getCar().getCar().getSpeed(),
                             car.getDistance());

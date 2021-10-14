@@ -25,14 +25,14 @@ import sm.intersection.BaseRSU;
 public class DeepRouteRandomStrategyTest {
     
     private static final int ITER = 1000;
-    private DeepRouteRandomStrategy strat;
+    private DeepAltRouteRandomStrategy strat;
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        this.strat = new DeepRouteRandomStrategy();
+        this.strat = new DeepAltRouteRandomStrategy();
     }
 
     /**
@@ -44,7 +44,7 @@ public class DeepRouteRandomStrategyTest {
     }
 
     /**
-     * Test method for {@link sm.intersection.sim.DeepRouteRandomStrategy#newCars()}.
+     * Test method for {@link sm.intersection.sim.DeepAltRouteRandomStrategy#newCars()}.
      */
     @Test
     public final void testNewCars() {

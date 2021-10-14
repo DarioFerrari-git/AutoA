@@ -21,14 +21,14 @@ public class DeepRouteConfStrategyTest {
 
     
     private static final int ITER = 10;
-    private DeepRouteConfStrategy strat;
+    private DeepAltRouteConfStrategy strat;
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        this.strat = new DeepRouteConfStrategy();
+        this.strat = new DeepAltRouteConfStrategy();
     }
 
     /**
