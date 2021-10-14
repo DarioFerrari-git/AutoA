@@ -3,6 +3,8 @@
  */
 package sm.intersection.sim;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,6 +16,8 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.opencsv.CSVWriter;
 
 import sm.arg.intersection.CrossingCar;
 import sm.intersection.JunctionMatrix;
@@ -35,6 +39,7 @@ public class MultiJunctionSimulation implements Simulation {
     protected int nArrived = 0;
     protected Set<CrossingCar> generated;
     protected long start;
+    protected CSVWriter writer;
 
     /**
      * @param network
@@ -50,6 +55,16 @@ public class MultiJunctionSimulation implements Simulation {
         this.steps = 0;
         this.going = false;
         this.generated = new HashSet<>();
+        try {
+            this.writer = new CSVWriter(new FileWriter("performance.csv"));
+            writer.writeNext(new String[] {
+                    "simulation_step",
+                    "vehicles",
+                    "alternative_routes_used"});
+        } catch (IOException e) {
+            this.log.warn("<CSVWriter> NOT READY");
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -121,6 +136,12 @@ public class MultiJunctionSimulation implements Simulation {
                 (double) nArgProc * 1000 / (System.currentTimeMillis() - this.start));
         this.log.info("{} alternative routes adopted", nAltRoutesUsed);
         this.log.info("##### #####");
+        if (this.writer != null) {
+            writer.writeNext(new String[] {
+                    String.valueOf(this.steps),
+                    String.valueOf(this.generated.size()),
+                    String.valueOf(nAltRoutesUsed)});
+        }
         return outOfSim;
     }
 
@@ -139,6 +160,14 @@ public class MultiJunctionSimulation implements Simulation {
             }
         } else {
             this.log.warn("SIMULATION ALREADY GOING");
+        }
+        if (this.writer != null) {
+            try {
+                this.writer.close();
+            } catch (IOException e) {
+                this.log.warn("<CSVWriter> NOT CLOSED");
+                e.printStackTrace();
+            }
         }
     }
 

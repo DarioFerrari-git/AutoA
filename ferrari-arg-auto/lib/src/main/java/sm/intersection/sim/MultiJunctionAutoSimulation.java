@@ -3,6 +3,7 @@
  */
 package sm.intersection.sim;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -75,6 +76,14 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
                 nServed += this.network.getJunction(i, j).getServed();
                 nArgProc += this.network.getJunction(i, j).getArgProc();
                 nAltRoutesUsed += this.network.getJunction(i, j).getAltRoutesUsed();
+            }
+        }
+        if (super.writer != null) {
+            try {
+                super.writer.close();
+            } catch (IOException e) {
+                this.log.warn("<CSVWriter> NOT CLOSED");
+                e.printStackTrace();
             }
         }
         double elapsedTime = System.currentTimeMillis() - super.start;
