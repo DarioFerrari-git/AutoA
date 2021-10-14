@@ -14,7 +14,7 @@ plugins {
 
 apply plugin : "java"
 ext {
-    javaMainClass = "h2o.medium.tutorial.ModelEndpoint"
+    javaMainClass = "sm.paper.Experiment01"
 }
 
 application {
