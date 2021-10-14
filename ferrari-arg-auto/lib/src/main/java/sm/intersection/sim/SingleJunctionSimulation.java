@@ -75,7 +75,6 @@ public class SingleJunctionSimulation implements Simulation {
                     try {
                         this.assignRightOfWay(car, first); // TODO does not consider timing
                         first = false;
-
                     } catch (final ParserException e) {
                         this.log.error("Malformed argumentation theory, see stack trace below:");
                         e.printStackTrace();
@@ -100,15 +99,15 @@ public class SingleJunctionSimulation implements Simulation {
                                 newSpeed = car.getCar().getCar().getSpeed() * Defaults.ACCELERATION;
                                 newSpeed = newSpeed > Defaults.MAX_SPEED ? Defaults.MAX_SPEED : newSpeed;
                             }
-                            car.getCar().getCar().setSpeed(newSpeed); // TODO make acceleration configurable
+                            car.getCar().getCar().setSpeed(newSpeed);
                         }
                         car.setDistance(car.getDistance() - car.getCar().getCar().getSpeed() / 3.6 * this.step);
                         break;
                     case WAITING:
 
-                        if (car.getCar().getCar().getSpeed() >= Defaults.MAX_SPEED) { // TODO this way the car decelerates one single time
+                        if (car.getCar().getCar().getSpeed() >= Defaults.MAX_SPEED) {
                             car.getCar().getCar()
-                                    .setSpeed(car.getCar().getCar().getSpeed() * Defaults.DECELERATION_SOFT); // TODO make deceleration configurable
+                                    .setSpeed(car.getCar().getCar().getSpeed() * Defaults.DECELERATION_SOFT);
                         }
                         if (car.getDistance() < Defaults.SAFETY_DISTANCE_SOFT) {
                             car.getCar().getCar()
@@ -162,7 +161,7 @@ public class SingleJunctionSimulation implements Simulation {
         /*
          * create ASPIC+ theory
          */
-        final List<Proposition> p = new ArrayList<>(); // TODO p non viene mai letto però....a cosa serve dunque?
+        final List<Proposition> p = new ArrayList<>();
         final AspicArgumentationTheory<PlFormula> t = new AspicArgumentationTheory<>(new PlFormulaGenerator());
         t.setRuleFormulaGenerator(new PlFormulaGenerator());
         ((Debatable) this.junction.getPolicy()).addAsArgTheory(t); // TODO check if redesign can avoid casts

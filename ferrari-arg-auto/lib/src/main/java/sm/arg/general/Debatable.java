@@ -15,7 +15,6 @@ import org.tweetyproject.logics.pl.syntax.Proposition;
  */
 public interface Debatable {
 
-    // TODO abbiamo un tipo di ritorno comune a tutti i casi?
     List<Proposition> addAsArgTheory(final AspicArgumentationTheory<PlFormula> t);
 
 }

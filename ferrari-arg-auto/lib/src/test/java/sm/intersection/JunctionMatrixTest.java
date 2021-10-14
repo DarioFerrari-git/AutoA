@@ -59,7 +59,7 @@ public class JunctionMatrixTest {
      */
     @Test
     public final void testGetJunction() {
-        fail("Not yet implemented"); // TODO
+        fail("Not yet implemented");
     }
 
     /**
@@ -67,7 +67,7 @@ public class JunctionMatrixTest {
      */
     @Test
     public final void testSetJunction() {
-        fail("Not yet implemented"); // TODO
+        fail("Not yet implemented");
     }
 
     /**

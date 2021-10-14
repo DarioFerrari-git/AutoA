@@ -27,7 +27,7 @@ public class JunctionMatrix {
     }
 
     public SmartJunction getJunction(final int row, final int col) {
-        return this.junctions[row][col]; // TODO handle not found
+        return this.junctions[row][col]; // TODO handle junction not found
     }
 
     public Optional<int[]> getJunction(final String name) {

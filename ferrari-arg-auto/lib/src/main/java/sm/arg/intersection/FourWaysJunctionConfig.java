@@ -258,12 +258,6 @@ public final class FourWaysJunctionConfig implements Debatable {
                                                 WL.add(this.cars.get(i).getName());
                                             }
                                             //else {System.out.println(this.cars.get(i).getName()+" "+this.cars.get(j).getName());}
-                                            /*
-                                             * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug:
-                                             * se la stampa ha un qualche valore generale, usiamo log.info(),
-                                             * se serve solo per debug usiamo log.debug()
-                                             * Al prosimo ricevimento ricordamelo che ne parliamo
-                                             */
                                             // System.out.println(r1);
                                             r2.setConclusion(new Negation(b));
                                             r2.addPremise(d);
@@ -331,12 +325,6 @@ public final class FourWaysJunctionConfig implements Debatable {
                 }
             }
         }
-        /*
-         * TODO in generale cerchiamo di eliminare le stampe "temporanee" usate per debug:
-         * se la stampa ha un qualche valore generale, usiamo log.info(),
-         * se serve solo per debug usiamo log.debug()
-         * Al prosimo ricevimento ricordamelo che ne parliamo
-         */
         //   System.out.println(WaitList);
         a = new Proposition("" + ArgKeys.Incident);
         if (CarsInvolvedinCrush.size() > 0) {

@@ -87,9 +87,16 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                     new Car(String.format("%s_%d", way1, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
-            car1.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
+            final List<DIRECTION> route = new ArrayList<>();
+            route.add(DIRECTION.random());
+            for (int i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
+                if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
+                    route.add(DIRECTION.random());
+                }
+            }
+            car1.getCar().addRoute(route);
             int i = 0;
-            while (i < 1) { // TODO per avere qualunque cosa TRANNE destra?
+            while (i < 1) {
                 if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).equals(DIRECTION.RIGHT)) {
                     car1.getCar().setR(Collections.singletonList(DIRECTION.random()));
                 } else {
@@ -102,7 +109,7 @@ public class ConflictStrategy implements VehiclesGenStrategy {
                     new Car(String.format("%s_%d", way2, this.nCars),
                             this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
                     this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
-            final double alpha = this.random.nextDouble(); // TODO ATTENZIONE: il valore di alpha non è riproducibile così! Devi usare this.random (come altrove) e ricordarti di chiamare setSeed() prima di usare questa strategia!
+            final double alpha = this.random.nextDouble();
             if (car1.getCar().getRoutes().get(car1.getCar().getCurrentRoute()).get(0).equals(DIRECTION.STRAIGHT)) {
 
                 if (alpha <= 0.25) {

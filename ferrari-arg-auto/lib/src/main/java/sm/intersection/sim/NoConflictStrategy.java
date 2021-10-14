@@ -58,7 +58,6 @@ public class NoConflictStrategy implements VehiclesGenStrategy {
 
     @Override
     public List<CrossingCar> newCars() {
-        // TODO Auto-generated method stub
         if (this.setup) {
             if (!this.seedSet) {
                 this.log.warn("SEED NOT SET, USING NON-REPRODUCIBLE STRATEGY");
@@ -81,15 +80,22 @@ public class NoConflictStrategy implements VehiclesGenStrategy {
             }
             this.nCars++;
             final UrgentCar car1 = new UrgentCar(
-                    new Car(String.format("%s_%d", way1, this.nCars), this.random.nextDouble() * 50), // TODO make speed range configurable
-                    this.random.nextDouble()); // TODO make priority range configurable
-            car1.getCar().addRoute(Collections.singletonList(DIRECTION.random())); // TODO randomize depth and number of routes
+                    new Car(String.format("%s_%d", way1, this.nCars),
+                            this.random.nextDouble() * (this.maxSpeed - this.minSpeed) + this.minSpeed),
+                    this.random.nextDouble() * (this.maxUrgency - this.minUrgency) + this.minUrgency);
+            final List<DIRECTION> route = new ArrayList<>();
+            route.add(DIRECTION.random());
+            for (int i = 1; i < Defaults.MAX_ROUTE_DEPTH; i++) {
+                if (this.random.nextDouble() < Defaults.P_ADD_DEPTH) { // randomly generate second direction for some route
+                    route.add(DIRECTION.random());
+                }
+            }
+            car1.getCar().addRoute(route);
             this.nCars++;
             final UrgentCar car2 = new UrgentCar(
                     new Car(String.format("%s_%d", way2, this.nCars), this.random.nextDouble() * 50),
                     this.random.nextDouble());
             final double alpha = this.random.nextDouble();
-            final double beta = this.random.nextDouble();
             if (car1.getCar().getRoutes().get(0).get(0).toString().equals(DIRECTION.STRAIGHT.toString())) {
 
                 if (alpha <= 0.33) {
