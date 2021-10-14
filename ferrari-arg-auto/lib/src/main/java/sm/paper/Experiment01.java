@@ -100,7 +100,7 @@ public final class Experiment01 {
         }
         JunctionMatrix network = new JunctionMatrix(junctions);
         MultiJunctionAutoSimulation sim = new MultiJunctionAutoSimulation(network, simulations);
-        sim.go(true);
+        sim.go(false);
         log.info("Props: {}", simProps);
     }
 

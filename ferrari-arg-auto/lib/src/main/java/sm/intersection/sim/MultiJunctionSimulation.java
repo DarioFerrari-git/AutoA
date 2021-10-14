@@ -57,10 +57,7 @@ public class MultiJunctionSimulation implements Simulation {
         this.generated = new HashSet<>();
         try {
             this.writer = new CSVWriter(new FileWriter("performance.csv"));
-            writer.writeNext(new String[] {
-                    "simulation_step",
-                    "vehicles",
-                    "alternative_routes_used"});
+            writer.writeNext(new String[] { "simulation_step", "vehicles", "alternative_routes_used" });
         } catch (IOException e) {
             this.log.warn("<CSVWriter> NOT READY");
             e.printStackTrace();
@@ -98,18 +95,24 @@ public class MultiJunctionSimulation implements Simulation {
                         if (next.isPresent()) {
                             this.simXnames.get(next.get().getName())
                                     .addCars(Collections.singletonList(car.updateAfterCrossing(next.get())));
-                            this.log.info("<{}> ===<{}≥===> <{}> ({}, {}, {}, {})", curJname, car.getName(),
-                                    next.get().getName(), car.getState(), car.getWay(), car.getLane(),
-                                    car.getDistance());
+                            if (log) {
+                                this.log.info("<{}> ===<{}≥===> <{}> ({}, {}, {}, {})", curJname, car.getName(),
+                                        next.get().getName(), car.getState(), car.getWay(), car.getLane(),
+                                        car.getDistance());
+                            }
                         } else {
-                            this.log.info("<{}> leaving network ({}, {})", car.getName(), car.getState(),
-                                    car.getDistance());
+                            if (log) {
+                                this.log.info("<{}> leaving network ({}, {})", car.getName(), car.getState(),
+                                        car.getDistance());
+                            }
                             this.nLeftNet++;
                             outOfSim.add(car);
                         }
                     } else {
-                        this.log.info("<{}> finished its route ({}, {})", car.getName(), car.getState(),
-                                car.getDistance());
+                        if (log) {
+                            this.log.info("<{}> finished its route ({}, {})", car.getName(), car.getState(),
+                                    car.getDistance());
+                        }
                         this.nArrived++;
                         outOfSim.add(car);
                     }
@@ -129,18 +132,18 @@ public class MultiJunctionSimulation implements Simulation {
                 nAltRoutesUsed += this.network.getJunction(i, j).getAltRoutesUsed();
             }
         }
-        this.log.info("{} crossings happened", nServed);
-        this.log.info("{} argumentation processes done", nArgProc);
-        this.log.info("Simulation time: {} millis", System.currentTimeMillis() - this.start);
-        this.log.info("{} argumentation processes per second",
-                (double) nArgProc * 1000 / (System.currentTimeMillis() - this.start));
-        this.log.info("{} alternative routes adopted", nAltRoutesUsed);
-        this.log.info("##### #####");
+        if (log) {
+            this.log.info("{} crossings happened", nServed);
+            this.log.info("{} argumentation processes done", nArgProc);
+            this.log.info("Simulation time: {} millis", System.currentTimeMillis() - this.start);
+            this.log.info("{} argumentation processes per second",
+                    (double) nArgProc * 1000 / (System.currentTimeMillis() - this.start));
+            this.log.info("{} alternative routes adopted", nAltRoutesUsed);
+            this.log.info("##### #####");
+        }
         if (this.writer != null) {
-            writer.writeNext(new String[] {
-                    String.valueOf(this.steps),
-                    String.valueOf(this.generated.size()),
-                    String.valueOf(nAltRoutesUsed)});
+            writer.writeNext(new String[] { String.valueOf(this.steps), String.valueOf(this.generated.size()),
+                    String.valueOf(nAltRoutesUsed) });
         }
         return outOfSim;
     }
