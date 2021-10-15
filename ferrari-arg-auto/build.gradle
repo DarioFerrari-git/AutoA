@@ -25,6 +25,10 @@ repositories {
     mavenCentral()
     maven {
         url "http://tweetyproject.org/mvn/"
+        allowInsecureProtocol true
+        metadataSources {
+            artifact()
+        }
     }
 }
 
@@ -37,7 +41,7 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     //implementation 'com.google.guava:guava:29.0-jre'
-    api 'org.tweetyproject.arg:aspic:1.19'
+    api('org.tweetyproject.arg:aspic:1.19')
     implementation 'org.ojalgo:ojalgo:49.2.0'
     implementation 'org.jgrapht:jgrapht-core:1.5.1'
     implementation 'org.jgrapht:jgrapht-ext:1.5.1'
@@ -45,4 +49,8 @@ dependencies {
     implementation 'ch.qos.logback:logback-core:1.2.6'
     implementation 'ch.qos.logback:logback-classic:1.2.6'
     implementation 'com.opencsv:opencsv:5.5.2'
+}
+
+tasks.withType<Task> {
+    duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.WARN
 }
