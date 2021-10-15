@@ -8,3 +8,4 @@ build
 gradle/
 lib/.settings/
 lib/bin/
+**/.DS_Store
