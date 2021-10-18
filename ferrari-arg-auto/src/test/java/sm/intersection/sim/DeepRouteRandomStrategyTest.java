@@ -3,10 +3,13 @@
  */
 package sm.intersection.sim;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +26,7 @@ import sm.intersection.BaseRSU;
  *
  */
 public class DeepRouteRandomStrategyTest {
-    
+
     private static final int ITER = 1000;
     private DeepAltRouteRandomStrategy strat;
 
@@ -44,7 +47,8 @@ public class DeepRouteRandomStrategyTest {
     }
 
     /**
-     * Test method for {@link sm.intersection.sim.DeepAltRouteRandomStrategy#newCars()}.
+     * Test method for
+     * {@link sm.intersection.sim.DeepAltRouteRandomStrategy#newCars()}.
      */
     @Test
     public final void testNewCars() {
@@ -56,9 +60,9 @@ public class DeepRouteRandomStrategyTest {
         List<CrossingCar> cars = new ArrayList<>();
         for (int i = 0; i < DeepRouteRandomStrategyTest.ITER; i++) {
             newCars.addAll(this.strat.newCars());
-            System.out.println(newCars);
+            System.out.println(newCars.stream().map(c -> c.getName()).collect(Collectors.toList()));
             for (CrossingCar car : newCars) {
-                assertEquals(car.getRoutes().size(), 1);
+                assertTrue(car.getRoutes().size() <= Defaults.MAX_ROUTES);
                 assertTrue(car.getCurrentRoutePath().size() <= Defaults.MAX_ROUTE_DEPTH);
                 assertTrue(car.getCar().getCar().getSpeed() < Defaults.MAX_SPEED);
                 assertTrue(car.getCar().getCar().getSpeed() > Defaults.MIN_SPEED);

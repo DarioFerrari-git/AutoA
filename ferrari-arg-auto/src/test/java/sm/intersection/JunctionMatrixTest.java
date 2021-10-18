@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import sm.arg.intersection.DistanceRSU;
@@ -57,6 +58,7 @@ public class JunctionMatrixTest {
     /**
      * Test method for {@link sm.intersection.JunctionMatrix#getJunction(int, int)}.
      */
+    @Ignore
     @Test
     public final void testGetJunction() {
         fail("Not yet implemented");
@@ -65,6 +67,7 @@ public class JunctionMatrixTest {
     /**
      * Test method for {@link sm.intersection.JunctionMatrix#setJunction(int, int, sm.intersection.SmartJunction)}.
      */
+    @Ignore
     @Test
     public final void testSetJunction() {
         fail("Not yet implemented");

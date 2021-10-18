@@ -10,16 +10,20 @@ plugins {
     id 'application'
 }
 
+ext {
+    javaMainClass = "sm.paper.Experiment01"
+    javaVersion = JavaLanguageVersion.of(12)
+}
+
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(javaVersion)
     }
+    //sourceCompatibility = javaVersion
+    //targetCompatibility = javaVersion
 }
 
 apply plugin : "java"
-ext {
-    javaMainClass = "sm.paper.Experiment01"
-}
 
 application {
     mainClassName = javaMainClass

@@ -52,10 +52,10 @@ public class SmartRoadTest {
 	public final void testGetRsus() {
 		for (RSU<?> rsu : road.getRsus()) {
 			if (rsu.getType().isAssignableFrom(Double.class)) {
-				Double d = rsu.getMeasurement();
+				Double d = ((DistanceRSU) rsu).getMeasurement();
 				assertEquals(50.0, d, 0.1);
 			} else if (rsu.getType().isAssignableFrom(Boolean.class)) {
-				Boolean b = rsu.getMeasurement();
+				Boolean b = ((HumanRSU) rsu).getMeasurement();
 				assertEquals(false, b);
 			}
 		}

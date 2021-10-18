@@ -84,7 +84,7 @@ public final class FourWaysJunctionConfig implements Debatable {
                     && this.junction.getRoads().get(way).getRoad().getName().equals(roadName)) {
                 for (final RSU<?> rsu : this.junction.getRoads().get(way).getRsus()) {
                     if (rsu instanceof DistanceRSU && rsu.getType().isAssignableFrom(Double.class)) {
-                        d = rsu.getMeasurement();
+                        d = ((DistanceRSU) rsu).getMeasurement();
                     } else {
                         this.log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
                                 this.junction.getRoads().get(way).getRsus());
@@ -112,7 +112,7 @@ public final class FourWaysJunctionConfig implements Debatable {
             if (w.equals(way) && this.junction.getRoads().get(w) != null) {
                 for (final RSU<?> rsu : this.junction.getRoads().get(w).getRsus()) {
                     if (rsu instanceof DistanceRSU && rsu.getType().isAssignableFrom(Double.class)) {
-                        d = rsu.getMeasurement();
+                        d = ((DistanceRSU) rsu).getMeasurement();
                     } else {
                         this.log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
                                 this.junction.getRoads().get(w).getRsus());

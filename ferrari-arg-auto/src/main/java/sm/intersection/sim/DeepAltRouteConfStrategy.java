@@ -75,7 +75,7 @@ public class DeepAltRouteConfStrategy implements VehiclesGenStrategy {
 
             for (final RSU<?> rsu : this.junction.getRoads().get(way1).getRsus()) {
                 if (rsu instanceof DistanceRSU && rsu.getType().isAssignableFrom(Double.class)) {
-                    d = rsu.getMeasurement();
+                    d = ((DistanceRSU) rsu).getMeasurement();
                 } else {
                     this.log.warn("No RSU instanceof DistanceRSU and assignable from Double found: {}",
                             this.junction.getRoads().get(way1).getRsus());
