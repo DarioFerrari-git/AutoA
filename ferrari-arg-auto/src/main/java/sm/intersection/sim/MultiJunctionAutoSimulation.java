@@ -87,7 +87,7 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
             }
         }
         double elapsedTime = System.currentTimeMillis() - super.start;
-        if (log) {
+//        if (log) {
             this.log.info("##### PERFORMANCE SUMMARY #####");
             this.log.info("{} cars generated", this.generated.size());
             this.log.info("\t{} cars left the network", this.nLeftNet);
@@ -99,7 +99,7 @@ public final class MultiJunctionAutoSimulation extends MultiJunctionSimulation {
             this.log.info("{} argumentation processes per second", (double) nArgProc * 1000 / (elapsedTime));
             this.log.info("{} alternative routes adopted", nAltRoutesUsed);
             this.log.info("##### #####");
-        }
+//        }
 
     }
 

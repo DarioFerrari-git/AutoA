@@ -121,7 +121,6 @@ public class MultiJunctionSimulation implements Simulation {
         } else {
             this.log.warn("SIMULATION GOING, PAUSE IT FIRST");
         }
-        this.log.info("##### PERFORMANCE (step {}) #####", this.steps);
         int nServed = 0;
         int nArgProc = 0;
         int nAltRoutesUsed = 0;
@@ -133,6 +132,7 @@ public class MultiJunctionSimulation implements Simulation {
             }
         }
         if (log) {
+            this.log.info("##### PERFORMANCE (step {}) #####", this.steps);
             this.log.info("{} crossings happened", nServed);
             this.log.info("{} argumentation processes done", nArgProc);
             this.log.info("Simulation time: {} millis", System.currentTimeMillis() - this.start);

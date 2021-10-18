@@ -73,7 +73,7 @@ public class SingleJunctionSimulation implements Simulation {
             for (final CrossingCar car : this.cars) {
                 if (!car.getState().equals(STATUS.SERVED)) {
                     try {
-                        this.assignRightOfWay(car, first); // TODO does not consider timing
+                        this.assignRightOfWay(car, first, log); // TODO does not consider timing
                         first = false;
                     } catch (final ParserException e) {
                         this.log.error("Malformed argumentation theory, see stack trace below:");
@@ -157,7 +157,7 @@ public class SingleJunctionSimulation implements Simulation {
 
     }
 
-    private void assignRightOfWay(final CrossingCar Car, final boolean first) throws ParserException, IOException {
+    private void assignRightOfWay(final CrossingCar Car, final boolean first, Boolean shouldLog) throws ParserException, IOException {
         /*
          * create ASPIC+ theory
          */
@@ -199,11 +199,13 @@ public class SingleJunctionSimulation implements Simulation {
             Car.setState(STATUS.WAITING);
         }
         final ArgumentationGraph Agraph = new ArgumentationGraph(t);
-        if (first) {
+        if (shouldLog && first) {
             Agraph.graph2text(this.cars, this.junction.getPolicy());
         }
         this.junction.incArgProc();
-        this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
+        if (shouldLog) {
+            this.log.info("{}? {}", pf, ar.query(t, pf, InferenceMode.CREDULOUS));
+        }
 
     }
 

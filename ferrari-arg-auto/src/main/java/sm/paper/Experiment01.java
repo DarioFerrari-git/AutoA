@@ -34,13 +34,12 @@ import sm.intersection.sim.VehiclesGenStrategy;
  *
  */
 public final class Experiment01 {
-    
-    private static final String POLICY_P = "policy";
-
-    private static final String STRAT_P = "strat";
 
     private static final Logger log = LoggerFactory.getLogger(Experiment01.class);
 
+    private static final String LOG_P = "log";
+    private static final String POLICY_P = "policy";
+    private static final String STRAT_P = "strat";
     private static final String MAX_STEPS_P = "maxSteps";
     private static final String GEN_STEPS_P = "genSteps";
     private static final String COLS_P = "cols";
@@ -52,15 +51,26 @@ public final class Experiment01 {
     private static final int RSU_DISTANCE = 2 * Defaults.SAFETY_DISTANCE_SOFT;
 
     /**
-     * @param args
+     * @param args filepath to settings file
+     * 
      * @throws IOException
      * @throws FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String simConfigPath = rootPath + "sim_settings.properties";
+        String propsPath;
+        if (args.length < 1) {
+            log.warn("NO PROPERTIES FILE GIVEN, USING DEFAULT");
+            propsPath = Thread.currentThread().getContextClassLoader().getResource("").getPath()
+                    + "sim_settings.properties";
+        } else {
+            log.info("Properties file given, using {}", args[0]);
+            propsPath = System.getProperty("user.dir") + "/" + args[0];
+        }
+
         Properties simProps = new Properties();
-        simProps.load(new FileInputStream(simConfigPath));
+        log.info("Properties file: {}", propsPath);
+        simProps.load(new FileInputStream(propsPath));
+
         VehiclesGenStrategy strat = null;
         if ("DeepAltRouteRandomStrategy".equals(simProps.getProperty(STRAT_P))) {
             strat = new DeepAltRouteRandomStrategy();
@@ -88,7 +98,7 @@ public final class Experiment01 {
         SingleJunctionAutoSimulation s;
         for (int r = 0; r < junctions.length; r++) {
             for (int c = 0; c < junctions[r].length; c++) {
-                j4 = new FourWaysJunctionConfig(String.format("J_%d_%d", r, c), pol, 
+                j4 = new FourWaysJunctionConfig(String.format("J_%d_%d", r, c), pol,
                         new DistanceRSU(new BaseRSU("distance", RSU_CONFIDENCE), RSU_DISTANCE));
                 junctions[r][c] = j4.getJunction();
                 strat.configJunction(junctions[r][c]);
@@ -100,7 +110,7 @@ public final class Experiment01 {
         }
         JunctionMatrix network = new JunctionMatrix(junctions);
         MultiJunctionAutoSimulation sim = new MultiJunctionAutoSimulation(network, simulations);
-        sim.go(false);
+        sim.go(Boolean.parseBoolean(simProps.getProperty(LOG_P)));
         log.info("Props: {}", simProps);
     }
 
