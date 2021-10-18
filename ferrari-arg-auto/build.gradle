@@ -10,6 +10,12 @@ plugins {
     id 'application'
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 apply plugin : "java"
 ext {
     javaMainClass = "sm.paper.Experiment01"

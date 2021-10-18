@@ -8,3 +8,5 @@ build
 lib/.settings/
 lib/bin/
 **/.DS_Store
+**/bin
+**/.classpath
