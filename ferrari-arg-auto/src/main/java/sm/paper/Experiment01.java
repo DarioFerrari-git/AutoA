@@ -70,6 +70,8 @@ public final class Experiment01 {
         Properties simProps = new Properties();
         log.info("Properties file: {}", propsPath);
         simProps.load(new FileInputStream(propsPath));
+        Defaults defs = Defaults.getInstance(propsPath);
+        log.info("Defaults: {}", defs);
 
         VehiclesGenStrategy strat = null;
         if ("DeepAltRouteRandomStrategy".equals(simProps.getProperty(STRAT_P))) {
