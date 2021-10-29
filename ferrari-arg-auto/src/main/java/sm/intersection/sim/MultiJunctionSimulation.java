@@ -45,7 +45,8 @@ public class MultiJunctionSimulation implements Simulation {
      * @param network
      * @param simulations MUST HAVE SAME STEP
      */
-    public MultiJunctionSimulation(final JunctionMatrix network, final List<Simulation> simulations) {
+    public MultiJunctionSimulation(final JunctionMatrix network, final List<Simulation> simulations,
+            final String performancePath) {
         this.network = network;
         this.simXnames = new HashMap<>();
         for (final Simulation ssim : simulations) {
@@ -56,8 +57,9 @@ public class MultiJunctionSimulation implements Simulation {
         this.going = false;
         this.generated = new HashSet<>();
         try {
-            this.writer = new CSVWriter(new FileWriter("performance.csv"));
-            writer.writeNext(new String[] { "simulation_step", "vehicles", "alternative_routes_used" });
+            this.writer = new CSVWriter(new FileWriter(performancePath));
+            writer.writeNext(new String[] { "simulation_step", "simulation_time", "vehicles", "crossings",
+                    "alternative_routes_used" });
         } catch (IOException e) {
             this.log.warn("<CSVWriter> NOT READY");
             e.printStackTrace();
@@ -142,8 +144,9 @@ public class MultiJunctionSimulation implements Simulation {
             this.log.info("##### #####");
         }
         if (this.writer != null) {
-            writer.writeNext(new String[] { String.valueOf(this.steps), String.valueOf(this.generated.size()),
-                    String.valueOf(nAltRoutesUsed) });
+            writer.writeNext(new String[] { String.valueOf(this.steps),
+                    String.valueOf(System.currentTimeMillis() - this.start), String.valueOf(this.generated.size()),
+                    String.valueOf(nServed), String.valueOf(nAltRoutesUsed) });
         }
         return outOfSim;
     }

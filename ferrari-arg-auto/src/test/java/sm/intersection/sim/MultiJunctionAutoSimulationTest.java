@@ -52,7 +52,7 @@ public class MultiJunctionAutoSimulationTest {
             }
         }
 
-        this.ms = new MultiJunctionAutoSimulation(new JunctionMatrix(junctions), sims);
+        this.ms = new MultiJunctionAutoSimulation(new JunctionMatrix(junctions), sims, "perfs.csv");
     }
 
     /**

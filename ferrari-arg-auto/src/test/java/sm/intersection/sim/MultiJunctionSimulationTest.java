@@ -82,7 +82,7 @@ public class MultiJunctionSimulationTest {
                 sims.add(new SingleJunctionSimulation(junctions[r][c], fourWays.getCars(), 1));
             }
         }
-        this.ms = new MultiJunctionSimulation(new JunctionMatrix(junctions), sims);
+        this.ms = new MultiJunctionSimulation(new JunctionMatrix(junctions), sims, "perfs.csv");
     }
 
     /**
