@@ -5,7 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 # SET THESE PARAMS
-plot_target = 1  # 0 = show(), 1 = savefig()
+plot_target = 0  # 0 = show(), 1 = savefig()
 
 input_dir = "../results"
 data_filename = "performance.csv"

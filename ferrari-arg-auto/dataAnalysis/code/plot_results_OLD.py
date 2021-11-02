@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 # SET THESE PARAMS
 experiment = 4  # 1 = 2x2, 2 = 4x4, 3 = 8x8, 4 = 16x16
-plot_target = 1  # 0 = show(), 1 = savefig()
+plot_target = 0  # 0 = show(), 1 = savefig()
 
 input_dir = "../results"
 data_filename = "performance.csv"
@@ -66,7 +66,7 @@ elif experiment == 3:
     plt.setp(ax2.get_yticklabels(), visible=False)
     ax2.sharex(ax1)
     ax2.sharey(ax1)
-    plt.plot(data["simulation_step"].where(data["simulation_step"] <= 34), data["vehicles"], marker="^", color="g")
+    plt.plot(data["simulation_step"].where(data["simulation_step"] <= 34), data["alternative_routes_used"], marker="^", color="g")
 else:
     ax2.sharex(ax1)
     plt.plot(data["simulation_step"].where(data["simulation_step"] <= 38), data["alternative_routes_used"], marker="^", color="g")

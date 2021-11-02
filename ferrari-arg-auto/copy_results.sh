@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir="r10_2x2_d2_a2"
+dir="r10_8x8_d4_a4"
 
 mkdir dataAnalysis/results/$dir
 cp performance-0.csv dataAnalysis/results/$dir
