@@ -17,6 +17,7 @@ import sm.arg.intersection.AltRoutesPolicy;
 import sm.arg.intersection.DistanceRSU;
 import sm.arg.intersection.FourWaysJunctionConfig;
 import sm.arg.intersection.NumArgsPolicy;
+import sm.arg.intersection.UrgencyPolicy;
 import sm.intersection.BaseRSU;
 import sm.intersection.CrossingPolicy;
 import sm.intersection.JunctionMatrix;
@@ -88,6 +89,8 @@ public final class Experiment01 {
                 pol = new AltRoutesPolicy("alt_routes");
             } else if ("NumArgsPolicy".equals(simProps.getProperty(POLICY_P))) {
                 pol = new NumArgsPolicy("num_args");
+            } else if ("UrgencyPolicy".equals(simProps.getProperty(POLICY_P))) {
+                pol = new UrgencyPolicy("urgency");
             } else {
                 log.error("UNSUPPORTED POLICY: choose <AltRoutesPolicy> or <NumArgsPolicy>");
                 System.exit(-1);
