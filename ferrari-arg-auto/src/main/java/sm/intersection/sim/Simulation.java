@@ -40,5 +40,7 @@ public interface Simulation {
     long getSteps();
 
     long getMaxSteps();
+    
+    long getNWaiting();
 
 }

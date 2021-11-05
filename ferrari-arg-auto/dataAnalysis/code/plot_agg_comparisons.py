@@ -4,7 +4,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 ########## SET THESE PARAMS ##########
-plot_target = 0  # 0 = show(), 1 = savefig()
+plot_target = 1  # 0 = show(), 1 = savefig()
 
 input_dir = "../results"
 data_filename = "aggregate.csv"
@@ -21,21 +21,54 @@ plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = False
 plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = True
 ##########
 
+markers = ['o', '^', 'x', '*']
+colors = ['b', 'g', 'r', 'k']
+
+# ACROSS NETWORKS
 plt.figure()
 plt.grid()
-plt.title(f"Performance per number of vehicles across networks")
+plt.title(f"Alt. routes per no. of vehicles across networks")
 plt.ylabel("# alt. routes")
 plt.xlabel("# vehicles")
 plt.xscale("log")
 plt.yscale("log")
-dirs = ["r10_2x2_d4_a4", "r10_4x4_d4_a4", "r10_8x8_d8_a4", "r10_16x16_d16_a8"]  # manual selection
+#dirs = ["r10_2x2_d2_a2", "r10_4x4_d4_a2", "r10_8x8_d8_a4", "r10_16x16_d16_a8"]  # manual selection
+dirs = ["r10_2x2_d4_a4", "r10_4x4_d4_a4", "r10_8x8_d8_a4", "r10_16x16_d16_a8"]  # alt version
+i = 0
 for f in dirs:
     data = pd.read_csv(f'{input_dir}/{f}/{data_filename}')
-    plt.plot(data["vehicles"], data["alternative_routes_used"], label=f"params: {f}")
+    plt.plot(data["vehicles"], data["alternative_routes_used"], label=f"{f.replace('r10_', '')}", marker=markers[i], color=colors[i], markersize=4)
+    i += 1
 plt.legend()
 
-if plot_target == 1:
+if plot_target == 0:
     plt.show()
 else:
-    comp_filename = f"comparison-{'-'.join(dirs)}.pdf"
+    comp_filename = f"comparison-networks-alt.pdf"  ##### CHANGE APPROPRIATELY
+    plt.savefig(f"{output_dir}/{comp_filename}")
+
+# DEPTH AND BREADTH
+grid = "16x16"  ##### CHANGE APPROPRIATELY
+
+plt.figure()
+plt.grid()
+plt.title(f"Alt. routes per no. of vehicles across depth and breadth ({grid} network)")
+plt.ylabel("# alt. routes")
+plt.xlabel("# vehicles")
+#plt.xscale("log")
+plt.yscale("log")
+dirs = os.listdir(input_dir)
+dirs.sort()
+i = 0
+for f in dirs:
+    if f"r10_{grid}_" in f:  # first part filters out old experiments
+        data = pd.read_csv(f'{input_dir}/{f}/{data_filename}')
+        plt.plot(data["vehicles"], data["alternative_routes_used"], label=f"{f.replace(f'r10_{grid}_', '')}", marker=markers[i], color=colors[i], markersize=4)
+        i += 1
+plt.legend()
+
+if plot_target == 0:
+    plt.show()
+else:
+    comp_filename = f"comparison-{grid}-depth_breadth-log.pdf"  ##### CHANGE APPROPRIATELY
     plt.savefig(f"{output_dir}/{comp_filename}")

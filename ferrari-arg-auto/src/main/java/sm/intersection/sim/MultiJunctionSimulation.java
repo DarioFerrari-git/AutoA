@@ -40,6 +40,7 @@ public class MultiJunctionSimulation implements Simulation {
     protected Set<CrossingCar> generated;
     protected long start;
     protected CSVWriter writer;
+    private long nWaiting = 0;
 
     /**
      * @param network
@@ -58,7 +59,7 @@ public class MultiJunctionSimulation implements Simulation {
         this.generated = new HashSet<>();
         try {
             this.writer = new CSVWriter(new FileWriter(performancePath));
-            writer.writeNext(new String[] { "simulation_step", "simulation_time", "vehicles", "crossings",
+            writer.writeNext(new String[] { "simulation_step", "simulation_time", "vehicles", "crossings", "waitings", 
                     "alternative_routes_used" });
         } catch (IOException e) {
             this.log.warn("<CSVWriter> NOT READY");
@@ -131,6 +132,7 @@ public class MultiJunctionSimulation implements Simulation {
                 nServed += this.network.getJunction(i, j).getServed();
                 nArgProc += this.network.getJunction(i, j).getArgProc();
                 nAltRoutesUsed += this.network.getJunction(i, j).getAltRoutesUsed();
+                this.nWaiting += this.simXnames.get(this.network.getJunction(i, j).getName()).getNWaiting();;
             }
         }
         if (log) {
@@ -146,7 +148,7 @@ public class MultiJunctionSimulation implements Simulation {
         if (this.writer != null) {
             writer.writeNext(new String[] { String.valueOf(this.steps),
                     String.valueOf(System.currentTimeMillis() - this.start), String.valueOf(this.generated.size()),
-                    String.valueOf(nServed), String.valueOf(nAltRoutesUsed) });
+                    String.valueOf(nServed), String.valueOf(this.nWaiting), String.valueOf(nAltRoutesUsed) });
         }
         return outOfSim;
     }
@@ -250,6 +252,11 @@ public class MultiJunctionSimulation implements Simulation {
         this.log.warn("A MultiJunctionSimulation does not have a maximum number of steps (its Auto- version does)");
         throw new UnsupportedOperationException(
                 "A MultiJunctionSimulation does not have a maximum number of steps (its Auto- version does)");
+    }
+    
+    @Override
+    public long getNWaiting() {
+        return this.nWaiting ;
     }
 
 }

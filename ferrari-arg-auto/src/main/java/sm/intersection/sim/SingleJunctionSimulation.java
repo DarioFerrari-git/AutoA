@@ -46,6 +46,7 @@ public class SingleJunctionSimulation implements Simulation {
     protected boolean going;
     protected boolean none;
     protected long start;
+    private long nWaiting;
 
     public SingleJunctionSimulation(final SmartJunction junction, final List<CrossingCar> cars, final double step) {
         this.junction = junction;
@@ -53,6 +54,7 @@ public class SingleJunctionSimulation implements Simulation {
         this.step = step;
         this.steps = 0;
         this.going = false;
+        this.nWaiting = 0;
     }
 
     @Override
@@ -196,6 +198,9 @@ public class SingleJunctionSimulation implements Simulation {
             Car.setState(STATUS.CROSSING);
             //    System.out.println(Car.getName());
         } else {
+            if (!Car.getState().equals(STATUS.WAITING)) {
+                this.nWaiting += 1;
+            }
             Car.setState(STATUS.WAITING);
         }
         final ArgumentationGraph Agraph = new ArgumentationGraph(t);
@@ -311,6 +316,11 @@ public class SingleJunctionSimulation implements Simulation {
         this.log.warn("A SingleJunctionSimulation does not have a maximum number of steps (its Auto- version does)");
         throw new UnsupportedOperationException(
                 "A SingleJunctionSimulation does not have a maximum number of steps (its Auto- version does)");
+    }
+    
+    @Override
+    public long getNWaiting() {
+        return this.nWaiting;
     }
 
 }
