@@ -131,6 +131,11 @@ public class CrossingCar implements Debatable {
      * @return
      */
     public CrossingCar updateAfterCrossing(final SmartJunction nextJunction) {
+        for (int r : this.getRoutes().keySet()) {
+            if (r != this.getCurrentRouteRank()) {
+                this.getRoutes().get(r).remove(0);
+            }
+        }
         final DIRECTION nextD = this.getCurrentRoutePath().remove(0); // where car was going before this crossing // TODO could be useful to have both the original routes as well as the current routes
         this.frozen = false;
         if (this.getCurrentRoutePath().size() <= 0) { // trip concluded
