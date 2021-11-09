@@ -4,11 +4,11 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 ########## SET THESE PARAMS ##########
-plot_target = 1  # 0 = show(), 1 = savefig()
+plot_target = 0  # 0 = show(), 1 = savefig()
 
-input_dir = "../results"
+input_dir = "../results/prob1"
 data_filename = "aggregate.csv"
-output_dir = "../plots"
+output_dir = "../plots/prob1"
 ########################################
 
 ##### config matplotlib
@@ -70,7 +70,7 @@ for d in dirs:
             plt.show()
         else:
             if not os.path.exists(f"{output_dir}/{d}"):
-                os.mkdir(f"{output_dir}/{d}")
+                os.mkdirs(f"{output_dir}/{d}")
             if not os.path.exists(f"{output_dir}/{d}/performance_vehicles.pdf"):
                 plt.savefig(f"{output_dir}/{d}/performance_vehicles.pdf")
 ##########

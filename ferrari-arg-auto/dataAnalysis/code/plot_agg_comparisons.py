@@ -4,11 +4,11 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 ########## SET THESE PARAMS ##########
-plot_target = 1  # 0 = show(), 1 = savefig()
+plot_target = 0  # 0 = show(), 1 = savefig()
 
-input_dir = "../results"
+input_dir = "../results/prob1"
 data_filename = "aggregate.csv"
-output_dir = "../plots"
+output_dir = "../plots/prob1"
 ########################################
 
 ##### config matplotlib
@@ -44,6 +44,8 @@ plt.legend()
 if plot_target == 0:
     plt.show()
 else:
+    if not os.path.exists(f"{output_dir}"):
+        os.mkdir(f"{output_dir}")
     comp_filename = f"comparison-networks-alt.pdf"  ##### CHANGE APPROPRIATELY
     plt.savefig(f"{output_dir}/{comp_filename}")
 
@@ -70,5 +72,7 @@ plt.legend()
 if plot_target == 0:
     plt.show()
 else:
+    if not os.path.exists(f"{output_dir}"):
+        os.mkdir(f"{output_dir}")
     comp_filename = f"comparison-{grid}-depth_breadth-log.pdf"  ##### CHANGE APPROPRIATELY
     plt.savefig(f"{output_dir}/{comp_filename}")
