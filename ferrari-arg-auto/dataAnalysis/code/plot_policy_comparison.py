@@ -25,6 +25,10 @@ plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = True
 #colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
 ##########
 
+# TODO COMPARE served and slowdowns per grid size depending on # of alternate routes available
+
+
+
 ########## BAR PLOT NO. CROSSINGS (= SERVED) AGAINST NETWORK SIZE FOR EVERY POLICY (LEGENDA) ##########
 networks = ['4x4', '8x8', '16x16']
 
