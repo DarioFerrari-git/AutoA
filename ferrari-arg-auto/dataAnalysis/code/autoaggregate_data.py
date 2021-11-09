@@ -5,7 +5,7 @@ print(os.getcwd())
 
 ########## SET THESE PARAMS ##########
 
-input_dir = "../results"
+input_dir = "../results/prob1"
 data_ext = ".csv"
 aggregated_filename = "aggregate.csv"
 
