@@ -19,6 +19,9 @@ if plot_target == 1:
 # move ticks on right
 plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = False
 plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = True
+
+# colorblind friendly
+plt.style.use('tableau-colorblind10')
 ##########
 
 ##### do the plots

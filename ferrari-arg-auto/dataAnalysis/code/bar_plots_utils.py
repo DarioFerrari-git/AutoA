@@ -26,10 +26,20 @@ def compare_policies_per_net(what, comp_filename, networks = ['4x4', '8x8', '16x
     networks = crossings['altPol'].keys()
     x = np.arange(len(networks))  # the label locations
     #print(x)
-    policies = {'altPol': x - width/2 - width/2,
+    xXpol = {'altPol': x - width/2 - width/2,
                 'numPol': x,
                 'urgPol': x + width/2 + width/2}
     #print(policies.values())
+    hatchXpol = {'altPol': "o",
+                'numPol': "/",
+                'urgPol': "#"}  # modes: * + - . / O X \ o x |
+
+    # move ticks on right
+    plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = False
+    plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = True
+
+    # colorblind friendly
+    plt.style.use('tableau-colorblind10')
 
     #plt.figure()
     fig, ax = plt.subplots()
@@ -41,7 +51,7 @@ def compare_policies_per_net(what, comp_filename, networks = ['4x4', '8x8', '16x
     if logy:
         plt.yscale("log")
     for p in crossings:
-        bar = ax.bar(policies[p], crossings[p].values(), width, label=f"{p}")
+        bar = ax.bar(xXpol[p], crossings[p].values(), width, label=f"{p}", hatch=hatchXpol[p])
         ax.bar_label(bar, padding=3, fontsize=8)
     ax.set_xticks(x)
     ax.set_xticklabels(networks)
@@ -55,6 +65,10 @@ def compare_policies_per_net(what, comp_filename, networks = ['4x4', '8x8', '16x
         if not os.path.exists(f"{output_dir}"):
             os.mkdir(f"{output_dir}")
         plt.savefig(f"{output_dir}/{comp_filename}")
+
+
+compare_policies_per_net("crossings", "comparison-crossingsXnetwork-policy.pdf", ["4x4", "8x8", "16x16"], plot_target=0)
+compare_policies_per_net("waitings", "comparison-slowdownsXnetwork-policy.pdf", ["4x4", "8x8", "16x16"], plot_target=0)
 
 
 def compare_breadth_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16'],
@@ -86,6 +100,13 @@ def compare_breadth_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16'
                 'numPol': x,
                 'urgPol': x + width/2 + width/2}
     #print(policies.values())
+
+    # move ticks on right
+    plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = False
+    plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = True
+
+    # colorblind friendly
+    plt.style.use('tableau-colorblind10')
 
     #plt.figure()
     fig, ax = plt.subplots()

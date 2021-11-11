@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 
-########## SET THESE PARAMS ##########
+########## DOC SET THESE PARAMS ##########
 plot_target = 0  # 0 = show(), 1 = savefig()
 
 input_dir = "../results/prob1"
@@ -12,7 +12,7 @@ data_filename = "aggregate.csv"
 output_dir = "../plots/prob1"
 ########################################
 
-##### config matplotlib
+##### DOC config matplotlib
 if plot_target == 1:
     plt.ioff()  # non interactive: plot to file, not screen
     matplotlib.use("PDF")
@@ -27,9 +27,71 @@ plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = True
 
 # TODO COMPARE served and slowdowns per grid size depending on # of alternate routes available
 
+networks = [4, 8, 16]
+altXnet = {e: [int(e*n) for n in [1/2, 3/4, 1]] for e in networks}
+print(altXnet)
+# altXnet = {
+#     4: [2, 3, 4],
+#     8: [4, 6, 8],
+#     16: [8, 12, 16]
+# }
 
+# build data structure suitable for plot
+crossings = {}
+dirs = os.listdir(input_dir)
+dirs.sort()
+for f in dirs:
+    if "altPol" in f:  # filter out irrelevant
+        print(f)
+        data = pd.read_csv(f'{input_dir}/{f}/{data_filename}')
+        for n in networks:
+            net = f"{n}x{n}"
+            #print(net)
+            if net in f:
+                print(f"\t{net} in {f}")
+                for a in altXnet[n]:
+                    print(f"\t\t{a}")
+                    if f'a{a}' in f:
+                        print(f"\t\ta{a} in {f}")
+                        if a not in crossings:
+                            crossings[a] = {}
+                        crossings[a][net] = data.loc[(data.shape[0]-1), 'crossings']
+print(crossings)
 
-########## BAR PLOT NO. CROSSINGS (= SERVED) AGAINST NETWORK SIZE FOR EVERY POLICY (LEGENDA) ##########
+networks = crossings['altPol'].keys()
+x = np.arange(len(networks))  # the label locations
+#print(x)
+width = 0.25  # the width of the bars
+policies = {'altPol': x - width/2 - width/2,
+            'numPol': x,
+            'urgPol': x + width/2 + width/2}
+#print(policies.values())
+
+#plt.figure()
+fig, ax = plt.subplots()
+ax.set_title("Served vehicles per network size across policies")
+ax.set_ylabel("# served vehicles")
+ax.set_xlabel("network size")
+#plt.xscale("log")
+#plt.yscale("log")
+for p in crossings:
+    bar = ax.bar(policies[p], crossings[p].values(), width, label=f"{p}")
+    ax.bar_label(bar, padding=3, fontsize=8)
+ax.set_xticks(x)
+ax.set_xticklabels(networks)
+ax.legend()
+
+fig.tight_layout()
+
+if plot_target == 0:
+    plt.show()
+else:
+    if not os.path.exists(f"{output_dir}"):
+        os.mkdir(f"{output_dir}")
+    comp_filename = "comparison-crossingsXnetwork-policy.pdf"  ##### CHANGE APPROPRIATELY
+    plt.savefig(f"{output_dir}/{comp_filename}")
+
+########## DOC BAR PLOT NO. CROSSINGS (= SERVED) AGAINST NETWORK SIZE FOR EVERY POLICY (LEGENDA) ##########
 networks = ['4x4', '8x8', '16x16']
 
 # build data structure suitable for plot
@@ -77,11 +139,11 @@ if plot_target == 0:
 else:
     if not os.path.exists(f"{output_dir}"):
         os.mkdir(f"{output_dir}")
-    comp_filename = "comparison-crossingsXnetwork-policy.pdf"  ##### CHANGE APPROPRIATELY
+    comp_filename = "comparison-crossingsXnetwork-policy.pdf"  ##### NB CHANGE APPROPRIATELY
     plt.savefig(f"{output_dir}/{comp_filename}")
 ########################################
 
-########## BAR PLOT NO. SLOWDOWNS (= WAITINGS) AGAINST NETWORK SIZE FOR EVERY POLICY (LEGENDA) ##########
+########## DOC BAR PLOT NO. SLOWDOWNS (= WAITINGS) AGAINST NETWORK SIZE FOR EVERY POLICY (LEGENDA) ##########
 networks = ['4x4', '8x8', '16x16']
 
 # build data structure suitable for plot
@@ -129,11 +191,11 @@ if plot_target == 0:
 else:
     if not os.path.exists(f"{output_dir}"):
         os.mkdir(f"{output_dir}")
-    comp_filename = "comparison-slowdownsXnetwork-policy.pdf"  ##### CHANGE APPROPRIATELY
+    comp_filename = "comparison-slowdownsXnetwork-policy.pdf"  ##### NB CHANGE APPROPRIATELY
     plt.savefig(f"{output_dir}/{comp_filename}")
 ########################################
 
-########## LINE PLOT NO. CROSSINGS (= SERVED) AGAINST NO. VEHICLES FOR EVERY POLICY (LEGENDA) ##########
+########## DOC LINE PLOT NO. CROSSINGS (= SERVED) AGAINST NO. VEHICLES FOR EVERY POLICY (LEGENDA) ##########
 plt.figure()
 plt.grid()
 plt.title("Served vehicles per no. of vehicles across policies")
@@ -157,11 +219,11 @@ if plot_target == 0:
 else:
     if not os.path.exists(f"{output_dir}"):
         os.mkdir(f"{output_dir}")
-    comp_filename = "comparison-crossingsXvehicles-policy.pdf"  ##### CHANGE APPROPRIATELY
+    comp_filename = "comparison-crossingsXvehicles-policy.pdf"  ##### NB CHANGE APPROPRIATELY
     plt.savefig(f"{output_dir}/{comp_filename}")
 ########################################
 
-########## LINE PLOT NO. SLOWDOWNS (= WAITING) AGAINST NO. VEHICLES FOR EVERY POLICY (LEGENDA) ##########
+########## DOC LINE PLOT NO. SLOWDOWNS (= WAITING) AGAINST NO. VEHICLES FOR EVERY POLICY (LEGENDA) ##########
 plt.figure()
 plt.grid()
 plt.title("Slowdowns per no. of vehicles across policies")
@@ -185,6 +247,6 @@ if plot_target == 0:
 else:
     if not os.path.exists(f"{output_dir}"):
         os.mkdir(f"{output_dir}")
-    comp_filename = "comparison-slowdownsXvehicles-policy.pdf"  ##### CHANGE APPROPRIATELY
+    comp_filename = "comparison-slowdownsXvehicles-policy.pdf"  ##### NB CHANGE APPROPRIATELY
     plt.savefig(f"{output_dir}/{comp_filename}")
 ########################################

@@ -6,6 +6,13 @@ import matplotlib.pyplot as plt
 def plot(what, against, comp_filename, input_dir="results/prob1", data_filename="aggregate.csv", logx=False, logy=False,
          plot_target=0, output_dir="plots/prob1"):
 
+    # move ticks on right
+    plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = False
+    plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = True
+
+    # colorblind friendly
+    plt.style.use('tableau-colorblind10')
+
     plt.figure()
     plt.grid()
     plt.title(f"{what} per {against} across policies")
