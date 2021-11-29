@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 def compare_policies_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16'],
                              input_dir="results/prob1", data_filename="aggregate.csv",
                              logx=False, logy=False, width = 0.25,
-                             plot_target=0, output_dir="plots/prob1"):
+                             plot_target=0, output_dir="plots/prob1", legend_pos=0):
     # build data structure suitable for plot
     crossings = {}
     dirs = os.listdir(input_dir)
@@ -51,11 +51,15 @@ def compare_policies_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16
     if logy:
         plt.yscale("log")
     for p in crossings:
-        bar = ax.bar(xXpol[p], crossings[p].values(), width, label=f"{p}", hatch=hatchXpol[p])
+        crossings_p_sorted = sorted(crossings[p], key=lambda k: int(k.split('x')[0]), reverse=False)
+        # print(crossings_p_sorted)
+        crossings_vals_sorted = [crossings[p][k] for k in crossings_p_sorted]
+        print(crossings_vals_sorted)
+        bar = ax.bar(xXpol[p], crossings_vals_sorted, width, label=f"{p}", hatch=hatchXpol[p])
         ax.bar_label(bar, padding=3, fontsize=8)
     ax.set_xticks(x)
-    ax.set_xticklabels(networks)
-    ax.legend()
+    ax.set_xticklabels(crossings_p_sorted)
+    ax.legend(loc=legend_pos)
 
     fig.tight_layout()
 

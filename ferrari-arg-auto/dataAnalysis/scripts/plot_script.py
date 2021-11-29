@@ -96,7 +96,7 @@ compare_2_metrics_per_breadth("waitings", "vehicles", "comparison-slowdownsXvehi
 
 compare_policies_per_net("crossings", "comparison-crossingsXnetwork-policy.pdf",
                          input_dir=input_dir, output_dir=output_dir,
-                         plot_target=plot_target)
+                         plot_target=plot_target, legend_pos=2)
 compare_policies_per_net("waitings", "comparison-slowdownsXnetwork-policy.pdf",
                          input_dir=input_dir, output_dir=output_dir,
                          plot_target=plot_target)
