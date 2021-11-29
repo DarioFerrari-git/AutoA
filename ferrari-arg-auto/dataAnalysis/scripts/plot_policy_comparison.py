@@ -23,18 +23,15 @@ plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = True
 
 #markers = ['o', '^', '8', 's', '*', '+', 'x']
 #colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+
+# colorblind friendly
+plt.style.use('tableau-colorblind10')
 ##########
 
 # TODO COMPARE served and slowdowns per grid size depending on # of alternate routes available
 
 networks = [4, 8, 16]
-altXnet = {e: [int(e*n) for n in [1/2, 3/4, 1]] for e in networks}
-print(altXnet)
-# altXnet = {
-#     4: [2, 3, 4],
-#     8: [4, 6, 8],
-#     16: [8, 12, 16]
-# }
+fractions = [1/2, 3/4, 1]
 
 # build data structure suitable for plot
 crossings = {}
@@ -49,33 +46,42 @@ for f in dirs:
             #print(net)
             if net in f:
                 print(f"\t{net} in {f}")
-                for a in altXnet[n]:
-                    print(f"\t\t{a}")
+                #for a in altXnet[n]:
+                for alt_ratio in fractions:
+                    print(f"\t\t{alt_ratio}")
+                    a = int(n*alt_ratio)
                     if f'a{a}' in f:
                         print(f"\t\ta{a} in {f}")
-                        if a not in crossings:
-                            crossings[a] = {}
-                        crossings[a][net] = data.loc[(data.shape[0]-1), 'crossings']
-print(crossings)
+                        if alt_ratio not in crossings:
+                            crossings[alt_ratio] = {}
+                        crossings[alt_ratio][net] = data.loc[(data.shape[0]-1), 'crossings']
+for k in crossings:
+    print(k)
+    for v in crossings[k]:
+        print(f'\t{v}: {crossings[k][v]}')
 
-networks = crossings['altPol'].keys()
+
+networks = crossings[fractions[0]].keys()
 x = np.arange(len(networks))  # the label locations
 #print(x)
 width = 0.25  # the width of the bars
-policies = {'altPol': x - width/2 - width/2,
-            'numPol': x,
-            'urgPol': x + width/2 + width/2}
-#print(policies.values())
+policies = {fractions[0]: x - width/2 - width/2,
+            fractions[1]: x,
+            fractions[2]: x + width/2 + width/2}
+print(policies.values())
+hatchXpol = {fractions[0]: "o",
+             fractions[1]: "/",
+             fractions[2]: "#"}  # modes: * + - . / O X \ o x |
 
 #plt.figure()
 fig, ax = plt.subplots()
-ax.set_title("Served vehicles per network size across policies")
-ax.set_ylabel("# served vehicles")
+ax.set_title("Throughput per network size across no. of alt. routes")
+ax.set_ylabel("throughput")
 ax.set_xlabel("network size")
 #plt.xscale("log")
-#plt.yscale("log")
+plt.yscale("log")
 for p in crossings:
-    bar = ax.bar(policies[p], crossings[p].values(), width, label=f"{p}")
+    bar = ax.bar(policies[p], crossings[p].values(), width, label=f"# alt. routes = net. size * {p}", hatch=hatchXpol[p])
     ax.bar_label(bar, padding=3, fontsize=8)
 ax.set_xticks(x)
 ax.set_xticklabels(networks)

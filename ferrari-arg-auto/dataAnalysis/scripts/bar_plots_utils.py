@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def compare_policies_per_net(what, comp_filename, networks = ['4x4', '8x8', '16x16'],
+def compare_policies_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16'],
                              input_dir="results/prob1", data_filename="aggregate.csv",
                              logx=False, logy=False, width = 0.25,
                              plot_target=0, output_dir="plots/prob1"):
@@ -67,12 +67,8 @@ def compare_policies_per_net(what, comp_filename, networks = ['4x4', '8x8', '16x
         plt.savefig(f"{output_dir}/{comp_filename}")
 
 
-compare_policies_per_net("crossings", "comparison-crossingsXnetwork-policy.pdf", ["4x4", "8x8", "16x16"], plot_target=0)
-compare_policies_per_net("waitings", "comparison-slowdownsXnetwork-policy.pdf", ["4x4", "8x8", "16x16"], plot_target=0)
-
-
-def compare_breadth_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16'],
-                            breadths=['a2','a3','a4','a5','a6','a7','a8','a9','a10','a11','a12'],
+def compare_breadth_per_net(what, comp_filename, networks=[4, 8, 16],
+                            breadths=[1/2, 3/4, 1],
                              input_dir="results/prob1", data_filename="aggregate.csv",
                              logx=False, logy=False, width = 0.25,
                              plot_target=0, output_dir="plots/prob1"):
@@ -81,25 +77,35 @@ def compare_breadth_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16'
     dirs = os.listdir(input_dir)
     dirs.sort()
     for f in dirs:
-        if "_d16_" not in f:  # filter out work in progress experiments
+        if "altPol" in f:  # filter out irrelevant
+            #print(f)
             data = pd.read_csv(f'{input_dir}/{f}/{data_filename}')
-            for b in breadths:
-                if b in f:
-                    crossings[b] = {}
             for n in networks:
-                if n in f:
-                    crossings[b][n] = data.loc[(data.shape[0]-1), what]
+                net = f"{n}x{n}"
+                #print(net)
+                if net in f:
+                    #print(f"\t{net} in {f}")
+                    for alt_ratio in breadths:
+                        #print(f"\t\t{alt_ratio}")
+                        a = int(n * alt_ratio)
+                        if f'a{a}' in f:
+                            #print(f"\t\ta{a} in {f}")
+                            if alt_ratio not in crossings:
+                                crossings[alt_ratio] = {}
+                            crossings[alt_ratio][net] = data.loc[(data.shape[0] - 1), what]
     print(crossings)
 
-    networks = crossings.keys()[0].keys()
+    networks = crossings[breadths[0]].keys()
     x = np.arange(len(networks))  # the label locations
-    #print(x)
-    actual_breadths = {}
-    for b in crossings.keys():  # TODO how to dynamically adjust depending on # of keys?
-        actual_breadths = {'altPol': x - width/2 - width/2,
-                'numPol': x,
-                'urgPol': x + width/2 + width/2}
+    # print(x)
+    #width = 0.25  # the width of the bars
+    policies = {breadths[0]: x - width / 2 - width / 2,
+                breadths[1]: x,
+                breadths[2]: x + width / 2 + width / 2}
     #print(policies.values())
+    hatchXpol = {breadths[0]: "o",
+                 breadths[1]: "/",
+                 breadths[2]: "#"}  # modes: * + - . / O X \ o x |
 
     # move ticks on right
     plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = False
@@ -110,18 +116,25 @@ def compare_breadth_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16'
 
     #plt.figure()
     fig, ax = plt.subplots()
-    ax.set_title(f"{what} per network size across policies")
-    ax.set_ylabel(f"# {what}")
+    ax.set_title(f"{what} per network size across no. of alt. routes")
+    ax.set_ylabel(f"{what}")
     ax.set_xlabel("network size")
     if logx:
         plt.xscale("log")
     if logy:
         plt.yscale("log")
     for p in crossings:
-        bar = ax.bar(policies[p], crossings[p].values(), width, label=f"{p}")
+        crossings_p_sorted = sorted(crossings[p], key=lambda k: int(k.split('x')[0]), reverse=False)
+        #print(crossings_p_sorted)
+        crossings_vals_sorted = [crossings[p][k] for k in crossings_p_sorted]
+        print(crossings_vals_sorted)
+        bar = ax.bar(policies[p], crossings_vals_sorted, width, label=f"# alt. routes = net. size * {p}",
+                     hatch=hatchXpol[p])
+        '''bar = ax.bar(policies[p], crossings[p].values(), width, label=f"# alt. routes = net. size * {p}",
+                     hatch=hatchXpol[p])'''
         ax.bar_label(bar, padding=3, fontsize=8)
     ax.set_xticks(x)
-    ax.set_xticklabels(networks)
+    ax.set_xticklabels(crossings_p_sorted)
     ax.legend()
 
     fig.tight_layout()
@@ -132,5 +145,4 @@ def compare_breadth_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16'
         if not os.path.exists(f"{output_dir}"):
             os.mkdir(f"{output_dir}")
         plt.savefig(f"{output_dir}/{comp_filename}")
-
 
