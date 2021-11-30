@@ -172,7 +172,7 @@ def compare_2_metrics_per_net(what, against, comp_filename, input_dir="results/p
 
 
 def compare_2_metrics_per_net_baseline(what, against, comp_filename, input_dir="results/prob1", data_filename="aggregate.csv", logx=False, logy=False,
-                                  plot_target=0, output_dir="plots/prob1", networks=[4, 8, 16], limit=None):
+                                  plot_target=0, output_dir="plots/prob1", networks=[4, 8, 16], limitx=None, limity=None):
 
     # move ticks on right
     plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = False
@@ -203,14 +203,19 @@ def compare_2_metrics_per_net_baseline(what, against, comp_filename, input_dir="
     for f in dirs:
         data = pd.read_csv(f'{input_dir}/{f}/{data_filename}')
         data.head()
-        if not limit:
+        x = data[against]
+        y = data[what]
+        if not limitx and not limity:
             plt.plot(data[against], data[what], label=f"{f.replace('r10_', '')}", marker=markers[i], markersize=4)
         else:
-            plt.plot(data[against].where(data[against] <= limit), data[what], label=f"{f.replace('r10_', '')}", marker=markers[i], markersize=4)
-            ticks = np.arange(0, limit, limit/10)
-            if 'time' in against:
-                plt.xticks(ticks, [f'{x/1000}' for x in ticks])  # DOC simulation time in seconds
-            #plt.xticks(ticks, [f'{np.format_float_scientific(x)}' for x in ticks], fontsize=8)
+            if limitx:
+                x = data[against].where(data[against] <= limitx)
+                ticks = np.arange(0, limitx, limitx / 10)
+                if 'time' in against:
+                    plt.xticks(ticks, [f'{x / 1000}' for x in ticks])  # DOC simulation time in seconds
+            if limity:
+                y = data[what].where(data[what] <= limity)
+            plt.plot(x, y, label=f"{f.replace('r10_', '')}", marker=markers[i], markersize=4)
         i += 1
     plt.legend()
 

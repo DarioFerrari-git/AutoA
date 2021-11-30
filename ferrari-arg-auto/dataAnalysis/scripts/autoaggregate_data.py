@@ -12,7 +12,8 @@ aggregated_filename = "aggregate.csv"
 ########################################
 
 # aggregate data creation
-dirs = os.listdir(input_dir)
+#dirs = os.listdir(input_dir)
+dirs = ['r10_16x16_d16_a8_numPol']
 dirs.sort()
 for d in dirs:
     dir_path = f"{input_dir}/{d}"

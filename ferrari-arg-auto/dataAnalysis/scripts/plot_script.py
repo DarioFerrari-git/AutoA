@@ -3,7 +3,7 @@ from scripts.bar_plots_utils import *
 
 input_dir = "results/prob1"
 output_dir = "plots/prob1/FZ"
-plot_target = 1
+plot_target = 0
 
 # DOC additional for FZ
 compare_2_metrics_per_net("alternative_routes_used", "simulation_step", "comparison-altRoutesXsteps-networks.pdf",
@@ -26,13 +26,31 @@ compare_2_metrics_per_net("waitings", "simulation_time", "comparison-waitingsXti
                               input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
                               plot_target=plot_target)
 
-# TODO waiting simulation to finish
 compare_2_metrics_per_net_baseline("crossings", "simulation_time", "comparison-crossingsXtime-networks-withbaseline.pdf",
                               input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
                               plot_target=plot_target)
+compare_2_metrics_per_net_baseline("crossings", "simulation_time", "comparison-crossingsXtime-networks-withbaseline-ZOOM1.pdf",
+                              input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
+                              plot_target=plot_target, limitx=1e6)
+compare_2_metrics_per_net_baseline("crossings", "simulation_time", "comparison-crossingsXtime-networks-withbaseline-ZOOM2.pdf",
+                              input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
+                              plot_target=plot_target, limitx=0.05e6)
+
 compare_2_metrics_per_net_baseline("waitings", "simulation_time", "comparison-waitingsXtime-networks-withbaseline.pdf",
                               input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
                               plot_target=plot_target)
+compare_2_metrics_per_net_baseline("waitings", "simulation_time", "comparison-waitingsXtime-networks-withbaseline-ZOOM1.pdf",
+                              input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
+                              plot_target=plot_target, limitx=2e6)
+compare_2_metrics_per_net_baseline("waitings", "simulation_time", "comparison-waitingsXtime-networks-withbaseline-ZOOM2.pdf",
+                              input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
+                              plot_target=plot_target, limitx=0.05e6)
+compare_2_metrics_per_net_baseline("waitings", "simulation_step", "comparison-waitingsXstep-networks-withbaseline.pdf",
+                              input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
+                              plot_target=plot_target)
+compare_2_metrics_per_net_baseline("waitings", "simulation_step", "comparison-waitingsXstep-networks-withbaseline-ZOOM1.pdf",
+                              input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
+                              plot_target=plot_target, limity=100000)
 ###################################
 
 compare_2_metrics_per_breadth("crossings", "simulation_time", "comparison-crossingsXtime-altRoutes.pdf",
