@@ -32,7 +32,62 @@ def compare_2_metrics_per_breadth(what, against, comp_filename, input_dir="resul
     dirs.sort()
     i = 0
     for f in dirs:
-        if "altPol" in f and "16x16_d8" not in f and "d16_a4" not in f:
+        if ("altPol" in f) or ("numPol" in f) and "16x16_d8" not in f and "d16_a4" not in f:
+            data = pd.read_csv(f'{input_dir}/{f}/{data_filename}')
+            x = data[against]
+            y = data[what]
+            if not limitx and not limity:
+                plt.plot(x, y, label=f"{f.replace('r10_', '')}", marker=markers[i], markersize=4)
+            else:
+                if limitx:
+                    x = data[against].where(data[against] <= limitx)
+                    ticks = np.arange(0, limitx, limitx / 10)
+                    if 'time' in against:
+                        plt.xticks(ticks, [f'{x / 1000}' for x in ticks])  # DOC simulation time in seconds
+                if limity:
+                    y = data[what].where(data[what] <= limity)
+                plt.plot(x, y, label = f"{f.replace('r10_', '')}", marker = markers[i], markersize = 4)
+            i += 1
+    plt.legend()
+
+    fig.tight_layout()
+
+    if plot_target == 0:
+        plt.show()
+    else:
+        if not os.path.exists(f"{output_dir}"):
+            os.mkdir(f"{output_dir}")
+        plt.savefig(f"{output_dir}/{comp_filename}")
+    return plt
+
+
+def compare_2_metrics_per_breadth_subplots(what, against, comp_filename, input_dir="results/prob1", data_filename="aggregate.csv", logx=False, logy=False,
+                                  plot_target=0, output_dir="plots/prob1", limitx=None, limity=None):
+
+    # move ticks on right
+    plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = False
+    plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = True
+
+    # colorblind friendly
+    plt.style.use('tableau-colorblind10')
+
+    markers = list(Line2D.markers.keys())
+    #markers = ['o', '^', '8', 's', '*', '+', 'x']
+
+    fig = plt.figure()
+    plt.grid()
+    plt.title(f"{what} per {against} across no. of alt. routes")
+    plt.ylabel(f"# {what}")
+    plt.xlabel(f"# {against}")
+    if logx:
+        plt.xscale("log")
+    if logy:
+        plt.yscale("log")
+    dirs = os.listdir(input_dir)
+    dirs.sort()
+    i = 0
+    for f in dirs:
+        if ("altPol" in f) or ("numPol" in f) and "16x16_d8" not in f and "d16_a4" not in f:
             data = pd.read_csv(f'{input_dir}/{f}/{data_filename}')
             x = data[against]
             y = data[what]
@@ -121,7 +176,7 @@ def compare_2_metrics_per_breadth_scatter(what, against, comp_filename, input_di
 
 
 def compare_2_metrics_per_net(what, against, comp_filename, input_dir="results/prob1", data_filename="aggregate.csv", logx=False, logy=False,
-                                  plot_target=0, output_dir="plots/prob1", networks=[4, 8, 16], limit=None):
+                                  plot_target=0, output_dir="plots/prob1", networks=[4, 8, 16], limit=None, dirs_override=None):
 
     # move ticks on right
     plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = False
@@ -144,7 +199,10 @@ def compare_2_metrics_per_net(what, against, comp_filename, input_dir="results/p
         plt.yscale("log")
     #dirs = os.listdir(input_dir)
     #dirs.sort()
-    dirs = [f"r10_{n}x{n}_d{n}_a{int(n/2)}_altPol" for n in networks]
+    if not dirs_override:
+        dirs = [f"r10_{n}x{n}_d{n}_a{int(n/2)}_altPol" for n in networks]
+    else:
+        dirs = dirs_override
     print(dirs)
     i = 0
     for f in dirs:
