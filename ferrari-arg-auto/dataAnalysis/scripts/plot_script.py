@@ -6,7 +6,7 @@ output_dir = "plots/prob1/FZ"
 plot_target = 0
 
 # DOC additional for FZ
-networks=[4, 8, 16]
+networks = [4, 8, 16]
 ### FIG 7
 compare_2_metrics_per_net("alternative_routes_used", "simulation_step", "comparison-altRoutesXsteps-networks.pdf",
                               input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
@@ -60,9 +60,9 @@ compare_2_metrics_per_net_baseline("waitings", "simulation_step", "comparison-wa
 
 
 ### FIG 8
-compare_2_metrics_per_breadth("crossings", "simulation_step", "comparison-crossingsXtime-altRoutes.pdf",
+compare_2_metrics_per_breadth_subplots("crossings", "simulation_step", "comparison-crossingsXstep-altRoutes-subplots.pdf",
                               input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
-                              plot_target=plot_target)
+                              plot_target=plot_target, figsize=(1, 2))
 #########
 compare_2_metrics_per_breadth("crossings", "simulation_time", "comparison-crossingsXtime-altRoutes-ZOOM1.pdf",
                               input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
@@ -79,6 +79,11 @@ compare_2_metrics_per_breadth("waitings", "simulation_time", "comparison-waiting
 compare_2_metrics_per_breadth("waitings", "simulation_time", "comparison-waitingXtime-altRoutes-ZOOM2.pdf",
                               input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
                               plot_target=plot_target, limitx=0.05e6)'''
+### FIG 9
+compare_2_metrics_per_breadth_subplots("waitings", "simulation_step", "comparison-waitingsXstep-altRoutes-subplots-logy.pdf",
+                              input_dir=input_dir, output_dir=output_dir, logy=True, logx=False,
+                              plot_target=plot_target, figsize=(1, 2))
+#########
 compare_2_metrics_per_breadth("waitings", "simulation_step", "comparison-waitingXstep-altRoutes.pdf",
                               input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
                               plot_target=plot_target)
@@ -121,7 +126,7 @@ compare_2_metrics_per_breadth("waitings", "vehicles", "comparison-slowdownsXvehi
                               plot_target=plot_target)
 #########################################
 
-
+### FIG 14
 compare_policies_per_net("crossings", "comparison-crossingsXnetwork-policy.pdf",
                          input_dir=input_dir, output_dir=output_dir,
                          plot_target=plot_target, legend_pos=2)
@@ -129,6 +134,7 @@ compare_policies_per_net("waitings", "comparison-slowdownsXnetwork-policy.pdf",
                          input_dir=input_dir, output_dir=output_dir,
                          plot_target=plot_target)
 
+### FIG 16
 compare_breadth_per_net("crossings", "comparison-crossingsXnetwork-breadth.pdf",
                         input_dir=input_dir, output_dir=output_dir,
                         plot_target=plot_target)

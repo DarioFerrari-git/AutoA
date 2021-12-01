@@ -55,7 +55,11 @@ def compare_policies_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16
         # print(crossings_p_sorted)
         crossings_vals_sorted = [crossings[p][k] for k in crossings_p_sorted]
         print(crossings_vals_sorted)
-        bar = ax.bar(xXpol[p], crossings_vals_sorted, width, label=f"{p}", hatch=hatchXpol[p])
+        if p == 'numPol':
+            label = 'precedence'
+        else:
+            label = p
+        bar = ax.bar(xXpol[p], crossings_vals_sorted, width, label=label, hatch=hatchXpol[p])
         ax.bar_label(bar, padding=3, fontsize=8)
     ax.set_xticks(x)
     ax.set_xticklabels(crossings_p_sorted)
