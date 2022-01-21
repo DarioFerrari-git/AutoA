@@ -60,5 +60,29 @@ The picture below shows the main classes involved in a typical simulation, divid
     
   ## Workflow
   
-  TBD
-    
+Each `Simulation` follows the workflow summarised by the pseudocode below. 
+
+![Workflow of a simulation. Method `translate()` is an utility method to represent a simulation object within the argumentation graph using TweetyProject libraries](/../master/alg2.png)
+
+That is, it automatically spawns new vehicles in the corresponding `Junction` according to a `VehiclesGenerationStrategy` implemented by users 
+(by defining method `newCars()`). 
+
+A few builtin strategies are already provided; 
+in particular, `NetworkRandomStrategy` creates 1 vehicle at a random `WAY` within the intersection, 
+with random properties 
+(e.g. speed, urgency, etc.) 
+and with a random number of alternative routes available to reach a random destination requiring to cross a random number of junctions. 
+
+These parameters can be controlled through appropriate configuration files. 
+
+To ensure reproducibility of simulations, 
+every random number generator exploited can be configured with a seed. 
+
+Besides spawning vehicles, 
+each simulation step 
+
+  1. removes already served cars from the simulation, 
+  2. populates the argumentation graph by translating the current junction and (remaining) cars situation into arguments, and 
+  3. triggers the argumentation process to assign the right of way to remaining cars.
+
+
