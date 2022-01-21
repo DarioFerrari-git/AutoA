@@ -84,4 +84,19 @@ each simulation step
   2. populates the argumentation graph by translating the current junction and (remaining) cars situation into arguments, and 
   3. triggers the argumentation process to assign the right of way to remaining cars.
 
+The workflow of a `NetworkSimulation` is instead shown in the pseudocode below. 
 
+<img src="/../master/alg3.png" width="400" height="500">
+
+Essentially, until either the maximum number of steps allowed for the simulation are reached, 
+or all cars leave the simulation, 
+each `Simulation` is triggered, 
+and the list of cars leaving the related junction are relocated in the next junction of the network 
+(if existing, depending on the car position and route in the network) 
+and updated 
+(e.g. its state, distance, and other parameters properly set).
+
+The implemented simulator has some limitations: 
+it can only simulate 4 ways junctions, 
+and the intersection area is approximated as a point 
+(hence, once a vehicles has obtained the right of way, crossing time is istantaneous).
