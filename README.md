@@ -64,6 +64,8 @@ Each `Simulation` follows the workflow summarised by the pseudocode below.
 
 ![Workflow of a simulation. Method `translate()` is an utility method to represent a simulation object within the argumentation graph using TweetyProject libraries](/../master/alg2.png)
 
+<img src="/../master/alg2.png" width="100" height="100">
+
 That is, it automatically spawns new vehicles in the corresponding `Junction` according to a `VehiclesGenerationStrategy` implemented by users 
 (by defining method `newCars()`). 
 
@@ -74,7 +76,6 @@ with random properties
 and with a random number of alternative routes available to reach a random destination requiring to cross a random number of junctions. 
 
 These parameters can be controlled through appropriate configuration files. 
-
 To ensure reproducibility of simulations, 
 every random number generator exploited can be configured with a seed. 
 
