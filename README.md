@@ -62,9 +62,7 @@ The picture below shows the main classes involved in a typical simulation, divid
   
 Each `Simulation` follows the workflow summarised by the pseudocode below. 
 
-![Workflow of a simulation. Method `translate()` is an utility method to represent a simulation object within the argumentation graph using TweetyProject libraries](/../master/alg2.png)
-
-<img src="/../master/alg2.png" width="100" height="100">
+<img src="/../master/alg2.png" width="400" height="300">
 
 That is, it automatically spawns new vehicles in the corresponding `Junction` according to a `VehiclesGenerationStrategy` implemented by users 
 (by defining method `newCars()`). 
