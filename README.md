@@ -1,5 +1,7 @@
 # Simulator for argumentation-based coordination of autonomous connected vehicles at intersections
 
+Here follows a summary description of the simulator as well as instructions about how to run simulations.
+
 ## Architecture
 
 The picture below shows the main classes involved in a typical simulation, divided in three Java packages.
@@ -58,7 +60,7 @@ The picture below shows the main classes involved in a typical simulation, divid
     (according to their provenance and direction) 
     by exploiting `JunctionMatrix` method `next()` and `CrossingCar` method `updateAfterCrossing()`.
     
-  ## Workflow
+## Workflow
   
 Each `Simulation` follows the workflow summarised by the pseudocode below. 
 
@@ -100,3 +102,8 @@ The implemented simulator has some limitations:
 it can only simulate 4 ways junctions, 
 and the intersection area is approximated as a point 
 (hence, once a vehicles has obtained the right of way, crossing time is istantaneous).
+
+## Running simulations
+
+TBD
+
