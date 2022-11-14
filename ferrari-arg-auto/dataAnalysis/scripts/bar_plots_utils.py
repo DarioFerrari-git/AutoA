@@ -7,20 +7,24 @@ import matplotlib.pyplot as plt
 def compare_policies_per_net(what, comp_filename, networks=['4x4', '8x8', '16x16'],
                              input_dir="results/prob1", data_filename="aggregate.csv",
                              logx=False, logy=False, width = 0.25,
-                             plot_target=0, output_dir="plots/prob1", legend_pos=0):
+                             plot_target=0, output_dir="plots/prob1", legend_pos=0, dirs_override=None):
     # build data structure suitable for plot
     crossings = {}
-    dirs = os.listdir(input_dir)
-    dirs.sort()
+    if dirs_override:
+        dirs = dirs_override
+    else:
+        dirs = os.listdir(input_dir)
+        dirs.sort()
     for f in dirs:
-        if "_d16_" not in f:  # filter out work in progress experiments
-            data = pd.read_csv(f'{input_dir}/{f}/{data_filename}')
-            tag = f.split('_')[-1]
-            if tag not in crossings:
-                crossings[tag] = {}
-            for n in networks:
-                if n in f:
-                    crossings[tag][n] = data.loc[(data.shape[0]-1), what]
+        #if "_d16_" not in f:  # filter out work in progress experiments
+        print(f)
+        data = pd.read_csv(f'{input_dir}/{f}/{data_filename}')
+        tag = f.split('_')[-1]
+        if tag not in crossings:
+            crossings[tag] = {}
+        for n in networks:
+            if n in f:
+                crossings[tag][n] = data.loc[(data.shape[0]-1), what]
     print(crossings)
 
     networks = crossings['altPol'].keys()
@@ -97,6 +101,7 @@ def compare_breadth_per_net(what, comp_filename, networks=[4, 8, 16],
                         #print(f"\t\t{alt_ratio}")
                         a = int(n * alt_ratio)
                         if f'a{a}' in f:
+                            print(f)
                             #print(f"\t\ta{a} in {f}")
                             if alt_ratio not in crossings:
                                 crossings[alt_ratio] = {}

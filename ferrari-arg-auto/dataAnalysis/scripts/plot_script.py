@@ -6,8 +6,8 @@ output_dir = "plots/prob1/FZ"
 plot_target = 0
 
 # DOC additional for FZ
-networks = [4, 8, 16]
 ### FIG 7
+networks = [4, 8, 16]
 compare_2_metrics_per_net("alternative_routes_used", "simulation_step", "comparison-altRoutesXsteps-networks.pdf",
                               input_dir=input_dir, output_dir=output_dir, logy=False, logx=False,
                               plot_target=plot_target,
@@ -126,18 +126,23 @@ compare_2_metrics_per_breadth("waitings", "vehicles", "comparison-slowdownsXvehi
                               plot_target=plot_target)
 #########################################
 
-### FIG 14
+### FIG 10
 compare_policies_per_net("crossings", "comparison-crossingsXnetwork-policy.pdf",
                          input_dir=input_dir, output_dir=output_dir,
                          plot_target=plot_target, legend_pos=2)
+### FIG 11 NB still weird!
 compare_policies_per_net("waitings", "comparison-slowdownsXnetwork-policy.pdf",
                          input_dir=input_dir, output_dir=output_dir,
-                         plot_target=plot_target)
+                         plot_target=plot_target, dirs_override=['r10_4x4_d4_a3_altPol', 'r10_4x4_d4_a2_numPol', 'r10_4x4_d4_a2_urgPol',
+                                                                 'r10_8x8_d8_a4_altPol', 'r10_8x8_d8_a4_numPol', 'r10_8x8_d8_a4_urgPol',
+                                                                 'r10_16x16_d16_a8_altPol', 'r10_16x16_d16_a8_numPol', 'r10_16x16_d16_a8_urgPol'])
 
-### FIG 16
+### FIG 12
 compare_breadth_per_net("crossings", "comparison-crossingsXnetwork-breadth.pdf",
                         input_dir=input_dir, output_dir=output_dir,
                         plot_target=plot_target)
+##########
+### FIG 13 NB identical results!
 compare_breadth_per_net("waitings", "comparison-slowdownsXnetwork-breadth.pdf",
                         input_dir=input_dir, output_dir=output_dir,
                         plot_target=plot_target)
