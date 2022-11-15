@@ -111,6 +111,7 @@ There:
 
   1. the simulation properties are read from an external file (place it in the root project folder)
   2. then for each simulation run to be made
+    
     1. the chosen vehcile generation strategy is configured
     2. the chosen conflicts resolution policy is configured
     3. the simulation seed is set
@@ -154,3 +155,7 @@ P_ADD_NEW_ROUTE = 1               # probability of adding a new alternative rout
 
 Given the above, by simly executing from the project root command `./gradlew run --args=sim_settings.properties` the simulation(s) will start.
 At the end, a log file and a performance `.csv` will be created in the launch folder.
+
+## Analysing simulation results
+
+TBD (all commented code is in `dataAnalysis/scripts/`)
