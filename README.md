@@ -111,12 +111,11 @@ There:
 
   1. the simulation properties are read from an external file (place it in the root project folder)
   2. then for each simulation run to be made
-    
-    1. the chosen vehcile generation strategy is configured
-    2. the chosen conflicts resolution policy is configured
-    3. the simulation seed is set
-    4. the intersections network is created, by creating a `SingleJunctionAutoSimulation` for each desired intersection
-    5. the simulation ofthe whole network is created and started
+      1. the chosen vehcile generation strategy is configured
+      2. the chosen conflicts resolution policy is configured
+      3. the simulation seed is set
+      4. the intersections network is created, by creating a `SingleJunctionAutoSimulation` for each desired intersection
+      5. the simulation ofthe whole network is created and started
 
 The class is ready to use for anyone willing to simulate a N*M network of 4-way junctions with default parameters: 
 
@@ -158,4 +157,4 @@ At the end, a log file and a performance `.csv` will be created in the launch fo
 
 ## Analysing simulation results
 
-TBD (all commented code is in `dataAnalysis/scripts/`)
+TBD (all commented code is in `ferrari-arg-auto/dataAnalysis/scripts/`)
