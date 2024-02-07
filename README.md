@@ -105,5 +105,56 @@ and the intersection area is approximated as a point
 
 ## Running simulations
 
-TBD
+The easiest way to run simulations is to adopt the class used to obtain the results shown in [paper](https://doi.org/10.1007/978-3-031-21203-1_3) "Cooperative Driving at Intersections Through Agent-Based Argumentation" [presented](https://smarianimore.github.io/2022-prima-ArgCoopDriving/) at the [24th International Conference on Principles and Practice of Multi-Agent Systems](https://prima2022.webs.upv.es/accepted-papers/): `sm.paper.Experiment01`
 
+There:
+
+  1. the simulation properties are read from an external file (place it in the root project folder)
+  2. then for each simulation run to be made
+      1. the chosen vehcile generation strategy is configured
+      2. the chosen conflicts resolution policy is configured
+      3. the simulation seed is set
+      4. the intersections network is created, by creating a `SingleJunctionAutoSimulation` for each desired intersection
+      5. the simulation ofthe whole network is created and started
+
+The class is ready to use for anyone willing to simulate a N*M network of 4-way junctions with default parameters: 
+
+  * 1 generation of vehicles per simulation step
+  * 1 simulation step = 1 second (logical time)
+  * RSU confidence = 1 (RSU never fail)
+  * RSU distance = `2 * Defaults.SAFETY_DISTANCE_SOFT` (= 50 meters to junction)
+  
+Besides these parameters, many other can be seamlessly tuned at will from a `.properties` file (called `sim_settings` by default), looking like this (comments with '#' added for reader convenience):
+
+```
+nRuns=2                           # numbero of simulations to run, sequentially
+
+rows=4                            # "heigth" of the network
+cols=4                            # "width" of the network (number of actual junctions thus is rows * cols)
+strat=DeepAltRouteRandomStrategy  # vehicles generation strategy
+policy=AltRoutesPolicy            # conflicts resolution policy
+genSteps=10                       # how many steps new vehciles are generated for (at simulation start)
+maxSteps=100                      # maximum simulation steps allowed (when reached forced termination happens even if not all vehicles arrived at destination)
+log=false                         # whether to log information or not
+
+MIN_SPEED = 10                    # minimum vehicles starting speed
+MAX_SPEED = 50                    # maximum vehicles starting speed
+MIN_URGENCY = 0                   # minimum vehicles urgency (only used in certain resolution policies)
+MAX_URGENCY = 1                   # maximum vehicles urgency (only used in certain resolution policies)
+SAFETY_DISTANCE_SOFT = 25         # safety distance to junction to modulate soft deceleration
+SAFETY_DISTANCE_HARD = 10         # safety distance to junction to modulate harder deceleration
+ACCELERATION = 1.25               # acceleration factor
+DECELERATION_SOFT = 0.75          # deceleration factor (soft and hard)
+DECELERATION_HARD = 0.5
+MAX_ROUTE_DEPTH = 2               # maximum length of vehicles' routes (= how many junctions they need to traverse)
+P_ADD_DEPTH = 1                   # probability of adding a new junction to traverse to a route
+MAX_ROUTES = 2                    # how many alternative routes vehicles know to achieve destination
+P_ADD_NEW_ROUTE = 1               # probability of adding a new alternative route
+```
+
+Given the above, by simly executing from the project root command `./gradlew run --args=sim_settings.properties` the simulation(s) will start.
+At the end, a log file and a performance `.csv` will be created in the launch folder.
+
+## Analysing simulation results
+
+TBD (all commented code is in `ferrari-arg-auto/dataAnalysis/scripts/`)
