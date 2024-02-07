@@ -1,0 +1,8 @@
+=> macchina_R
+=> sensore_sinistra_true
+d0: macchina_R,sensore_sinistra_true => macchina_R_rilevata
+=> macchina_P
+=> sensore_alto_true
+d1: macchina_P,sensore_alto_true => macchina_P_rilevata
+=> Tranquilla_P
+d2: macchina_P_rilevata,Tranquilla_P => !InoltraSegnaleUrgenza_P
